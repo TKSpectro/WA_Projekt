@@ -1,0 +1,32 @@
+<h1>Meine Index</h1>
+
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, sequi eum necessitatibus asperiores maiores
+    provident, non quis aliquam recusandae doloribus reiciendis iste cumque dolorem est eos dignissimos fuga!
+    Aspernatur, quo.</p>
+
+
+<div class="chat-wrapper" id="messages" style="height: 460px;overflow: auto;">
+
+</div>
+<div class="input-wrapper">
+    <textarea id="message"></textarea>
+    <button id="send-message" onclick="sendPressed(this); return false;">Send</button>
+</div>
+
+<script>
+    function sendPressed(elm) {
+        let textarea = document.getElementById('message');
+        io.emit('message', {
+            message: textarea.value
+        });
+    }
+
+    io.on('message', (data) => {
+        let messageElm = document.getElementById('messages');
+
+        let elm = document.createElement('DIV');
+        elm.innerText = data.from.displayName + ': ' + data.message;
+        messageElm.appendChild(elm);
+        messageElm.scrollTop = messageElm.scrollHeight;
+    });
+</script>
