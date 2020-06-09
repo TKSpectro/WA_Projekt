@@ -236,5 +236,4 @@ class ApiUsersController extends Controller {
         }
     }
 }
-
 module.exports = ApiUsersController;
