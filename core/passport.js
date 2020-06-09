@@ -70,6 +70,14 @@ class Passport {
         return token;
     }
 
+    static unauthorizeUser(req, res) {
+        const self = this;
+
+        res.clearCookie(cfg.cookieName);
+
+        return;
+    }
+
     static cookies(req) {
         let cookies = {};
         let _cookies = req.headers.cookie;

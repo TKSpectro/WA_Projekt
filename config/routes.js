@@ -24,6 +24,7 @@ let routes = {
             { path: '/api/users', action:'index', method: 'GET'},
             { path: '/api/signin', action:'signin', method: 'POST'},
             { path: '/api/signup', action:'signup', method: 'POST'},
+            { path: '/api/signout', action:'signout', method: 'POST'},
             { path: '/api/users', action:'create', method: 'POST'},
             { path: '/api/users/:id', action:'show', method: 'GET'}
         ]

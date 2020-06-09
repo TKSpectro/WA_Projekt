@@ -213,29 +213,10 @@ class ApiUsersController extends Controller {
 
     }
 
-    async actionSignout(){
-        //TODO: remove cookie?
-        // set authorized to false
-        /*
+    async actionSignout(){  
         const self = this;
 
-        let remoteData = self.param('user') || {};
-
-        let user = null;
         let error = null;
-
-        try {
-            user = await self.db.User.findOne({
-                where: {
-                    email: remoteData.email
-                }
-            });
-            if (!user || !Passport.comparePassword(remoteData.password, user.passwordHash)) {
-                throw new Error('Could not find user with this email or password');
-            }
-        } catch (err) {
-            error = err;
-        }
 
         if (error !== null) {
             console.error(error);
@@ -245,15 +226,14 @@ class ApiUsersController extends Controller {
                 statusCode: 500
             });
         } else {
-            let token = Passport.authorizeUserWithCookie(self.req, self.res, user.id);
+            Passport.unauthorizeUser(self.req, self.res);
 
             self.render({
-                token: token
+                loggedOut: "yes"
             }, {
                 statusCode: 201
             });
         }
-        */
     }
 }
 
