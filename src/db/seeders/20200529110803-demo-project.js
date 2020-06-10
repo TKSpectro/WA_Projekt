@@ -7,7 +7,12 @@ module.exports = {
             name: 'First Project',
             createdAt: new Date(),
             updatedAt: new Date(),
-        }],{});
+        }, {
+            id: 2,
+            name: 'Second Project',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        }], {});
     },
 
     down: (queryInterface, Sequelize) => {

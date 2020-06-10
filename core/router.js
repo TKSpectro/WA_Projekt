@@ -18,7 +18,9 @@ class Router {
 
         //go through all routes
         for (let name in self.routes) {
+
             const group = self.routes[name];
+
             //access actions
             for (let index = 0; index < group.actions.length; ++index) {
                 const action = group.actions[index];
@@ -54,7 +56,7 @@ class Router {
                 if (urlParams.length > 0) {
                     hash += urlParams.join('');
                 }
-                
+
                 self.hashMap[hash] = action.path;
             }
         }

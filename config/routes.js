@@ -18,44 +18,45 @@ let routes = {
             { path: '/signin', action: 'signin', method: 'get' }
         ]
     },
-    'api/users' : {
+    'api/users': {
         controller: ApiUsersController,
         actions: [
-            { path: '/api/users', action:'index', method: 'GET'},
-            { path: '/api/signin', action:'signin', method: 'POST'},
-            { path: '/api/signup', action:'signup', method: 'POST'},
-            { path: '/api/signout', action:'signout', method: 'POST'},
-            { path: '/api/users', action:'create', method: 'POST'},
-            { path: '/api/users/:id/update', action:'update', method: 'POST'},
-            { path: '/api/users/:id/delete', action:'delete', method: 'POST'},
-            { path: '/api/users/:id', action:'show', method: 'GET'}
+            { path: '/api/users', action: 'index', method: 'GET' },
+            { path: '/api/signin', action: 'signin', method: 'POST' },
+            { path: '/api/signup', action: 'signup', method: 'POST' },
+            { path: '/api/signout', action: 'signout', method: 'POST' },
+            { path: '/api/users', action: 'create', method: 'POST' },
+            { path: '/api/users/:id/update', action: 'update', method: 'POST' },
+            { path: '/api/users/:id/delete', action: 'delete', method: 'POST' },
+            { path: '/api/users/:id', action: 'show', method: 'GET' }
         ]
     },
-    'api/tasks' : {
+    'api/tasks': {
         controller: ApiTasksController,
         actions: [
-            { path: '/api/tasks', action:'index', method: 'GET'},
-            { path: '/api/tasks', action:'create', method: 'POST'},
-            { path: '/api/tasks/:id', action:'show', method: 'GET'}
+            { path: '/api/tasks', action: 'index', method: 'GET' },
+            { path: '/api/tasks', action: 'create', method: 'POST' },
+            { path: '/api/tasks/:id', action: 'show', method: 'GET' }
         ]
     },
-    'api/messages' : {
+    'api/messages': {
         controller: ApiMessagesController,
         actions: [
-            { path: '/api/messages', action:'index', method: 'GET'},
-            { path: '/api/messages', action:'create', method: 'POST'},
-            { path: '/api/messages/:id', action:'show', method: 'GET'}
+            { path: '/api/messages', action: 'index', method: 'GET' },
+            { path: '/api/messages', action: 'create', method: 'POST' },
+            { path: '/api/messages/:id', action: 'show', method: 'GET' }
         ]
     },
-    'api/projects' : {
+    'api/projects': {
         controller: ApiProjectsController,
         actions: [
-            { path: '/api/projects', action:'index', method: 'GET'},
-            { path: '/api/projects', action:'create', method: 'POST'},
-            { path: '/api/projects/:id', action:'show', method: 'GET'}
+            { path: '/api/projects', action: 'index', method: 'GET' },
+            { path: '/api/projects', action: 'create', method: 'POST' },
+            { path: '/api/projects/:id', action: 'show', method: 'GET' },
+            { path: '/api/projects/:id/update', action: 'update', method: 'POST' }
         ]
     },
-    
+
 }
 
 module.exports = routes;
