@@ -128,36 +128,31 @@ class ApiProjectsController extends Controller {
     async actionUpdate() {
         const self = this;
 
+        //newProject should be a object with all the values (new and old)
         let remoteData = self.param('project');
-        let newProject = null;
-        let error = null;
         let projectid = self.param('id');
 
-        /*{
-            transaction: t
-        }*/
+        let newProject = null;
+        let error = null;
 
+        //get the old Project
         try {
-            //project = await self.db.sequelize.transaction(async(t) => {
             newProject = await self.db.Project.findOne({
                 where: {
                     id: projectid
-                }
+                },
+                //include: self.db.Project.extendInclude
             }).then(newProject => {
-                // console.log(oldProject);
+
                 if (newProject) {
-                    // oldProject.update(remoteData)
-
-                    //oldProject.writeRemotes(remoteData);
-
                     newProject.update({
                         name: remoteData['name'],
                         updatedAt: new Date()
                     });
+                    return newProject;
                 }
             });
-            return newProject;
-            //});
+
         } catch (err) {
             error = err;
         }
@@ -176,6 +171,49 @@ class ApiProjectsController extends Controller {
         }
     }
 
+    async actionDelete() {
+        const self = this;
+
+        let projectId = self.param('id');
+
+        let project = null;
+        let error = null;
+
+        //get the old project
+        try {
+            project = await self.db.Project.findOne({
+                where: {
+                    id: projectId
+                }
+            }).then(project => {
+                if (project) {
+                    //update the Project in db
+                    project.destroy();
+
+                    return project;
+                }
+            });
+        } catch (err) {
+            error = err;
+        }
+
+        if (error !== null) {
+            console.error(error);
+            self.render({
+                details: error
+            }, {
+                statusCode: 500
+            });
+        } else {
+            self.render({
+                project: project
+            });
+        }
+    }
+
+
 }
 
 module.exports = ApiProjectsController;
+
+// wir brauchen nicht, bei Update oder Delete-Methoden die (attributes und include) zu reichen

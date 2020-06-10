@@ -55,7 +55,8 @@ let routes = {
             { path: '/api/projects', action: 'index', method: 'GET' },
             { path: '/api/projects', action: 'create', method: 'POST' },
             { path: '/api/projects/:id', action: 'show', method: 'GET' },
-            { path: '/api/projects/:id/update', action: 'update', method: 'POST' }
+            { path: '/api/projects/:id/update', action: 'update', method: 'POST' },
+            { path: '/api/projects/:id/delete', action: 'delete', method: 'POST' }
         ]
     },
 
