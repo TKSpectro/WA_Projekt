@@ -26,7 +26,8 @@ let routes = {
             { path: '/api/signup', action:'signup', method: 'POST'},
             { path: '/api/signout', action:'signout', method: 'POST'},
             { path: '/api/users', action:'create', method: 'POST'},
-            { path: '/api/users/:id', action:'update', method: 'POST'},
+            { path: '/api/users/:id/update', action:'update', method: 'POST'},
+            { path: '/api/users/:id/delete', action:'delete', method: 'POST'},
             { path: '/api/users/:id', action:'show', method: 'GET'}
         ]
     },
