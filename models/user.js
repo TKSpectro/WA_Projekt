@@ -37,8 +37,8 @@ module.exports = function (Model, db) {
             self.email = data.email;
         }
 
-        if (typeof data.passwordHash !== 'undefined') {
-            self.passwordHash = Passport.hashPassword(data.passwordHash);
+        if (typeof data.password !== 'undefined') {
+            self.passwordHash = Passport.hashPassword(data.password);
         }
 
         if (typeof data.permission !== 'undefined') {
