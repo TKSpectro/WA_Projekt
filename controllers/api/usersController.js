@@ -124,6 +124,49 @@ class ApiUsersController extends Controller {
         }
     }
 
+    async actionUpdate() {
+        //maybe check the values and if the name is delete then delete
+        //else we could go for another path like: path: '/api/users/:id/delete'
+        //but then we maybe would do that also for the update path '/api/users/:id/update'
+
+        //the user could send a json with all values
+        //or maybe only the values which should change im not sure which one would be the better
+        const self = this;
+
+        let remoteData = self.param('user');
+
+        let user = null;
+        let error = null;
+
+        try {
+            user = await self.db.sequelize.transaction(async (t) => {
+                let newUser = self.db.User.build();
+                newUser.writeRemotes(remoteData);
+
+                await newUser.save({
+                    transaction: t
+                });
+
+                return newUser;
+            });
+        } catch (err) {
+            error = err;
+        }
+
+        if (error !== null) {
+            console.error(error);
+            self.render({
+                details: error
+            }, {
+                statusCode: 500
+            });
+        } else {
+            self.render({
+                user: user
+            });
+        }
+    }
+
     async actionSignin() {
         const self = this;
 
