@@ -125,29 +125,34 @@ class ApiUsersController extends Controller {
     }
 
     async actionUpdate() {
-        //maybe check the values and if the name is delete then delete
-        //else we could go for another path like: path: '/api/users/:id/delete'
-        //but then we maybe would do that also for the update path '/api/users/:id/update'
-
-        //the user could send a json with all values
-        //or maybe only the values which should change im not sure which one would be the better
         const self = this;
 
+        //user should be a object with all the values (new and old)
         let remoteData = self.param('user');
+        let userId = self.param('id');
 
-        let user = null;
+        let oldUser = null;
         let error = null;
 
+        //get the old user
         try {
-            user = await self.db.sequelize.transaction(async (t) => {
-                let newUser = self.db.User.build();
-                newUser.writeRemotes(remoteData);
-
-                await newUser.save({
-                    transaction: t
-                });
-
-                return newUser;
+            oldUser = await self.db.User.findOne({
+                where: {
+                    id: userId
+                },
+                attributes: ['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt'],
+                include: self.db.User.extendInclude
+            }).then(oldUser => {
+                if (oldUser) {
+                    //update the user in db
+                    oldUser.update({
+                        firstName: remoteData['firstName'],
+                        lastName: remoteData['lastName'],
+                        email: remoteData['email'],
+                        passwordHash: remoteData['passwordHash'],
+                        updatedAt: new Date()
+                    });
+                }
             });
         } catch (err) {
             error = err;
@@ -162,7 +167,7 @@ class ApiUsersController extends Controller {
             });
         } else {
             self.render({
-                user: user
+                oldUser: oldUser
             });
         }
     }
@@ -223,10 +228,10 @@ class ApiUsersController extends Controller {
                     transaction: t
                 });
 
-                if(sameMail){
+                if (sameMail) {
                     throw new Error('Mail already in use');
                 }
-                
+
                 let newUser = self.db.User.build();
                 newUser.writeRemotes(remoteData);
                 await newUser.save({
@@ -256,7 +261,7 @@ class ApiUsersController extends Controller {
 
     }
 
-    async actionSignout(){  
+    async actionSignout() {
         const self = this;
 
         let error = null;
