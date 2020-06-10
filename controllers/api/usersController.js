@@ -131,21 +131,21 @@ class ApiUsersController extends Controller {
         let remoteData = self.param('user');
         let userId = self.param('id');
 
-        let oldUser = null;
+        let user = null;
         let error = null;
 
         //get the old user
         try {
-            oldUser = await self.db.User.findOne({
+            user = await self.db.User.findOne({
                 where: {
                     id: userId
                 },
                 attributes: ['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt'],
                 include: self.db.User.extendInclude
-            }).then(oldUser => {
-                if (oldUser) {
+            }).then(user => {
+                if (user) {
                     //update the user in db
-                    oldUser.update({
+                    user.update({
                         firstName: remoteData['firstName'],
                         lastName: remoteData['lastName'],
                         email: remoteData['email'],
@@ -154,7 +154,7 @@ class ApiUsersController extends Controller {
                         updatedAt: new Date()
                     });
 
-                    return oldUser;
+                    return user;
                 }
             });
         } catch (err) {
@@ -170,7 +170,7 @@ class ApiUsersController extends Controller {
             });
         } else {
             self.render({
-                oldUser: oldUser
+                user: user
             });
         }
     }
@@ -183,7 +183,6 @@ class ApiUsersController extends Controller {
         // password -> 'deleted'
         const self = this;
 
-        //user should be a object with all the values (new and old)
         let userId = self.param('id');
 
         let user = null;
