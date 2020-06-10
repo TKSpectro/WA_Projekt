@@ -150,8 +150,11 @@ class ApiUsersController extends Controller {
                         lastName: remoteData['lastName'],
                         email: remoteData['email'],
                         passwordHash: remoteData['passwordHash'],
+                        permission: remoteData['permission'],
                         updatedAt: new Date()
                     });
+
+                    return oldUser;
                 }
             });
         } catch (err) {
@@ -168,6 +171,61 @@ class ApiUsersController extends Controller {
         } else {
             self.render({
                 oldUser: oldUser
+            });
+        }
+    }
+
+    async actionDelete() {
+        //user wont actually deleted but will get anonymized
+        // firstName -> 'deleted'
+        // lastName -> 'deleted'
+        // email -> 'deleted'
+        // password -> 'deleted'
+        const self = this;
+
+        //user should be a object with all the values (new and old)
+        let userId = self.param('id');
+
+        let user = null;
+        let error = null;
+
+        //get the old user
+        try {
+            user = await self.db.User.findOne({
+                where: {
+                    id: userId
+                },
+                attributes: ['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt'],
+                include: self.db.User.extendInclude
+            }).then(user => {
+                if (user) {
+                    //update the user in db
+                    user.update({
+                        firstName: 'deleted',
+                        lastName: 'deleted',
+                        email: 'deleted',
+                        passwordHash: 'deleted',
+                        permission: 0,
+                        updatedAt: new Date()
+                    });
+
+                    return user;
+                }
+            });
+        } catch (err) {
+            error = err;
+        }
+
+        if (error !== null) {
+            console.error(error);
+            self.render({
+                details: error
+            }, {
+                statusCode: 500
+            });
+        } else {
+            self.render({
+                user: user
             });
         }
     }
@@ -210,6 +268,7 @@ class ApiUsersController extends Controller {
             });
         }
     }
+
     async actionSignup() {
         const self = this;
 
