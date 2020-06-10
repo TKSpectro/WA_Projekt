@@ -183,7 +183,6 @@ class ApiUsersController extends Controller {
         // password -> 'deleted'
         const self = this;
 
-        //user should be a object with all the values (new and old)
         let userId = self.param('id');
 
         let user = null;
