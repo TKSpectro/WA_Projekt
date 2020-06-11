@@ -1,8 +1,6 @@
 <h1>Meine Index</h1>
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, sequi eum necessitatibus asperiores maiores
-    provident, non quis aliquam recusandae doloribus reiciendis iste cumque dolorem est eos dignissimos fuga!
-    Aspernatur, quo.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, sequi eum necessitatibus asperiores maiores provident, non quis aliquam recusandae doloribus reiciendis iste cumque dolorem est eos dignissimos fuga! Aspernatur, quo.</p>
 
 
 <div class="chat-wrapper" id="messages" style="height: 460px;overflow: auto;">
@@ -14,19 +12,40 @@
 </div>
 
 <script>
+    var token = document.cookie;
+
+    let b64DecodeUnicode = str =>
+        decodeURIComponent(
+            Array.prototype.map.call(atob(str), c =>
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join(''))
+    let parseJwt = token =>
+        JSON.parse(
+            b64DecodeUnicode(
+                token.split('.')[1].replace('-', '+').replace('_', '/')
+            )
+        )
+
+
+
+
     function sendPressed(elm) {
         let textarea = document.getElementById('message');
         io.emit('message', {
-            message: textarea.value
+            message: textarea.value,
+            to: 3
         });
     }
 
     io.on('message', (data) => {
         let messageElm = document.getElementById('messages');
-
+        var currentUserId = parseJwt(token).id;
         let elm = document.createElement('DIV');
-        elm.innerText = data.from.displayName + ': ' + data.message;
-        messageElm.appendChild(elm);
-        messageElm.scrollTop = messageElm.scrollHeight;
+
+        if (currentUserId == data.from.id || data.to == currentUserId) {
+            elm.innerText = data.from.displayName + ': ' + data.message;
+            messageElm.appendChild(elm);
+            messageElm.scrollTop = messageElm.scrollHeight;
+        }
     });
 </script>

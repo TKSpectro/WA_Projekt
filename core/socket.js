@@ -4,6 +4,7 @@
 
 const Passport = require('./passport.js');
 
+
 class SocketHandler {
     constructor(io, db) {
         const self = this;
@@ -55,12 +56,19 @@ class SocketHandler {
             });
 
             socket.on('message', (data) => {
+
+                self.db.Message.create({
+                    text: data.message,
+                    fromId: socket.user.id,
+                    toId: data.to
+                });
                 self.io.emit('message', {
                     message: data.message,
                     from: {
                         displayName: socket.user.fullname(),
                         id: socket.user.id
                     },
+                    to: data.to,
                     time: new Date()
                 });
             });
