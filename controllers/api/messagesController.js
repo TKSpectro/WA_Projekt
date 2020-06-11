@@ -123,6 +123,97 @@ class ApiMessagesController extends Controller {
             });
         }
     }
+
+    async actionUpdate() {
+        const self = this;
+
+        //message should be a object with all the values (new and old)
+        let remoteData = self.param('message');
+        let messageId = self.param('id');
+
+        let message = null;
+        let error = null;
+
+        //get the old message
+        try {
+            message = await self.db.Message.findOne({
+                where: {
+                    id: messageId
+                },
+                attributes: ['id', 'text', 'createdAt', 'updatedAt'],
+                include: self.db.Message.extendInclude
+            }).then(message => {
+                if (message) {
+                    //update the message in db
+                    message.update({
+                        text: remoteData['text'],
+                        toId: remoteData['toId'],
+                        fromId: remoteData['fromId'],
+                        updatedAt: new Date()
+                    });
+
+                    return message;
+                }
+            });
+        } catch (err) {
+            error = err;
+        }
+
+        if (error !== null) {
+            console.error(error);
+            self.render({
+                details: error
+            }, {
+                statusCode: 500
+            });
+        } else {
+            self.render({
+                message: message
+            });
+        }
+    }
+
+    async actionDelete() {
+        const self = this;
+
+        let messageId = self.param('id');
+
+        let message = null;
+        let error = null;
+
+        //get the old message
+        try {
+            message = await self.db.Message.findOne({
+                where: {
+                    id: messageId
+                },
+                attributes: ['id', 'text', 'createdAt', 'updatedAt'],
+                include: self.db.Message.extendInclude
+            }).then(message => {
+                if (message) {
+                    //update the message in db
+                    message.destroy();
+
+                    return message;
+                }
+            });
+        } catch (err) {
+            error = err;
+        }
+
+        if (error !== null) {
+            console.error(error);
+            self.render({
+                details: error
+            }, {
+                statusCode: 500
+            });
+        } else {
+            self.render({
+                message: message
+            });
+        }
+    }
 }
 
 module.exports = ApiMessagesController;
