@@ -135,26 +135,28 @@ class ApiTasksController extends Controller {
 
         //get the old task
         try {
-            task = await self.db.Task.findOne({
-                where: {
-                    id: taskId
-                },
-                attributes: ['id', 'name', 'text', 'createdAt', 'updatedAt'],
-                include: self.db.Task.extendInclude
-            }).then(task => {
-                if (task) {
-                    //update the task in db
-                    task.update({
+            task = await self.db.sequelize.transaction(async (t) => {
+                let updatedTask = await self.db.Task.findOne({
+                    where: {
+                        id: taskId
+                    }
+                }, { transaction: t })
+                if (updatedTask) {
+                    await updatedTask.update({
                         name: remoteData['name'],
                         text: remoteData['text'],
                         creatorId: remoteData['creatorId'],
                         assignedToId: remoteData['assignedToId'],
                         projectId: remoteData['projectId'],
                         updatedAt: new Date()
-                    });
-
-                    return task;
+                    }, {
+                        where: {
+                            id: taskId
+                        }
+                    }, { transaction: t });
                 }
+
+                return updatedTask;
             });
         } catch (err) {
             error = err;
@@ -184,20 +186,13 @@ class ApiTasksController extends Controller {
 
         //get the old task
         try {
-            task = await self.db.Task.findOne({
+            task = await self.db.sequelize.transaction(async (t) => {
+                task = await self.db.Task.destroy({
                 where: {
                     id: taskId
-                },
-                attributes: ['id', 'name', 'text', 'createdAt', 'updatedAt'],
-                include: self.db.Task.extendInclude
-            }).then(task => {
-                if (task) {
-                    //update the task in db
-                    task.destroy();
-
-                    return task;
                 }
-            });
+            }), { transaction: t }
+        });
         } catch (err) {
             error = err;
         }
@@ -211,7 +206,7 @@ class ApiTasksController extends Controller {
             });
         } else {
             self.render({
-                task: task
+                task: 'deleted'
             });
         }
     }

@@ -134,66 +134,29 @@ class ApiProjectsController extends Controller {
         let remoteData = self.param('project');
         let projectId = self.param('id');
 
-        let newProject = null;
+        let project = null;
         let error = null;
 
         //get the old Project
         try {
-            newProject = await self.db.Project.findOne({
-                where: {
-                    id: projectId
-                },
-                //include: self.db.Project.extendInclude
-            }).then(newProject => {
-
-                if (newProject) {
-                    newProject.update({
+            project = await self.db.sequelize.transaction(async(t) => {
+                let updatedProject = await self.db.Project.findOne({
+                    where: {
+                        id: projectId
+                    }
+                }, { transaction: t })
+                if (updatedProject) {
+                    await updatedProject.update({
                         name: remoteData['name'],
                         updatedAt: new Date()
-                    });
-                    return newProject;
+                    }, {
+                        where: {
+                            id: projectId
+                        }
+                    }, { transaction: t });
                 }
-            });
 
-        } catch (err) {
-            error = err;
-        }
-
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
-        } else {
-            self.render({
-                newProject: newProject
-            });
-        }
-    }
-
-    async actionDelete() {
-        const self = this;
-
-        let projectId = self.param('id');
-
-        let project = null;
-        let error = null;
-
-        //get the old project
-        try {
-            project = await self.db.Project.findOne({
-                where: {
-                    id: projectId
-                }
-            }).then(project => {
-                if (project) {
-                    //update the Project in db
-                    project.destroy();
-
-                    return project;
-                }
+                return updatedProject;
             });
         } catch (err) {
             error = err;
@@ -213,9 +176,40 @@ class ApiProjectsController extends Controller {
         }
     }
 
+    async actionDelete() {
+        const self = this;
 
+        let projectId = self.param('id');
+
+        let project = null;
+        let error = null;
+
+        //get the old project
+        try {
+            project = await self.db.sequelize.transaction(async(t) => {
+                project = await self.db.Project.destroy({
+                    where: {
+                        id: projectId
+                    }
+                }), { transaction: t }
+            });
+        } catch (err) {
+            error = err;
+        }
+
+        if (error !== null) {
+            console.error(error);
+            self.render({
+                details: error
+            }, {
+                statusCode: 500
+            });
+        } else {
+            self.render({
+                project: 'deleted'
+            });
+        }
+    }
 }
 
 module.exports = ApiProjectsController;
-
-// wir brauchen nicht, bei Update oder Delete-Methoden die (attributes und include) zu reichen
