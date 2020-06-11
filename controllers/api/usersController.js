@@ -14,7 +14,7 @@ class ApiUsersController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
-        self.before(['*', '-signin', '-signup'], function(next) {
+        self.before(['*', '-signin', '-signup'], function (next) {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -96,7 +96,7 @@ class ApiUsersController extends Controller {
         let error = null;
 
         try {
-            user = await self.db.sequelize.transaction(async(t) => {
+            user = await self.db.sequelize.transaction(async (t) => {
                 let newUser = self.db.User.build();
                 newUser.writeRemotes(remoteData);
 
@@ -136,26 +136,28 @@ class ApiUsersController extends Controller {
 
         //get the old user
         try {
-            user = await self.db.User.findOne({
-                where: {
-                    id: userId
-                },
-                attributes: ['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt'],
-                include: self.db.User.extendInclude
-            }).then(user => {
-                if (user) {
-                    //update the user in db
-                    user.update({
+            user = await self.db.sequelize.transaction(async (t) => {
+                let updatedUser = await self.db.User.findOne({
+                    where: {
+                        id: userId
+                    }
+                }, { transaction: t })
+                if (updatedUser) {
+                    await updatedUser.update({
                         firstName: remoteData['firstName'],
                         lastName: remoteData['lastName'],
                         email: remoteData['email'],
                         passwordHash: remoteData['passwordHash'],
                         permission: remoteData['permission'],
                         updatedAt: new Date()
-                    });
-
-                    return user;
+                    }, {
+                        where: {
+                            id: userId
+                        }
+                    }, { transaction: t });
                 }
+
+                return updatedUser;
             });
         } catch (err) {
             error = err;
@@ -176,13 +178,12 @@ class ApiUsersController extends Controller {
     }
 
     async actionDelete() {
-        //user wont actually deleted but will get anonymized
+        // user wont actually be deleted but will get anonymized
         // firstName -> 'deleted'
         // lastName -> 'deleted'
         // email -> 'deleted'
         // password -> 'deleted'
         const self = this;
-
         let userId = self.param('id');
 
         let user = null;
@@ -190,26 +191,28 @@ class ApiUsersController extends Controller {
 
         //get the old user
         try {
-            user = await self.db.User.findOne({
-                where: {
-                    id: userId
-                },
-                attributes: ['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt'],
-                include: self.db.User.extendInclude
-            }).then(user => {
-                if (user) {
-                    //update the user in db
-                    user.update({
+            user = await self.db.sequelize.transaction(async (t) => {
+                let updatedUser = await self.db.User.findOne({
+                    where: {
+                        id: userId
+                    }
+                }, { transaction: t })
+                if (updatedUser) {
+                    await updatedUser.update({
                         firstName: 'deleted',
                         lastName: 'deleted',
                         email: 'deleted',
                         passwordHash: 'deleted',
                         permission: 0,
                         updatedAt: new Date()
-                    });
-
-                    return user;
+                    }, {
+                        where: {
+                            id: userId
+                        }
+                    }, { transaction: t });
                 }
+
+                return updatedUser;
             });
         } catch (err) {
             error = err;
@@ -224,7 +227,7 @@ class ApiUsersController extends Controller {
             });
         } else {
             self.render({
-                user: user
+                user: 'deleted'
             });
         }
     }
@@ -276,7 +279,7 @@ class ApiUsersController extends Controller {
         let error = null;
 
         try {
-            user = await self.db.sequelize.transaction(async(t) => {
+            user = await self.db.sequelize.transaction(async (t) => {
 
                 let sameMail = await self.db.User.findOne({
                     where: {
@@ -342,4 +345,5 @@ class ApiUsersController extends Controller {
         }
     }
 }
+
 module.exports = ApiUsersController;
