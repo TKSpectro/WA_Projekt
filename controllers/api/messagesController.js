@@ -135,25 +135,28 @@ class ApiMessagesController extends Controller {
         let error = null;
 
         //get the old message
+
         try {
-            message = await self.db.Message.findOne({
-                where: {
-                    id: messageId
-                },
-                attributes: ['id', 'text', 'createdAt', 'updatedAt'],
-                include: self.db.Message.extendInclude
-            }).then(message => {
-                if (message) {
-                    //update the message in db
-                    message.update({
+            message = await self.db.sequelize.transaction(async (t) => {
+                let updatedMessage = await self.db.Message.findOne({
+                    where: {
+                        id: messageId
+                    }
+                }, { transaction: t })
+                if (updatedMessage) {
+                    await updatedMessage.update({
                         text: remoteData['text'],
                         toId: remoteData['toId'],
                         fromId: remoteData['fromId'],
                         updatedAt: new Date()
-                    });
-
-                    return message;
+                    }, {
+                        where: {
+                            id: messageId
+                        }
+                    }, { transaction: t });
                 }
+
+                return updatedMessage;
             });
         } catch (err) {
             error = err;
@@ -183,19 +186,12 @@ class ApiMessagesController extends Controller {
 
         //get the old message
         try {
-            message = await self.db.Message.findOne({
-                where: {
-                    id: messageId
-                },
-                attributes: ['id', 'text', 'createdAt', 'updatedAt'],
-                include: self.db.Message.extendInclude
-            }).then(message => {
-                if (message) {
-                    //update the message in db
-                    message.destroy();
-
-                    return message;
-                }
+            message = await self.db.sequelize.transaction(async (t) => {
+                message = await self.db.Message.destroy({
+                    where: {
+                        id: messageId
+                    }
+                }), { transaction: t }
             });
         } catch (err) {
             error = err;
@@ -210,7 +206,7 @@ class ApiMessagesController extends Controller {
             });
         } else {
             self.render({
-                message: message
+                message: 'deleted'
             });
         }
     }
