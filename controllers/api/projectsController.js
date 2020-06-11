@@ -61,6 +61,7 @@ class ApiProjectsController extends Controller {
         let project = null;
         let error = null;
 
+
         try {
             project = await self.db.Project.findOne({
                 where: {
@@ -69,6 +70,7 @@ class ApiProjectsController extends Controller {
                 attributes: ['id', 'name', 'createdAt', 'updatedAt'],
                 include: self.db.Project.extendInclude
             });
+            console.log(project.id);
         } catch (err) {
             error = err;
         }
@@ -130,7 +132,7 @@ class ApiProjectsController extends Controller {
 
         //newProject should be a object with all the values (new and old)
         let remoteData = self.param('project');
-        let projectid = self.param('id');
+        let projectId = self.param('id');
 
         let newProject = null;
         let error = null;
@@ -139,7 +141,7 @@ class ApiProjectsController extends Controller {
         try {
             newProject = await self.db.Project.findOne({
                 where: {
-                    id: projectid
+                    id: projectId
                 },
                 //include: self.db.Project.extendInclude
             }).then(newProject => {

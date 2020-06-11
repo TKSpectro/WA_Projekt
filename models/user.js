@@ -1,7 +1,6 @@
 const Passport = require('../core/passport.js');
-module.exports = function (Model, db) {
-    Model.extendInclude = [
-        {
+module.exports = function(Model, db) {
+    Model.extendInclude = [{
             model: db.Task,
             as: 'taskCreated',
             attributes: ['id', 'name', 'text'],
@@ -16,11 +15,11 @@ module.exports = function (Model, db) {
         }
     ];
 
-    Model.prototype.fullname = function () {
+    Model.prototype.fullname = function() {
         return this.firstName + ' ' + this.lastName;
     }
 
-    Model.prototype.writeRemotes = function (data) {
+    Model.prototype.writeRemotes = function(data) {
         const self = this;
 
         if (typeof data.firstName !== 'undefined') {
@@ -53,4 +52,5 @@ module.exports = function (Model, db) {
             self.tasksAssignedTo = data.tasksAssignedTo;
         }
     }
+
 };

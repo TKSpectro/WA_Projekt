@@ -13,7 +13,7 @@ class ApiMessagesController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
-        self.before(['*'], function (next) {
+        self.before(['*'], function(next) {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -96,7 +96,7 @@ class ApiMessagesController extends Controller {
         let error = null;
 
         try {
-            message = await self.db.sequelize.transaction(async (t) => {
+            message = await self.db.sequelize.transaction(async(t) => {
                 let newMessage = self.db.Message.build();
                 newMessage.writeRemotes(remoteData);
 
@@ -137,7 +137,7 @@ class ApiMessagesController extends Controller {
         //get the old message
 
         try {
-            message = await self.db.sequelize.transaction(async (t) => {
+            message = await self.db.sequelize.transaction(async(t) => {
                 let updatedMessage = await self.db.Message.findOne({
                     where: {
                         id: messageId
@@ -186,7 +186,7 @@ class ApiMessagesController extends Controller {
 
         //get the old message
         try {
-            message = await self.db.sequelize.transaction(async (t) => {
+            message = await self.db.sequelize.transaction(async(t) => {
                 message = await self.db.Message.destroy({
                     where: {
                         id: messageId

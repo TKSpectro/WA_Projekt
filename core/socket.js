@@ -56,21 +56,43 @@ class SocketHandler {
             });
 
             socket.on('message', (data) => {
+                var userId = null;
+                let email = data.to;
 
-                self.db.Message.create({
-                    text: data.message,
-                    fromId: socket.user.id,
-                    toId: data.to
-                });
-                self.io.emit('message', {
-                    message: data.message,
-                    from: {
-                        displayName: socket.user.fullname(),
-                        id: socket.user.id
-                    },
-                    to: data.to,
-                    time: new Date()
-                });
+                // find the User and save the Message in the DB
+                let start = async function() {
+                    let user = await self.db.User.findOne({
+                        where: {
+                            email: email
+                        }
+                    });
+                    if (user.id) {
+                        self.db.Message.create({
+                            text: data.message,
+                            fromId: socket.user.id,
+                            toId: user.id
+                        });
+                    } else {
+                        self.db.Message.create({
+                            text: data.message,
+                            fromId: socket.user.id,
+                            toId: null
+                        });
+                    }
+
+                    self.io.emit('message', {
+                        message: data.message,
+                        from: {
+                            displayName: socket.user.fullname(),
+                            id: socket.user.id
+                        },
+                        to: user.id,
+                        time: new Date()
+                    });
+
+                }
+                start();
+
             });
         });
     }
