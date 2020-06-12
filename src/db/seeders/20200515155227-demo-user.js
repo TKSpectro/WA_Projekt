@@ -9,7 +9,7 @@ module.exports = {
             email: 'doey@mail.com',
             createdAt: new Date(),
             updatedAt: new Date(),
-            passwordHash: '$2y$10$ZlSYwv.4Qu3ZOVW6Mx5qU.DRcXugBPruwMizH2eRlErFi/6cULEMC', // bCrypt 10 12345678
+            passwordHash: '$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2', // bCrypt 10 12345678
             permission: 0b1111111111111111
         }, {
             id: 2,
@@ -18,7 +18,7 @@ module.exports = {
             email: 'h.travis@mail.com',
             createdAt: new Date(),
             updatedAt: new Date(),
-            passwordHash: '$2y$10$ZlSYwv.4Qu3ZOVW6Mx5qU.DRcXugBPruwMizH2eRlErFi/6cULEMC', // bCrypt 10 12345678
+            passwordHash: '$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2', // bCrypt 10 12345678
             permission: 0b1111111111111111
         }], {});
     },
