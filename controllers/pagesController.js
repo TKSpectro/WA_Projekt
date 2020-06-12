@@ -15,8 +15,7 @@ class PagesController extends Controller {
         self.before(['*', '-imprint', '-signin'], (next) => {
             if (self.req.authorized === true) {
                 next();
-            }
-            else {
+            } else {
                 self.redirect(self.urlFor('pages', 'signin'));
             }
         });
@@ -24,8 +23,7 @@ class PagesController extends Controller {
         self.before(['signin'], (next) => {
             if (self.req.authorized === true) {
                 self.redirect(self.urlFor('pages', 'index'));
-            }
-            else {
+            } else {
                 next();
             }
         });
@@ -43,6 +41,14 @@ class PagesController extends Controller {
 
         self.render({
             title: 'Imprint'
+        });
+    }
+
+    actionGroup() {
+        const self = this;
+
+        self.render({
+            title: 'Group'
         });
     }
 

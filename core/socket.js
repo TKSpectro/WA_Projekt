@@ -58,47 +58,41 @@ class SocketHandler {
             socket.on('message', (data) => {
                 var userId = null;
                 let email = data.to;
-                console.log(data.to);
+                console.log(data);
 
                 if (data.to) {
-                    // find the User and save the Message in the DB
-                    let start = async function() {
-                        let user = await self.db.User.findOne({
-                            where: {
-                                email: email
-                            }
-                        });
 
-                        self.db.Message.create({
-                            text: data.message,
-                            fromId: socket.user.id,
-                            toId: user.id
-                        });
+                    // find the User if available and save the Message in the DB
+                    let user = self.db.User.build();
+                    user.findById();
+                    await user.save();
+
+                    //start();
+                } else {
+                    self.db.Message.create({
+                        text: data.message,
+                        fromId: socket.user.id
+                    });
+                    if (data.group) {
                         self.io.emit('message', {
                             message: data.message,
                             from: {
                                 displayName: socket.user.fullname(),
                                 id: socket.user.id
                             },
-                            to: user.id,
+                            group: 'chat',
+                            time: new Date()
+                        });
+                    } else {
+                        self.io.emit('message', {
+                            message: data.message,
+                            from: {
+                                displayName: socket.user.fullname(),
+                                id: socket.user.id
+                            },
                             time: new Date()
                         });
                     }
-                    start();
-                } else {
-
-                    self.db.Message.create({
-                        text: data.message,
-                        fromId: socket.user.id
-                    });
-                    self.io.emit('message', {
-                        message: data.message,
-                        from: {
-                            displayName: socket.user.fullname(),
-                            id: socket.user.id
-                        },
-                        time: new Date()
-                    });
                 }
 
             });

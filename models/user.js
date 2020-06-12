@@ -53,4 +53,27 @@ module.exports = function(Model, db) {
         }
     }
 
+    Model.prototype.findByID = async function() {
+        let user = await self.db.User.findOne({
+            where: {
+                email: email
+            }
+        });
+
+        self.db.Message.create({
+            text: data.message,
+            fromId: socket.user.id,
+            toId: user.id
+        });
+        self.io.emit('message', {
+            message: data.message,
+            from: {
+                displayName: socket.user.fullname(),
+                id: socket.user.id
+            },
+            to: user.id,
+            time: new Date()
+        });
+    }
+
 };

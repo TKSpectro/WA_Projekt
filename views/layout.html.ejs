@@ -1,7 +1,9 @@
 <html>
 
 <head>
-    <title><%=title%></title>
+    <title>
+        <%=title%>
+    </title>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         window.io = io.connect();
@@ -10,14 +12,16 @@
 
 <body>
     <% if(typeof navigation === 'undefined' || navigation !== false){ %>
-    <nav>
-        <ul>
-            <li><a href="<%=self.urlFor('pages', 'index')%>">Index</a></li>
-            <li><a href="<%=self.urlFor('pages', 'imprint')%>">Impressum</a></li>
-        </ul>
-    </nav>
-    <% } //endif %>
-    <%-body%>
+        <nav>
+            <ul>
+                <li><a href="<%=self.urlFor('pages', 'index')%>">Index</a></li>
+                <li><a href="<%=self.urlFor('pages', 'imprint')%>">Impressum</a></li>
+                <li><a href="<%=self.urlFor('pages', 'group')%>">Group</a></li>
+
+            </ul>
+        </nav>
+        <% } //endif %>
+            <%-body%>
 </body>
 
 </html>

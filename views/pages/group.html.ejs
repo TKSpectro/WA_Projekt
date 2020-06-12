@@ -1,0 +1,53 @@
+<h1>Chatroom</h1>
+
+
+<div class="chat-wrapper" id="GroupMessages" style="height: 460px;overflow: auto;">
+
+</div>
+<div class="input-wrapper">
+
+
+    <p><label for="groupMessage">Message:</label></p>
+    <p><textarea id="groupMessage" placeholder="Message"></textarea></p>
+    <p><button id="send-GroupMessage" onclick="sendPressed(this); return false;">Send</button></p>
+</div>
+
+<script>
+    var token = document.cookie;
+
+    let b64DecodeUnicode = str =>
+        decodeURIComponent(
+            Array.prototype.map.call(atob(str), c =>
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join(''))
+    let parseJwt = token =>
+        JSON.parse(
+            b64DecodeUnicode(
+                token.split('.')[1].replace('-', '+').replace('_', '/')
+            )
+        )
+
+    function sendPressed(elm) {
+        let textarea = document.getElementById('groupMessage');
+
+        io.emit('message', {
+            message: textarea.value,
+            to: null,
+            group: 'chatroom'
+
+        });
+
+    }
+
+    io.on('message', (data) => {
+        let messageElm = document.getElementById('GroupMessages');
+        var currentUserId = parseJwt(token).id;
+        let elm = document.createElement('DIV');
+
+        if (data.group) {
+            elm.innerText = data.from.displayName + ': ' + data.message;
+            messageElm.appendChild(elm);
+            messageElm.scrollTop = messageElm.scrollHeight;
+        }
+    });
+</script>
