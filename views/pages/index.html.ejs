@@ -33,6 +33,7 @@
     function sendPressed(elm) {
         let receiver = document.getElementById('receiver');
         let textarea = document.getElementById('message');
+        console.log(receiver.value);
 
         if (receiver.value) {
             io.emit('message', {
@@ -53,8 +54,13 @@
         let messageElm = document.getElementById('messages');
         var currentUserId = parseJwt(token).id;
         let elm = document.createElement('DIV');
-
-        if (currentUserId == data.from.id || data.to == currentUserId) {
+        if (data.to) {
+            if (currentUserId == data.from.id || data.to == currentUserId) {
+                elm.innerText = data.from.displayName + ': ' + data.message;
+                messageElm.appendChild(elm);
+                messageElm.scrollTop = messageElm.scrollHeight;
+            }
+        } else {
             elm.innerText = data.from.displayName + ': ' + data.message;
             messageElm.appendChild(elm);
             messageElm.scrollTop = messageElm.scrollHeight;
