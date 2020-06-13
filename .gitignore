@@ -1,5 +1,7 @@
-/node_modules
-package-lock.json
-
 .DS_Store
-.vscode/launch.json
+node_modules
+package-lock.json
+.vscode
+/.env
+/assets/js/
+/assets/css/
