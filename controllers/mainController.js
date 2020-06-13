@@ -12,6 +12,10 @@ class MainController extends Controller {
 
         const self = this;
 
+        // css / js
+        self.jsFiles = [];
+        self.cssFiles = [];
+
         // set default unauthorized
         self.req.authorized = false;
         self.req.user = null;
@@ -87,6 +91,14 @@ class MainController extends Controller {
                 statusCode: 500
             });
         }
+    }
+
+    js(file){
+        this.jsFiles.push(file);
+    }
+
+    css(file){
+        this.cssFiles.push(file);
     }
 }
 

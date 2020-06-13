@@ -11,6 +11,7 @@ class PagesController extends Controller {
         super(...args);
         const self = this;
 
+        self.css('layout');
 
         self.before(['*', '-imprint', '-signin'], (next) => {
             if (self.req.authorized === true) {
@@ -31,6 +32,8 @@ class PagesController extends Controller {
 
     actionIndex() {
         const self = this;
+        self.css('index');
+        self.js('index');
 
         self.db.User.findAll().then(users => {
             self.render({
