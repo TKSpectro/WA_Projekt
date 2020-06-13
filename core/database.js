@@ -8,8 +8,8 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = function () {
-    const sequelize = new Sequelize('taskboard', 'root', '', {
-        host: 'localhost',
+    const sequelize = new Sequelize(process.env.DB_NAME || 'taskboard', process.env.DB_USER || 'root', process.env.DB_PASSWORD || '', {
+        host: process.env.DB_HOST || 'localhost',
         dialect: 'mysql',
         pool: {
             max: 5,
