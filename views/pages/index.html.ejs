@@ -1,70 +1,221 @@
 <h1>Meine Index</h1>
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, sequi eum necessitatibus asperiores maiores provident, non quis aliquam recusandae doloribus reiciendis iste cumque dolorem est eos dignissimos fuga! Aspernatur, quo.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, sequi eum necessitatibus asperiores maiores
+    provident, non quis aliquam recusandae doloribus reiciendis iste cumque dolorem est eos dignissimos fuga!
+    Aspernatur, quo.</p>
 
+<div class="wrapper" style="max-width: 640px; height: 480px; overflow: hidden;">
+    <div class="user" style="width: 160px; float: left; background: lightgray; height: 100%; overflow: hidden;">
+        <div style="width: 100%; padding-right: 20px; overflow-y: scroll;">
+            <button id="btn-chat-all" data-id="0" data-fullname="All" data-new="0"
+                style="background: none; border: none; height: 37px; width: 100%; display: block;"
+                onclick="userPressed(this); return false;">All</button>
+            <% for(let index = 0; index < users.length; ++index) { %>
+            <% 
+                //exclude the current user
+                if(self.req.user.id === users[index].id){
+                    continue;
+                }
+            %>
+            <button id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>"
+                data-fullname="<%=users[index].fullname()%>" data-new="0"
+                style="background: none; border: none; height: 37px; width: 100%; display: block;"
+                onclick="userPressed(this); return false;"><%=users[index].fullname()%>
+            </button>
+            <% } //endfor %>
+        </div>
+    </div>
+    <div class="chat" style="width: calc(100% - 160px); float: left; height: 100%;">
+        <div class="messages-wrapper" style="height: calc(100% - 80px);">
+            <div style="width: 100%; height: 100%; padding-right: 20px; overflow-y: scroll;" id="messages">
 
-<div class="chat-wrapper" id="messages" style="height: 460px;overflow: auto;">
-
-</div>
-<div class="input-wrapper">
-
-    <p><label for="receiver">To:</label></p>
-    <p><input type="text" id="receiver" placeholder="Email"></p>
-    <p><label for="message">Message:</label></p>
-    <p><textarea id="message" placeholder="Message"></textarea></p>
-    <p><button id="send-message" onclick="sendPressed(this); return false;">Send</button></p>
+            </div>
+        </div>
+        <div class="input-wrapper">
+            <textarea id="message"
+                style="display: block; height: 80px; width: calc(100% - 80px); float:left; box-sizing: border-box;"></textarea>
+            <button style="height: 80px; width: 80px; display: block; float: left;" id="send-message"
+                onclick="sendPressed(this); return false;">Send</button>
+        </div>
+    </div>
 </div>
 
 <script>
-    var token = document.cookie;
+    //default chat is all
+    let textarea = document.getElementById('message');
+    let currentUserId = <%-self.req.user.id %>;
+    let currentUserElm = document.getElementById('btn-chat-all');
+    let messagesElm = document.getElementById('messages');
 
-    let b64DecodeUnicode = str =>
-        decodeURIComponent(
-            Array.prototype.map.call(atob(str), c =>
-                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-            ).join(''))
-    let parseJwt = token =>
-        JSON.parse(
-            b64DecodeUnicode(
-                token.split('.')[1].replace('-', '+').replace('_', '/')
-            )
-        )
+    function loadMessages(elm, fromId) {
+        console.log('loadMessages call');
+        let xhr = new XMLHttpRequest();
+
+        //handle request finished
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                let jsonData = JSON.parse(xhr.response);
+
+                //map messages into socket messages format
+                //and write to the button
+                if (elm.lastMessages instanceof Array === false) {
+                    elm.lastMessages = [];
+                }
+
+                //append on top
+                for (let index = 0; index < jsonData.messages; ++index) {
+                    const message = jsonData.messages[index];
+                    elm.lastMessages.unshift({
+                        text: message.text,
+                        from: {
+                            id: message.from.id,
+                            displayName: message.from.firstName + ' ' + message.from.lastName,
+                        },
+                        to: message.to
+                    });
+                }
+
+                userPressed(elm);
+            } else {
+                console.log('request failed');
+            }
+        };
+
+        let url = '<%-self.urlFor('api/messages', 'index')%>';
+
+        if (fromId) {
+            url += '?fromId=' + fromId;
+        }
+
+        if (elm.lastMessages instanceof Array === true) {
+            if (url.indexOf('?') === -1) {
+                url += '?';
+            } else {
+                url += '&';
+            }
+
+            url += 'offset=' + elm.lastMessages.length;
+        }
+
+        xhr.open('GET', url);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send();
+    }
+
+    function updateUserBtnName(elm) {
+        console.log('updateUserBtnName call');
+        //update user name if there is incoming message icon
+        elm.innerText = elm.getAttribute('data-fullname');
+
+        if (elm.getAttribute('data-new') !== '0') {
+            elm.innerText += ' (' + elm.getAttribute('data-new') + ')';
+        }
+    }
+
+    function userPressed(elm) {
+        console.log('userPressed call');
+        currentUserElm = elm;
+
+        elm.setAttribute('data-new', '0');
+        updateUserBtnName(elm);
+
+        //clean current messages in pot
+        let messagesElm = document.getElementById('messages');
+        messagesElm.innerHTML = '';
+
+        //retrieve messages for user if not done yet
+        if (!elm.lastMessages) {
+            let fromId = elm.getAttribute('data-id');
+            loadMessages(elm, fromId === '0' ? null : fromId);
+        }
+        //otherwise the socket already append the messages so display
+        else {
+            for (let index = 0; index < elm.lastMessages.length; ++index) {
+                const msg = elm.lastMessages[index];
+                handleIncomingMessage(msg);
+            }
+        }
+    }
 
     function sendPressed(elm) {
-        let receiver = document.getElementById('receiver');
+        console.log('sendPressed call');
         let textarea = document.getElementById('message');
-        console.log(receiver.value);
+        let data = {
+            text: textarea.value,
+        };
 
-        if (receiver.value) {
-            io.emit('message', {
-                message: textarea.value,
-                to: receiver.value
+        textarea.value = '';
 
-            });
+        if (currentUserElm.getAttribute('data-id') !== '0') {
+            data.toId = parseInt(currentUserElm.getAttribute('data-id'));
+        }
+
+        io.emit('message', data);
+    }
+
+    function handleIncomingMessage(data) {
+        console.log('handleIncomingMessage call');
+        let messageElm = document.getElementById('messages');
+        let elmId = null;
+
+        //check incoming message has data.to === null or not inside, means public chat
+        if (!data.to) {
+            if (currentUserElm.getAttribute('data-id') !== '0') {
+                elmId = 'all';
+            }
+        } else if (currentUserId !== data.from.id && currentUserElm.getAttribute('data-id') != data.from.id) {
+            elmId = data.from.id;
+        }
+
+        if (elmId !== null) {
+            let elm = document.getElementById('btn-chat-' + elmId);
+            if (elm) {
+                let newMessageCount = parseInt(elm.getAttribute('data-new')) + 1;
+                elm.setAttribute('data-new', newMessageCount);
+                if (elm.lastMessages) {
+                    elm.lastMessages.push(data);
+                }
+                updateUserBtnName(elm);
+            }
         } else {
-            io.emit('message', {
-                message: textarea.value,
-                to: null
-
-            });
+            let elm = document.createElement('DIV');
+            elm.innerText = data.from.displayName + ': ' + data.text;
+            messageElm.appendChild(elm);
+            messageElm.scrollTop = messageElm.scrollHeight;
         }
     }
 
     io.on('message', (data) => {
-        let messageElm = document.getElementById('messages');
-        var currentUserId = parseJwt(token).id;
-        let elm = document.createElement('DIV');
+        console.log('incoming message');
+        handleIncomingMessage(data);
+    });
 
-        if (data.to) {
-            if (currentUserId == data.from.id || data.to == currentUserId) {
-                elm.innerText = data.from.displayName + ': ' + data.message;
-                messageElm.appendChild(elm);
-                messageElm.scrollTop = messageElm.scrollHeight;
-            }
-        } else {
-            elm.innerText = data.from.displayName + ': ' + data.message;
-            messageElm.appendChild(elm);
-            messageElm.scrollTop = messageElm.scrollHeight;
+    messagesElm.addEventListener('scroll', function () {
+        console.log('messagesElm.addEventListenerscroll, function call');
+        if (this.scrollTop === 0) {
+            let fromId = currentUserElm.getAttribute('data-id');
+            loadMessages(currentUserElm, fromId === '0' ? null : fromId);
         }
     });
+
+    textarea.altActive = false;
+    textarea.addEventListener('keydown', function (event) {
+        if (event.keyCode === 18) {
+            textarea.altActive = true;
+        }
+    });
+
+    textarea.addEventListener('keyup', function (event) {
+        if (event.keyCode === 18) {
+            textarea.altActive = false;
+        }
+        if (event.keyCode === 13 && textarea.altActive === false) {
+            sendPressed();
+        } else if (event.keyCode === 13 && textarea.altActive === true) {
+            textarea.value += '\n';
+        }
+    });
+
+    //initial load
+    loadMessages(currentUserElm);
 </script>

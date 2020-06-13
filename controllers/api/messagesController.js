@@ -3,7 +3,9 @@
  * @version 1.0.0
  */
 
-const Controller = require('../mainController')
+const { Op } = require("sequelize");
+const Controller = require('../mainController');
+const ApiError = require('../../core/error.js');
 
 class ApiMessagesController extends Controller {
 
@@ -13,7 +15,7 @@ class ApiMessagesController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
-        self.before(['*'], function(next) {
+        self.before(['*'], function (next) {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -30,14 +32,50 @@ class ApiMessagesController extends Controller {
         let messages = [];
         let error = null;
 
+        //retrieving params
+        let fromId = self.param('fromId') || null;
+        let total = 0;
+        let paging = self.paging();
+
         try {
-            messages = await self.db.Message.findAll({
-                where: {},
+            let where = {};
+
+            if (fromId !== null) {
+                where = {
+                    [Op.or]: [
+                        {
+                            fromId: fromId,
+                            toId: self.req.user.id
+                        }, {
+                            toId: fromId,
+                            fromId: self.req.user.id
+                        },
+                    ]
+                };
+            } else {
+                where = {
+                    toId: {
+                        [Op.is]: null,
+                    }
+                };
+            }
+
+            const { count, rows } = await self.db.Message.findAndCountAll({
+                where: where,
+                order: [
+                    ['id', 'DESC'],
+                ],
+                limit: paging.limit,
+                offset: paging.offset,
                 attributes: ['id', 'text', 'createdAt', 'updatedAt'],
                 include: self.db.Message.extendInclude
             });
+
+            total = count;
+            messages = rows;
         } catch (err) {
             error = err;
+            console.log(err);
         }
 
         if (error) {
@@ -48,7 +86,8 @@ class ApiMessagesController extends Controller {
             });
         } else {
             self.render({
-                messages: messages
+                messages: messages,
+                _meta: self.meta(paging, total)
             });
         }
     }
@@ -56,29 +95,30 @@ class ApiMessagesController extends Controller {
     async actionShow() {
         const self = this;
 
-        let messageId = self.param('id');
+        let id = self.param('id');
         let message = null;
         let error = null;
 
         try {
             message = await self.db.Message.findOne({
                 where: {
-                    id: messageId
+                    fromId: self.req.user.id,
+                    id: id
                 },
                 attributes: ['id', 'text', 'createdAt', 'updatedAt'],
                 include: self.db.Message.extendInclude
             });
+
+            if (!message) {
+                throw new ApiError('No message found with this id', 404);
+            }
         } catch (err) {
             error = err;
+            console.log(err);
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 message: message
@@ -96,7 +136,7 @@ class ApiMessagesController extends Controller {
         let error = null;
 
         try {
-            message = await self.db.sequelize.transaction(async(t) => {
+            message = await self.db.sequelize.transaction(async (t) => {
                 let newMessage = self.db.Message.build();
                 newMessage.writeRemotes(remoteData);
 
@@ -126,49 +166,50 @@ class ApiMessagesController extends Controller {
 
     async actionUpdate() {
         const self = this;
-
-        //message should be a object with all the values (new and old)
-        let remoteData = self.param('message');
-        let messageId = self.param('id');
-
-        let message = null;
         let error = null;
 
-        //get the old message
+        //retrieving params
+        let id = self.param('id');
+        let message = null;
+
 
         try {
-            message = await self.db.sequelize.transaction(async(t) => {
+            let remoteMessage = self.param('message');
+            if (!remoteMessage) {
+                throw new ApiError('Message object is missing, check your body structure', 400);
+            }
+            if (!remoteMessage.text) {
+                throw new ApiError('Message object has no text, check your body structure', 400);
+            }
+
+            message = await self.db.sequelize.transaction(async (t) => {
                 let updatedMessage = await self.db.Message.findOne({
                     where: {
+                        fromId: self.req.user.id,
                         id: messageId
                     }
                 }, { transaction: t })
                 if (updatedMessage) {
                     await updatedMessage.update({
                         text: remoteData['text'],
-                        toId: remoteData['toId'],
-                        fromId: remoteData['fromId'],
-                        updatedAt: new Date()
                     }, {
                         where: {
                             id: messageId
                         }
                     }, { transaction: t });
+                } else {
+                    throw new ApiError('No message found to update', 404);
                 }
 
                 return updatedMessage;
             });
         } catch (err) {
             error = err;
+            console.log(err);
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 message: message
@@ -177,36 +218,54 @@ class ApiMessagesController extends Controller {
     }
 
     async actionDelete() {
+        //wont delete but obfuscate the message -> change text to 'deleted'
         const self = this;
-
-        let messageId = self.param('id');
-
-        let message = null;
         let error = null;
+
+        //retrieving params
+        let messageId = self.param('id');
 
         //get the old message
         try {
-            message = await self.db.sequelize.transaction(async(t) => {
-                message = await self.db.Message.destroy({
+            let remoteMessage = self.param('message');
+            if (!remoteMessage) {
+                throw new ApiError('Message object is missing, check your body structure', 400);
+            }
+            if (!remoteMessage.text) {
+                throw new ApiError('Message object has no text, check your body structure', 400);
+            }
+
+            message = await self.db.sequelize.transaction(async (t) => {
+                let updatedMessage = await self.db.Message.findOne({
                     where: {
+                        fromId: self.req.user.id,
                         id: messageId
                     }
-                }), { transaction: t }
+                }, { transaction: t })
+                if (updatedMessage) {
+                    await updatedMessage.update({
+                        text: 'deleted',
+                    }, {
+                        where: {
+                            id: messageId
+                        }
+                    }, { transaction: t });
+                } else {
+                    throw new ApiError('No message found to update', 404);
+                }
+
+                return updatedMessage;
             });
         } catch (err) {
             error = err;
+            console.log(err);
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
-                message: 'deleted'
+                message: message
             });
         }
     }

@@ -31,8 +31,12 @@ class PagesController extends Controller {
 
     actionIndex() {
         const self = this;
-        self.render({
-            title: 'Index'
+
+        self.db.User.findAll().then(users => {
+            self.render({
+                title: 'Index',
+                users: users,
+            });
         });
     }
 

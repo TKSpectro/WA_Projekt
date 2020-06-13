@@ -41,6 +41,19 @@ class SocketHandler {
 
         self.initEvents();
     }
+
+    findUserSocketById(id) {
+        let socket = null;
+        for (let key in this.sockets) {
+            socket = this.sockets[key];
+            if (socket.user && socket.user.id === id) {
+                return socket;
+            }
+        }
+
+        return null;
+    }
+
     initEvents() {
         const self = this;
 
@@ -55,48 +68,45 @@ class SocketHandler {
                 }
             });
 
-            socket.on('message', (data) => {
-                var userId = null;
-                let email = data.to;
-                console.log(data);
+            socket.on('message', async (data) => {
+                //write incoming message to database
+                let message = self.db.Message.build();
+                message.writeRemotes(data);
+                try {
+                    message.fromId = socket.user.id;
+                    await message.save();
 
-                if (data.to) {
+                    let response = {
+                        text: data.text,
+                        from: {
+                            displayName: socket.user.fullname(),
+                            id: socket.user.id
+                        },
+                        time: message.createAt
+                    };
 
-                    // find the User if available and save the Message in the DB
-                    let user = self.db.User.build();
-                    user.findById();
-                    await user.save();
-
-                    //start();
-                } else {
-                    self.db.Message.create({
-                        text: data.message,
-                        fromId: socket.user.id
-                    });
-                    if (data.group) {
-                        self.io.emit('message', {
-                            message: data.message,
-                            from: {
+                    if (message.toId) {
+                        let userSocket = self.findUserSocketById(message.toId);
+                        if (userSocket) {
+                            response.to = {
                                 displayName: socket.user.fullname(),
                                 id: socket.user.id
-                            },
-                            group: 'chat',
-                            time: new Date()
-                        });
+                            };
+                            userSocket.emit('message', response);
+                            socket.emit('message', response);
+                        }
                     } else {
-                        self.io.emit('message', {
-                            message: data.message,
-                            from: {
-                                displayName: socket.user.fullname(),
-                                id: socket.user.id
-                            },
-                            time: new Date()
-                        });
+                        self.io.emit('message', response);
                     }
+                } catch (err) {
+                    console.log(err);
+                    socket.emit('error', {
+                        details: 'Could not save message, something went wrong',
+                        message: data
+                    });
                 }
-
             });
-        });
+        })
     }
 }
 
