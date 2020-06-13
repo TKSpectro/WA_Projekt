@@ -32,6 +32,6 @@ const Router = require('./core/router.js');
 const router = new Router(app, routes, database);
 router.setup();
 
-http.listen(3000, function () {
-    console.log('App listening on Port 3000');
+http.listen(process.env.PORT || 3000, function () {
+    console.log('App listening on Port'+(process.env.PORT || 3000));
 });
