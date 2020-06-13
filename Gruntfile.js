@@ -29,14 +29,16 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'assets/css/layout.css': 'src/less/layout.less',
-                    'assets/css/index.css': 'src/less/index.less'
+                    'assets/css/index.css': 'src/less/index.less',
+                    'assets/css/signin.css': 'src/less/signin.less'
                 }
             }
         },
         uglify: {
             build: {
                 files: {
-                    'assets/js/index.min.js' : 'src/js/index.js'
+                    'assets/js/index.min.js' : 'src/js/index.js',
+                    'assets/js/signin.min.js' : 'src/js/signin.js'
                 }
             }
         },

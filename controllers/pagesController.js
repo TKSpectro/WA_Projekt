@@ -62,6 +62,9 @@ class PagesController extends Controller {
     actionSignin() {
         const self = this;
 
+        self.js('signin');
+        self.css('signin');
+
         self.render({
             title: 'Login',
             navigation: false

@@ -1,39 +1,11 @@
 <div class="signin-wrapper">
     <form id="signin-form" action="<%-self.urlFor('api/users', 'signin', null, 'POST')%>" method="POST">
         <div class="input-wrapper">
-            <label for="email">E-Mail</label>
-            <input id="email" name="email" value="" type="email" placeholder="E-Mail Address">
+            <input class="top" id="email" name="email" value="" type="email" placeholder="E-Mail Address">
         </div>
         <div class="input-wrapper">
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" value="" placeholder="Password">
+            <input class="bottom" id="password" name="password" type="password" value="" placeholder="Password">
         </div>
-        <div class="button-wrapper">
-            <button onclick="submitPressed(this); return false;">Login</button>
-        </div>
+        <button onclick="submitPressed(this); return false;"></button>
     </form>
 </div>
-<script>
-    function submitPressed(elm) {
-        var form = document.getElementById('signin-form');
-        var xhr = new XMLHttpRequest();
-
-        // handle request finished
-        xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                console.log('worked !!!');
-            } else {
-                console.log('request failed');
-            }
-        };
-
-        xhr.open(form.getAttribute('method') || 'POST', form.getAttribute('action'));
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-            user: {
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-            }
-        }));
-    }
-</script>

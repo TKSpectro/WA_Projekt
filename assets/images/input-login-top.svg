@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="220px" height="37px" viewBox="0 0 220 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>input-login-top</title>
+    <g id="Webpage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.896065848">
+        <g id="desktop/login" transform="translate(-382.000000, -256.000000)" fill="#ECFFFE">
+            <path d="M598,256 C600.209139,256 602,257.790861 602,260 L602,274 L598,274 C594.761603,274 592.122428,276.565575 592.004138,279.775062 L592,280 L592,293 L386,293 C383.790861,293 382,291.209139 382,289 L382,260 C382,257.790861 383.790861,256 386,256 L598,256 Z" id="input-login-top"></path>
+        </g>
+    </g>
+</svg>
