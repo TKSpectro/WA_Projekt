@@ -39,7 +39,8 @@ module.exports = function () {
 
     Object.keys(db).forEach(modelName => {
         try {
-            let filePath = path.join(__dirname, '..', 'models', modelName + '.js');
+            let fixedModelName = modelName.charAt(0).toLowerCase() + modelName.slice(1);
+            let filePath = path.join(__dirname, '..', 'models', fixedModelName + '.js');
             if (fs.existsSync(filePath)) {
                 require(filePath)(db[modelName], db);
             }
