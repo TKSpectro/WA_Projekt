@@ -82,7 +82,7 @@ class SocketHandler {
                             displayName: socket.user.fullname(),
                             id: socket.user.id
                         },
-                        time: message.createAt
+                        time: message.createdAt
                     };
 
                     if (message.toId) {
