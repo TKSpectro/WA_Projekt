@@ -3,13 +3,13 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert('message', [{
-            text: 'Hi Helga',
+            text: 'Hi Bilal',
             fromId: 1,
             toId: 2,
             createdAt: new Date(),
             updatedAt: new Date(),
         },{
-            text: 'Hi Joe',
+            text: 'Hi Tom',
             fromId: 2,
             toId: 1,
             createdAt: new Date(),
@@ -20,7 +20,7 @@ module.exports = {
             createdAt: new Date(),
             updatedAt: new Date(),
         },{
-            text: 'Welcome Back Helga',
+            text: 'Welcome Back Bilal',
             fromId: 1,
             createdAt: new Date(),
             updatedAt: new Date(),
