@@ -10,6 +10,9 @@
   },
   "author": "Tom Käppler",
   "license": "ISC",
+  "apidoc": {
+    "title": "apiDoc - taskboard"
+  },
   "dependencies": {
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "grunt": "^1.1.0",
+    "grunt-apidoc": "^0.11.0",
     "grunt-contrib-less": "^2.0.0",
     "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
     "grunt-contrib-watch": "^1.1.0",

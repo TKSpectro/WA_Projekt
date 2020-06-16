@@ -56,6 +56,12 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['less', 'uglify'],
             }
+        },
+        apidoc: {
+            taskboard: {
+                src: "/controllers/api/",
+                dest: "/src/apidoc/"
+            }
         }
     });
 
@@ -64,8 +70,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify-es');
     grunt.loadNpmTasks('grunt-sequelize');
+    grunt.loadNpmTasks('grunt-apidoc');
 
     //register plugins
     grunt.registerTask('build', ['less', 'uglify']);
     grunt.registerTask('default', ['watch']);
+    grunt.registerTask('apidoc', ['apidoc']);
 }
