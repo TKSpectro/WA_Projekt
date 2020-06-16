@@ -18,7 +18,7 @@ function loadMessages(elm, fromId) {
             }
 
             //append on top
-            for (let index = 0; index < jsonData.messages; ++index) {
+            for (let index = 0; index < jsonData.messages.length; ++index) {
                 const message = jsonData.messages[index];
                 elm.lastMessages.unshift({
                     text: message.text,
@@ -137,6 +137,7 @@ function handleIncomingMessage(data) {
 }
 
 io.on('message', (data) => {
+    console.log('incoming message');
     handleIncomingMessage(data);
 });
 

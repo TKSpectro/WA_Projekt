@@ -54,12 +54,11 @@ class MainController extends Controller {
         //convert to numbers because these are string
         paging.limit = Number(paging.limit);
         paging.page = Number(paging.page);
-        paging.offset = Number(paging.offset);
 
         if (paging.offset === null) {
             paging.offset = paging.limit * (paging.page - 1);
         } else {
-            paging.offset = paging.offset;
+            paging.offset = Number(paging.offset);
         }
         return paging;
     }
