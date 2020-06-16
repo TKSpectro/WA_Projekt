@@ -1,7 +1,13 @@
-.DS_Store
+#NodeJS
 node_modules
 package-lock.json
-.vscode
-/.env
+#Uglified files
 /assets/js/
 /assets/css/
+#VisualStudioCode and Mac Specific
+.vscode
+.DS_Store
+#EnvironmentalVariables
+/.env
+#ApiDoc
+/src/apidoc
