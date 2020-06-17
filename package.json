@@ -4,7 +4,7 @@
   "description": "A kanban taskboard",
   "main": "index.js",
   "scripts": {
-    "build": "grunt build && sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all",
+    "build": "grunt build && apidoc -i controllers/api/ -o /docs && sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
