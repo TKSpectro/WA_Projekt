@@ -79,11 +79,7 @@ class ApiMessagesController extends Controller {
         }
 
         if (error) {
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+            self.handleError(error);
         } else {
             self.render({
                 messages: messages,
@@ -150,13 +146,8 @@ class ApiMessagesController extends Controller {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 message: message
