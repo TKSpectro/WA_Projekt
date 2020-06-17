@@ -31,7 +31,6 @@
     "grunt-contrib-less": "^2.0.0",
     "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-sequelize": "^4.1.0",
     "less-plugin-autoprefix": "^2.0.0"
   }
 }

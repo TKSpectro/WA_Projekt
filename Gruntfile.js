@@ -42,12 +42,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        sequelize: {
-            options: {
-                migrationsPath: '/src/db/migrations',
-                config: '/config/database.js'
-              }
-        },
         watch: {
             scripts: {
                 files: [
@@ -69,7 +63,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify-es');
-    grunt.loadNpmTasks('grunt-sequelize');
     grunt.loadNpmTasks('grunt-apidoc');
 
     //register plugins
