@@ -39,6 +39,7 @@ class PagesController extends Controller {
             self.render({
                 title: 'Index',
                 users: users,
+                navigation: false,
             });
         });
     }
