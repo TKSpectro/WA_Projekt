@@ -36,16 +36,15 @@ class ApiTasksController extends Controller {
                 attributes: ['id', 'name', 'createdAt', 'updatedAt'],
                 include: self.db.Task.extendInclude
             });
+            if (!tasks) {
+                throw new ApiError('No tasks found', 404);
+            }
         } catch (err) {
             error = err;
         }
 
         if (error) {
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+            self.handleError(error);
         } else {
             self.render({
                 tasks: tasks
@@ -68,17 +67,15 @@ class ApiTasksController extends Controller {
                 attributes: ['id', 'name', 'createdAt', 'updatedAt'],
                 include: self.db.Task.extendInclude
             });
+            if (!task) {
+                throw new ApiError('No task found with this id', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 task: task
@@ -105,17 +102,15 @@ class ApiTasksController extends Controller {
 
                 return newTask;
             });
+            if (!task) {
+                throw new ApiError('Task could not be created', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 task: task
@@ -158,17 +153,15 @@ class ApiTasksController extends Controller {
 
                 return updatedTask;
             });
+            if (!task) {
+                throw new ApiError('Task could not be updated', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 task: task
@@ -188,22 +181,20 @@ class ApiTasksController extends Controller {
         try {
             task = await self.db.sequelize.transaction(async (t) => {
                 task = await self.db.Task.destroy({
-                where: {
-                    id: taskId
-                }
-            }), { transaction: t }
-        });
+                    where: {
+                        id: taskId
+                    }
+                }), { transaction: t }
+            });
+            if (!task) {
+                throw new ApiError('Could not delete task', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 task: 'deleted'
