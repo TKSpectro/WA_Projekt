@@ -37,16 +37,15 @@ class ApiUsersController extends Controller {
                 attributes: ['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt'],
                 include: self.db.User.extendInclude
             });
+            if (!users) {
+                throw new ApiError('No users found', 404);
+            }
         } catch (err) {
             error = err;
         }
 
         if (error) {
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+            self.handleError(error);
         } else {
             self.render({
                 users: users
@@ -69,17 +68,15 @@ class ApiUsersController extends Controller {
                 attributes: ['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt'],
                 include: self.db.User.extendInclude
             });
+            if (!user) {
+                throw new ApiError('No user found with this id', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 user: user
@@ -106,17 +103,15 @@ class ApiUsersController extends Controller {
 
                 return newUser;
             });
+            if (!user) {
+                throw new ApiError('Could not create user', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 user: user
@@ -159,17 +154,15 @@ class ApiUsersController extends Controller {
 
                 return updatedUser;
             });
+            if (!user) {
+                throw new ApiError('User could not be updated', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 user: user
@@ -214,17 +207,15 @@ class ApiUsersController extends Controller {
 
                 return updatedUser;
             });
+            if (!user) {
+                throw new ApiError('User could not be deleted', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 user: 'deleted'
@@ -247,19 +238,14 @@ class ApiUsersController extends Controller {
                 }
             });
             if (!user || !Passport.comparePassword(remoteData.password, user.passwordHash)) {
-                throw new Error('Could not find user with this email or password');
+                throw new ApiError('Could not find user with this email or password', 404);
             }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             let token = Passport.authorizeUserWithCookie(self.req, self.res, user.id);
 
@@ -290,7 +276,7 @@ class ApiUsersController extends Controller {
                 });
 
                 if (sameMail) {
-                    throw new Error('Mail already in use');
+                    throw new ApiError('Mail already in use', 400);
                 }
 
                 let newUser = self.db.User.build();
@@ -305,13 +291,8 @@ class ApiUsersController extends Controller {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 user: user
@@ -327,13 +308,8 @@ class ApiUsersController extends Controller {
 
         let error = null;
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             Passport.unauthorizeUser(self.req, self.res);
 
