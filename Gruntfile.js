@@ -53,13 +53,13 @@ module.exports = function (grunt) {
         },
         apidoc: {
             taskboard: {
-                src: "/controllers/api/",
-                dest: "/src/apidoc/"
+                src: "controllers/api/",
+                dest: "src/apidoc/"
             }
         }
     });
 
-    
+
     //load plugins
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -67,7 +67,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-apidoc');
 
     //register plugins
-    grunt.registerTask('build', ['less', 'uglify']);
+    grunt.registerTask('build', ['less', 'uglify', 'apidoc']);
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('apidoc', ['apidoc']);
+    grunt.registerTask('apiDoc', ['apidoc']);
 }
