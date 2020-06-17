@@ -3,6 +3,12 @@ let textarea = document.getElementById('message');
 let currentUserElm = document.getElementById('btn-chat-all');
 let messagesElm = document.getElementById('messages');
 
+//!str will return true if the string is null, undefined, or ''
+//!str.trim() will return true if the string is '' after removing trailing whitespaces (which means it is an empty string)
+function isNullOrEmpty(str) {
+    return !str || !str.trim();
+}
+
 function loadMessages(elm, fromId) {
     let xhr = new XMLHttpRequest();
 
@@ -98,11 +104,16 @@ function sendPressed(elm) {
 
     textarea.value = '';
 
-    if (currentUserElm.getAttribute('data-id') !== '0') {
-        data.toId = parseInt(currentUserElm.getAttribute('data-id'));
-    }
+    if (!isNullOrEmpty(data.text)) {
+        if (currentUserElm.getAttribute('data-id') !== '0') {
+            data.toId = parseInt(currentUserElm.getAttribute('data-id'));
+        }
 
-    io.emit('message', data);
+        io.emit('message', data);
+    }else{
+        textarea.placeholder = 'String is empty';
+        console.log('String is empty or contains only spaces');
+    }
 }
 
 function handleIncomingMessage(data) {
