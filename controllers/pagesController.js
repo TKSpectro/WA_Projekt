@@ -51,14 +51,6 @@ class PagesController extends Controller {
         });
     }
 
-    actionGroup() {
-        const self = this;
-
-        self.render({
-            title: 'Group'
-        });
-    }
-
     actionSignin() {
         const self = this;
 
