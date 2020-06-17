@@ -36,16 +36,16 @@ class ApiProjectsController extends Controller {
                 attributes: ['id', 'name', 'createdAt', 'updatedAt'],
                 include: self.db.Project.extendInclude
             });
+
+            if (!projects) {
+                throw new ApiError('No projects found', 404);
+            }
         } catch (err) {
             error = err;
         }
 
         if (error) {
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+            self.handleError(error);
         } else {
             self.render({
                 projects: projects
@@ -70,18 +70,17 @@ class ApiProjectsController extends Controller {
                 attributes: ['id', 'name', 'createdAt', 'updatedAt'],
                 include: self.db.Project.extendInclude
             });
+
+            if (!project) {
+                throw new ApiError('No project found with this id', 404);
+            }
             console.log(project.id);
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 project: project
@@ -109,17 +108,16 @@ class ApiProjectsController extends Controller {
 
                 return newProject;
             });
+
+            if (!project) {
+                throw new ApiError('Could not create the project', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 project: project
@@ -158,17 +156,15 @@ class ApiProjectsController extends Controller {
 
                 return updatedProject;
             });
+            if (!project) {
+                throw new ApiError('Project could not be updated', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 project: project
@@ -193,17 +189,15 @@ class ApiProjectsController extends Controller {
                     }
                 }), { transaction: t }
             });
+            if (!project) {
+                throw new ApiError('Project could not be deleted', 404);
+            }
         } catch (err) {
             error = err;
         }
 
-        if (error !== null) {
-            console.error(error);
-            self.render({
-                details: error
-            }, {
-                statusCode: 500
-            });
+        if (error) {
+            self.handleError(error);
         } else {
             self.render({
                 project: 'deleted'
