@@ -35,24 +35,24 @@ class ApiMessagesController extends Controller {
      *
      * @apiSuccess {Object[]} messages                  Array of messages.
      * 
-     * @apiSuccess {Object} messages.message                One user from the array.
+     * @apiSuccess {Object} messages.message                One message from the array.
      * 
-     * @apiSuccess {Number} messages.message.id                 Users unique id.
+     * @apiSuccess {Number} messages.message.id                 messages unique id.
      * @apiSuccess {String} messages.message.text               Text of the message.
      * @apiSuccess {String} messages.message.createdAt          Date of creation.
      * @apiSuccess {String} messages.message.updatedAt          Date of last update.
      * 
-     * @apiSuccess {Object} messages.message.from               User which send the message
-     * @apiSuccess {Number} messages.message.from.id            Users id.
-     * @apiSuccess {String} messages.message.from.firstName     Users firstname.
-     * @apiSuccess {String} messages.message.from.lastName      Users lastname.
-     * @apiSuccess {String} messages.message.from.email         Users email.
+     * @apiSuccess {Object} messages.message.from               Sender
+     * @apiSuccess {Number} messages.message.from.id            Senders id.
+     * @apiSuccess {String} messages.message.from.firstName     Senders firstname.
+     * @apiSuccess {String} messages.message.from.lastName      Senders lastname.
+     * @apiSuccess {String} messages.message.from.email         Senders email.
      * 
-     * @apiSuccess {Object} messages.message.to                 User which receives the message - can be null if message is public.
-     * @apiSuccess {Number} [messages.message.to.id]            Users id.
-     * @apiSuccess {String} [messages.message.to.firstName]     Users firstname.
-     * @apiSuccess {String} [messages.message.to.lastName]      Users lastname.
-     * @apiSuccess {String} [messages.message.to.email]         Users email.
+     * @apiSuccess {Object} messages.message.to                 Receiver which receives the message - can be null if message is public.
+     * @apiSuccess {Number} [messages.message.to.id]            Receivers id.
+     * @apiSuccess {String} [messages.message.to.firstName]     Receivers firstname.
+     * @apiSuccess {String} [messages.message.to.lastName]      Receivers lastname.
+     * @apiSuccess {String} [messages.message.to.email]         Receivers email.
      * 
      * @apiSuccess {Object} _meta                               Meta information.
      * @apiSuccess {Number} _meta.page
@@ -170,24 +170,24 @@ class ApiMessagesController extends Controller {
      * @apiName GetMessage
      * @apiGroup Message
      * 
-     * @apiSuccess {Object} message                One user from the array.
+     * @apiSuccess {Object} message                One message.
      * 
-     * @apiSuccess {Number} message.id                 Users unique id.
+     * @apiSuccess {Number} message.id                 messagess unique id.
      * @apiSuccess {String} message.text               Text of the message.
      * @apiSuccess {String} message.createdAt          Date of creation.
      * @apiSuccess {String} message.updatedAt          Date of last update.
      * 
-     * @apiSuccess {Object} message.from               User which send the message
-     * @apiSuccess {Number} message.from.id            Users id.
-     * @apiSuccess {String} message.from.firstName     Users firstname.
-     * @apiSuccess {String} message.from.lastName      Users lastname.
-     * @apiSuccess {String} message.from.email         Users email.
+     * @apiSuccess {Object} message.from               Sender which send the message
+     * @apiSuccess {Number} message.from.id            Senders id.
+     * @apiSuccess {String} message.from.firstName     Senders firstname.
+     * @apiSuccess {String} message.from.lastName      Senders lastname.
+     * @apiSuccess {String} message.from.email         Senders email.
      * 
-     * @apiSuccess {Object} message.to                 User which receives the message - can be null if message is public.
-     * @apiSuccess {Number} [message.to.id]            Users id.
-     * @apiSuccess {String} [message.to.firstName]     Users firstname.
-     * @apiSuccess {String} [message.to.lastName]      Users lastname.
-     * @apiSuccess {String} [message.to.email]         Users email.
+     * @apiSuccess {Object} message.to                 Receiver which receives the message - can be null if message is public.
+     * @apiSuccess {Number} [message.to.id]            Receivers id.
+     * @apiSuccess {String} [message.to.firstName]     Receivers firstname.
+     * @apiSuccess {String} [message.to.lastName]      Receivers lastname.
+     * @apiSuccess {String} [message.to.email]         Receivers email.
      * 
      * @apiSuccessExample Success-Response:
      *  HTTP/1.1 200 OK
@@ -263,9 +263,9 @@ class ApiMessagesController extends Controller {
      *      }
      *  }
      * 
-     * @apiSuccess {Object} message                One user from the array.
+     * @apiSuccess {Object} message                One message.
      * 
-     * @apiSuccess {Number} message.id                 Users unique id.
+     * @apiSuccess {Number} message.id                 Message id.
      * @apiSuccess {String} message.text               Text of the message.
      * @apiSuccess {Number} message.fromId             Sender id.
      * @apiSuccess {Number} message.toId               Receiver id (can be null for public message).
@@ -334,9 +334,9 @@ class ApiMessagesController extends Controller {
      *      }
      *  }
      * 
-     * @apiSuccess {Object} message                One user from the array.
+     * @apiSuccess {Object} message                One message.
      * 
-     * @apiSuccess {Number} message.id                 Users unique id.
+     * @apiSuccess {Number} message.id                 Messages unique id.
      * @apiSuccess {String} message.text               Text of the message.
      * @apiSuccess {Number} message.fromId             Sender id.
      * @apiSuccess {Number} message.toId               Receiver id (can be null for public message).
@@ -414,9 +414,9 @@ class ApiMessagesController extends Controller {
      * @apiName DeleteMessage
      * @apiGroup Message
      * 
-     * @apiSuccess {Object} message                One user from the array.
+     * @apiSuccess {Object} message                One message from the array.
      * 
-     * @apiSuccess {Number} message.id                 Users unique id.
+     * @apiSuccess {Number} message.id                 Messages unique id.
      * @apiSuccess {String} message.text               Text of the message.
      * @apiSuccess {String} message.createdAt          Date of creation.
      * @apiSuccess {String} message.updatedAt          Date of last update.
