@@ -50,7 +50,7 @@ let routes = {
             { path: '/api/messages', action: 'create', method: 'POST' },
             { path: '/api/messages/:id', action: 'show', method: 'GET' },
             { path: '/api/messages/:id/update', action: 'update', method: 'POST' },
-            { path: '/api/messages/:id/delete', action: 'delete', method: 'POST' }
+            { path: '/api/messages/:id/delete', action: 'delete', method: 'GET' }
         ]
     },
     'api/projects': {
