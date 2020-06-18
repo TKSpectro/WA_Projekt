@@ -29,7 +29,7 @@ let routes = {
             { path: '/api/signout', action: 'signout', method: 'GET' },
             { path: '/api/users', action: 'create', method: 'POST' },
             { path: '/api/users/:id/update', action: 'update', method: 'POST' },
-            { path: '/api/users/:id/delete', action: 'delete', method: 'POST' },
+            { path: '/api/users/:id/delete', action: 'delete', method: 'GET' },
             { path: '/api/users/:id', action: 'show', method: 'GET' }
         ]
     },

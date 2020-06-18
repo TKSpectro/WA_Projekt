@@ -372,7 +372,7 @@ class ApiUsersController extends Controller {
     }
 
     /**
-     * @api {post} /users/:id/delete Delete user with id
+     * @api {get} /users/:id/delete Delete user with id
      * @apiName DeleteUser
      * @apiGroup User
      * 
