@@ -10,4 +10,4 @@ package-lock.json
 #EnvironmentalVariables
 /.env
 #ApiDoc
-/src/apidoc
+/docs

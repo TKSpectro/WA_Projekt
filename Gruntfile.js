@@ -53,8 +53,8 @@ module.exports = function (grunt) {
         },
         apidoc: {
             taskboard: {
-                src: "controllers/api/",
-                dest: "src/apidoc/"
+                src: "src/apidoc/",
+                dest: "docs/"
             }
         }
     });

@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/assets', express.static('assets'));
-app.use('/apidoc', express.static(__dirname + '/src/apidoc'));
+app.use('/apidoc', express.static(__dirname + '/docs'));
 const database = require('./core/database.js')();
 
 const socket = new SocketHandler(io, database);
