@@ -97,7 +97,7 @@ class ApiTasksController extends Controller {
                 newTask.writeRemotes(remoteData);
 
                 await newTask.save({
-                    transaction: t
+                    transaction: t, lock: true
                 });
 
                 return newTask;
@@ -148,7 +148,7 @@ class ApiTasksController extends Controller {
                         where: {
                             id: taskId
                         }
-                    }, { transaction: t });
+                    }, { transaction: t, lock: true });
                 }
 
                 return updatedTask;
@@ -184,7 +184,7 @@ class ApiTasksController extends Controller {
                     where: {
                         id: taskId
                     }
-                }), { transaction: t }
+                }), { transaction: t, lock: true }
             });
             if (!task) {
                 throw new ApiError('Could not delete task', 404);

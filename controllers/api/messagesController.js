@@ -136,7 +136,8 @@ class ApiMessagesController extends Controller {
                 newMessage.writeRemotes(remoteData);
 
                 await newMessage.save({
-                    transaction: t
+                    transaction: t, 
+                    lock: true
                 });
 
                 return newMessage;
@@ -186,7 +187,7 @@ class ApiMessagesController extends Controller {
                         where: {
                             id: id
                         }
-                    }, { transaction: t });
+                    }, { transaction: t, lock: true });
                 } else {
                     throw new ApiError('No message found to update', 404);
                 }
@@ -232,7 +233,7 @@ class ApiMessagesController extends Controller {
                         where: {
                             id: messageId
                         }
-                    }, { transaction: t });
+                    }, { transaction: t, lock: true });
                 } else {
                     throw new ApiError('No message found to update', 404);
                 }

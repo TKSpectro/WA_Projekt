@@ -101,7 +101,8 @@ class ApiUsersController extends Controller {
                 newUser.writeRemotes(remoteData);
 
                 await newUser.save({
-                    transaction: t
+                    transaction: t,
+                    lock: true
                 });
 
                 return newUser;
@@ -152,7 +153,7 @@ class ApiUsersController extends Controller {
                         where: {
                             id: userId
                         }
-                    }, { transaction: t });
+                    }, { transaction: t, lock: true });
                 }
 
                 return updatedUser;
@@ -205,7 +206,7 @@ class ApiUsersController extends Controller {
                         where: {
                             id: userId
                         }
-                    }, { transaction: t });
+                    }, { transaction: t, lock: true });
                 }
 
                 return updatedUser;
@@ -285,7 +286,8 @@ class ApiUsersController extends Controller {
                 let newUser = self.db.User.build();
                 newUser.writeRemotes(remoteData);
                 await newUser.save({
-                    transaction: t
+                    transaction: t, 
+                    lock: true
                 });
 
                 return newUser;

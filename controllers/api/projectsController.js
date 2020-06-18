@@ -104,7 +104,7 @@ class ApiProjectsController extends Controller {
                 newProject.writeRemotes(remoteData);
 
                 await newProject.save({
-                    transaction: t
+                    transaction: t, lock: true
                 });
 
                 return newProject;
@@ -152,7 +152,7 @@ class ApiProjectsController extends Controller {
                         where: {
                             id: projectId
                         }
-                    }, { transaction: t });
+                    }, { transaction: t, lock: true });
                 }
 
                 return updatedProject;
@@ -187,7 +187,7 @@ class ApiProjectsController extends Controller {
                     where: {
                         id: projectId
                     }
-                }), { transaction: t }
+                }), { transaction: t, lock: true }
             });
             if (project !== null) {
                 throw new ApiError('Project could not be deleted', 404);
