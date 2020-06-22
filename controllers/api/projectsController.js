@@ -187,9 +187,11 @@ class ApiProjectsController extends Controller {
                     where: {
                         id: projectId
                     }
-                }), { transaction: t, lock: true }
+                }, { transaction: t, lock: true });
+
+                return project;
             });
-            if (project !== null) {
+            if (project === 0) {
                 throw new ApiError('Project could not be deleted', 404);
             }
         } catch (err) {
