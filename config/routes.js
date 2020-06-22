@@ -28,8 +28,8 @@ let routes = {
             { path: '/api/signup', action: 'signup', method: 'POST' },
             { path: '/api/signout', action: 'signout', method: 'GET' },
             { path: '/api/users', action: 'create', method: 'POST' },
-            { path: '/api/users/:id/update', action: 'update', method: 'POST' },
-            { path: '/api/users/:id/delete', action: 'delete', method: 'GET' },
+            { path: '/api/users/:id', action: 'update', method: 'PUT' },
+            { path: '/api/users/:id', action: 'delete', method: 'DELETE' },
             { path: '/api/users/:id', action: 'show', method: 'GET' }
         ]
     },
@@ -39,8 +39,8 @@ let routes = {
             { path: '/api/tasks', action: 'index', method: 'GET' },
             { path: '/api/tasks', action: 'create', method: 'POST' },
             { path: '/api/tasks/:id', action: 'show', method: 'GET' },
-            { path: '/api/tasks/:id/update', action: 'update', method: 'POST' },
-            { path: '/api/tasks/:id/delete', action: 'delete', method: 'POST' }
+            { path: '/api/tasks/:id', action: 'update', method: 'PUT' },
+            { path: '/api/tasks/:id', action: 'delete', method: 'DELETE' }
         ]
     },
     'api/messages': {
@@ -49,8 +49,8 @@ let routes = {
             { path: '/api/messages', action: 'index', method: 'GET' },
             { path: '/api/messages', action: 'create', method: 'POST' },
             { path: '/api/messages/:id', action: 'show', method: 'GET' },
-            { path: '/api/messages/:id/update', action: 'update', method: 'POST' },
-            { path: '/api/messages/:id/delete', action: 'delete', method: 'GET' }
+            { path: '/api/messages/:id', action: 'update', method: 'PUT' },
+            { path: '/api/messages/:id', action: 'delete', method: 'DELETE' }
         ]
     },
     'api/projects': {
@@ -59,11 +59,10 @@ let routes = {
             { path: '/api/projects', action: 'index', method: 'GET' },
             { path: '/api/projects', action: 'create', method: 'POST' },
             { path: '/api/projects/:id', action: 'show', method: 'GET' },
-            { path: '/api/projects/:id/update', action: 'update', method: 'POST' },
-            { path: '/api/projects/:id/delete', action: 'delete', method: 'GET' }
+            { path: '/api/projects/:id', action: 'update', method: 'PUT' },
+            { path: '/api/projects/:id', action: 'delete', method: 'DELETE' }
         ]
     },
-
 }
 
 module.exports = routes;
