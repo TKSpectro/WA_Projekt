@@ -4,7 +4,7 @@
  */
 
 const Controller = require('../mainController.js')
-
+const ApiError = require('../../core/error.js');
 class ApiTasksController extends Controller {
 
     constructor(...args) {
@@ -184,9 +184,11 @@ class ApiTasksController extends Controller {
                     where: {
                         id: taskId
                     }
-                }), { transaction: t, lock: true }
+                }, { transaction: t, lock: true })
+
+                return task;
             });
-            if (!task) {
+            if (task === 0) {
                 throw new ApiError('Could not delete task', 404);
             }
         } catch (err) {
