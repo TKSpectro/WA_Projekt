@@ -122,6 +122,8 @@ class ApiProjectsController extends Controller {
         } else {
             self.render({
                 project: project
+            },{
+                statusCode: 201
             });
         }
     }
@@ -169,6 +171,8 @@ class ApiProjectsController extends Controller {
         } else {
             self.render({
                 project: project
+            },{
+                statusCode: 202
             });
         }
     }
@@ -201,8 +205,8 @@ class ApiProjectsController extends Controller {
         if (error) {
             self.handleError(error);
         } else {
-            self.render({
-                project: 'deleted'
+            self.render({},{
+                statusCode: 204
             });
         }
     }

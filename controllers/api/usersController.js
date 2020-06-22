@@ -119,6 +119,8 @@ class ApiUsersController extends Controller {
         } else {
             self.render({
                 user: user
+            },{
+                statusCode: 201
             });
         }
     }
@@ -170,6 +172,8 @@ class ApiUsersController extends Controller {
         } else {
             self.render({
                 user: user
+            },{
+                statusCode: 202
             });
         }
     }
@@ -223,6 +227,8 @@ class ApiUsersController extends Controller {
         } else {
             self.render({
                 user: 'deleted'
+            },{
+                statusCode: 204
             });
         }
     }

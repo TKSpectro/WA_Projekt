@@ -114,6 +114,8 @@ class ApiTasksController extends Controller {
         } else {
             self.render({
                 task: task
+            },{
+                statusCode: 201
             });
         }
     }
@@ -165,6 +167,8 @@ class ApiTasksController extends Controller {
         } else {
             self.render({
                 task: task
+            },{
+                statusCode: 202
             });
         }
     }
@@ -198,8 +202,8 @@ class ApiTasksController extends Controller {
         if (error) {
             self.handleError(error);
         } else {
-            self.render({
-                task: 'deleted'
+            self.render({},{
+                statusCode: 204
             });
         }
     }
