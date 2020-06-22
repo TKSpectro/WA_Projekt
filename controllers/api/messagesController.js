@@ -136,7 +136,7 @@ class ApiMessagesController extends Controller {
                 newMessage.writeRemotes(remoteData);
 
                 await newMessage.save({
-                    transaction: t, 
+                    transaction: t,
                     lock: true
                 });
 
@@ -151,6 +151,8 @@ class ApiMessagesController extends Controller {
         } else {
             self.render({
                 message: message
+            },{
+                statusCode: 201
             });
         }
     }
@@ -204,6 +206,8 @@ class ApiMessagesController extends Controller {
         } else {
             self.render({
                 message: message
+            }, {
+                statusCode: 202
             });
         }
     }
@@ -248,8 +252,8 @@ class ApiMessagesController extends Controller {
         if (error) {
             self.handleError(error);
         } else {
-            self.render({
-                message: message
+            self.render({}, {
+                statusCode: 204
             });
         }
     }
