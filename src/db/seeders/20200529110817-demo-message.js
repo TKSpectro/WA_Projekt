@@ -20,8 +20,25 @@ module.exports = {
             createdAt: new Date(),
             updatedAt: new Date(),
         },{
-            text: 'Welcome Back Bilal',
-            fromId: 1,
+            text: 'Hi @all from Root',
+            fromId: 3,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },{
+            text: 'Hi @all from Boss',
+            fromId: 4,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },{
+            text: 'Hi Root',
+            fromId: 3,
+            toId: 4,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },{
+            text: 'Hi Boss',
+            fromId: 4,
+            toId: 3,
             createdAt: new Date(),
             updatedAt: new Date(),
         }], {});

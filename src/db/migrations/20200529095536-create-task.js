@@ -34,7 +34,7 @@ module.exports = {
           },
           key: 'id'
         },
-        allowNull: false
+        allowNull: true
       },
       projectId: {
         type: Sequelize.INTEGER,
