@@ -184,7 +184,7 @@ class ApiUsersController extends Controller {
             }
         } else {
             self.render({}, {
-                statusCode: 401
+                statusCode: 403
             });
         }
     }
@@ -249,14 +249,13 @@ class ApiUsersController extends Controller {
             }
         } else {
             self.render({}, {
-                statusCode: 401
+                statusCode: 403
             });
         }
     }
 
     async actionSignin() {
         const self = this;
-
         let remoteData = self.param('user') || {};
 
         let user = null;
@@ -269,7 +268,10 @@ class ApiUsersController extends Controller {
                 }
             });
             if (!user || !Passport.comparePassword(remoteData.password, user.passwordHash)) {
-                throw new ApiError('Could not find user with this email or password', 404);
+                throw new ApiError('Could not find user with this email or password.', 404);
+            }
+            if (Helper.checkPermission(Helper.isUserDeleted, user.permission)) {
+                throw new ApiError('Could not login. Account is marked as deleted.', 403);
             }
         } catch (err) {
             error = err;
