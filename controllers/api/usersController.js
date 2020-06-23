@@ -6,6 +6,7 @@
 const Controller = require('../mainController.js');
 const Passport = require('../../core/passport.js');
 const ApiError = require('../../core/error.js');
+const Helper = require('./helper.js');
 
 class ApiUsersController extends Controller {
 
@@ -119,7 +120,7 @@ class ApiUsersController extends Controller {
         } else {
             self.render({
                 user: user
-            },{
+            }, {
                 statusCode: 201
             });
         }
@@ -128,52 +129,62 @@ class ApiUsersController extends Controller {
     async actionUpdate() {
         const self = this;
 
-        //user should be a object with all the values (new and old)
-        let remoteData = self.param('user');
-        let userId = self.param('id');
+        //check if the logged in person has the permission to update accounts (admin) or owns the account which will be updated
+        if (Helper.checkPermission(Helper.canUpdateUser, self.req.user.permission)
+            || (self.param('user').email === self.req.user.email)) {
 
-        let user = null;
-        let error = null;
+            //is param.user == self.req.user.id
+            //user should be a object with all the values (new and old)
+            let remoteData = self.param('user');
+            let userId = self.param('id');
 
-        //get the old user
-        try {
-            user = await self.db.sequelize.transaction(async (t) => {
-                let updatedUser = await self.db.User.findOne({
-                    where: {
-                        id: userId
-                    }
-                }, { transaction: t })
-                if (updatedUser) {
-                    await updatedUser.update({
-                        firstName: remoteData['firstName'],
-                        lastName: remoteData['lastName'],
-                        email: remoteData['email'],
-                        passwordHash: remoteData['passwordHash'],
-                        permission: remoteData['permission'],
-                        updatedAt: new Date()
-                    }, {
+            let user = null;
+            let error = null;
+
+            //get the old user
+            try {
+                user = await self.db.sequelize.transaction(async (t) => {
+                    let updatedUser = await self.db.User.findOne({
                         where: {
                             id: userId
                         }
-                    }, { transaction: t, lock: true });
+                    }, { transaction: t })
+                    if (updatedUser) {
+                        await updatedUser.update({
+                            firstName: remoteData['firstName'],
+                            lastName: remoteData['lastName'],
+                            email: remoteData['email'],
+                            passwordHash: remoteData['passwordHash'],
+                            permission: remoteData['permission'],
+                            updatedAt: new Date()
+                        }, {
+                            where: {
+                                id: userId
+                            }
+                        }, { transaction: t, lock: true });
+                    }
+
+                    return updatedUser;
+                });
+                if (!user) {
+                    throw new ApiError('User could not be updated', 404);
                 }
-
-                return updatedUser;
-            });
-            if (!user) {
-                throw new ApiError('User could not be updated', 404);
+            } catch (err) {
+                error = err;
             }
-        } catch (err) {
-            error = err;
-        }
 
-        if (error) {
-            self.handleError(error);
+            if (error) {
+                self.handleError(error);
+            } else {
+                self.render({
+                    user: user
+                }, {
+                    statusCode: 202
+                });
+            }
         } else {
-            self.render({
-                user: user
-            },{
-                statusCode: 202
+            self.render({}, {
+                statusCode: 401
             });
         }
     }
@@ -227,7 +238,7 @@ class ApiUsersController extends Controller {
         } else {
             self.render({
                 user: 'deleted'
-            },{
+            }, {
                 statusCode: 204
             });
         }
@@ -292,7 +303,7 @@ class ApiUsersController extends Controller {
                 let newUser = self.db.User.build();
                 newUser.writeRemotes(remoteData);
                 await newUser.save({
-                    transaction: t, 
+                    transaction: t,
                     lock: true
                 });
 
