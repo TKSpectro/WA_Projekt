@@ -131,9 +131,8 @@ class ApiUsersController extends Controller {
 
         //check if the logged in person has the permission to update accounts (admin) or owns the account which will be updated
         if (Helper.checkPermission(Helper.canUpdateUser, self.req.user.permission)
-            || (self.param('user').email === self.req.user.email)) {
+            || (self.param('id') === self.req.user.id)) {
 
-            //is param.user == self.req.user.id
             //user should be a object with all the values (new and old)
             let remoteData = self.param('user');
             let userId = self.param('id');
@@ -194,7 +193,7 @@ class ApiUsersController extends Controller {
 
         //check if the logged in person has the permission to delete accounts (admin) or owns the account which will be deleted
         if (Helper.checkPermission(Helper.canDeleteUser, self.req.user.permission)
-            || (self.param('user').email === self.req.user.email)) {
+            || (self.param('id') === self.req.user.id)) {
             // user wont actually be deleted but will get anonymized
             // firstName -> 'deleted'
             // lastName -> 'deleted'
