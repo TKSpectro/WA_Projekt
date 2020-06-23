@@ -190,56 +190,66 @@ class ApiUsersController extends Controller {
     }
 
     async actionDelete() {
-        // user wont actually be deleted but will get anonymized
-        // firstName -> 'deleted'
-        // lastName -> 'deleted'
-        // email -> 'deleted'
-        // password -> 'deleted'
         const self = this;
-        let userId = self.param('id');
 
-        let user = null;
-        let error = null;
+        //check if the logged in person has the permission to delete accounts (admin) or owns the account which will be deleted
+        if (Helper.checkPermission(Helper.canDeleteUser, self.req.user.permission)
+            || (self.param('user').email === self.req.user.email)) {
+            // user wont actually be deleted but will get anonymized
+            // firstName -> 'deleted'
+            // lastName -> 'deleted'
+            // email -> 'deleted'
+            // password -> 'deleted'
 
-        //get the old user
-        try {
-            user = await self.db.sequelize.transaction(async (t) => {
-                let updatedUser = await self.db.User.findOne({
-                    where: {
-                        id: userId
-                    }
-                }, { transaction: t })
-                if (updatedUser) {
-                    await updatedUser.update({
-                        firstName: 'deleted',
-                        lastName: 'deleted',
-                        email: 'deleted',
-                        passwordHash: 'deleted',
-                        permission: 0,
-                        updatedAt: new Date()
-                    }, {
+            let userId = self.param('id');
+
+            let user = null;
+            let error = null;
+
+            //get the old user
+            try {
+                user = await self.db.sequelize.transaction(async (t) => {
+                    let updatedUser = await self.db.User.findOne({
                         where: {
                             id: userId
                         }
-                    }, { transaction: t, lock: true });
+                    }, { transaction: t })
+                    if (updatedUser) {
+                        await updatedUser.update({
+                            firstName: 'deleted',
+                            lastName: 'deleted',
+                            email: 'deleted',
+                            passwordHash: 'deleted',
+                            permission: 1,
+                            updatedAt: new Date()
+                        }, {
+                            where: {
+                                id: userId
+                            }
+                        }, { transaction: t, lock: true });
+                    }
+
+                    return updatedUser;
+                });
+                if (!user) {
+                    throw new ApiError('User could not be deleted', 404);
                 }
-
-                return updatedUser;
-            });
-            if (!user) {
-                throw new ApiError('User could not be deleted', 404);
+            } catch (err) {
+                error = err;
             }
-        } catch (err) {
-            error = err;
-        }
 
-        if (error) {
-            self.handleError(error);
+            if (error) {
+                self.handleError(error);
+            } else {
+                self.render({
+                    user: 'deleted'
+                }, {
+                    statusCode: 204
+                });
+            }
         } else {
-            self.render({
-                user: 'deleted'
-            }, {
-                statusCode: 204
+            self.render({}, {
+                statusCode: 401
             });
         }
     }
