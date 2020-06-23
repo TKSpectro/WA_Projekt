@@ -5,6 +5,7 @@
 
 const Controller = require('../mainController.js');
 const ApiError = require('../../core/error.js');
+const Helper = require('./helper.js');
 
 class ApiProjectsController extends Controller {
 
@@ -14,7 +15,7 @@ class ApiProjectsController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
-        self.before(['*'], function(next) {
+        self.before(['*'], function (next) {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -92,38 +93,44 @@ class ApiProjectsController extends Controller {
     async actionCreate() {
         const self = this;
 
-        let remoteData = self.param('project');
+        //check if the logged in person has the permission to create projects
+        if (Helper.checkPermission(Helper.canCreateProject, self.req.user.permission)) {
+            let remoteData = self.param('project');
 
+            let project = null;
+            let error = null;
 
-        let project = null;
-        let error = null;
+            try {
+                project = await self.db.sequelize.transaction(async (t) => {
+                    let newProject = self.db.Project.build();
+                    newProject.writeRemotes(remoteData);
 
-        try {
-            project = await self.db.sequelize.transaction(async(t) => {
-                let newProject = self.db.Project.build();
-                newProject.writeRemotes(remoteData);
+                    await newProject.save({
+                        transaction: t, lock: true
+                    });
 
-                await newProject.save({
-                    transaction: t, lock: true
+                    return newProject;
                 });
 
-                return newProject;
-            });
-
-            if (!project) {
-                throw new ApiError('Could not create the project', 404);
+                if (!project) {
+                    throw new ApiError('Could not create the project', 404);
+                }
+            } catch (err) {
+                error = err;
             }
-        } catch (err) {
-            error = err;
-        }
 
-        if (error) {
-            self.handleError(error);
+            if (error) {
+                self.handleError(error);
+            } else {
+                self.render({
+                    project: project
+                }, {
+                    statusCode: 201
+                });
+            }
         } else {
-            self.render({
-                project: project
-            },{
-                statusCode: 201
+            self.render({}, {
+                statusCode: 403
             });
         }
     }
@@ -131,48 +138,55 @@ class ApiProjectsController extends Controller {
     async actionUpdate() {
         const self = this;
 
-        //newProject should be a object with all the values (new and old)
-        let remoteData = self.param('project');
-        let projectId = self.param('id');
+        //check if the logged in person has the permission to update projects
+        if (Helper.checkPermission(Helper.canUpdateProject, self.req.user.permission)) {
+            //newProject should be a object with all the values (new and old)
+            let remoteData = self.param('project');
+            let projectId = self.param('id');
 
-        let project = null;
-        let error = null;
+            let project = null;
+            let error = null;
 
-        //get the old Project
-        try {
-            project = await self.db.sequelize.transaction(async(t) => {
-                let updatedProject = await self.db.Project.findOne({
-                    where: {
-                        id: projectId
-                    }
-                }, { transaction: t })
-                if (updatedProject) {
-                    await updatedProject.update({
-                        name: remoteData['name'],
-                        updatedAt: new Date()
-                    }, {
+            //get the old Project
+            try {
+                project = await self.db.sequelize.transaction(async (t) => {
+                    let updatedProject = await self.db.Project.findOne({
                         where: {
                             id: projectId
                         }
-                    }, { transaction: t, lock: true });
+                    }, { transaction: t })
+                    if (updatedProject) {
+                        await updatedProject.update({
+                            name: remoteData['name'],
+                            updatedAt: new Date()
+                        }, {
+                            where: {
+                                id: projectId
+                            }
+                        }, { transaction: t, lock: true });
+                    }
+
+                    return updatedProject;
+                });
+                if (!project) {
+                    throw new ApiError('Project could not be updated', 404);
                 }
-
-                return updatedProject;
-            });
-            if (!project) {
-                throw new ApiError('Project could not be updated', 404);
+            } catch (err) {
+                error = err;
             }
-        } catch (err) {
-            error = err;
-        }
 
-        if (error) {
-            self.handleError(error);
+            if (error) {
+                self.handleError(error);
+            } else {
+                self.render({
+                    project: project
+                }, {
+                    statusCode: 202
+                });
+            }
         } else {
-            self.render({
-                project: project
-            },{
-                statusCode: 202
+            self.render({}, {
+                statusCode: 403
             });
         }
     }
@@ -180,33 +194,40 @@ class ApiProjectsController extends Controller {
     async actionDelete() {
         const self = this;
 
-        let projectId = self.param('id');
+        //check if the logged in person has the permission to delete projects
+        if (Helper.checkPermission(Helper.canDeleteProject, self.req.user.permission)) {
+            let projectId = self.param('id');
 
-        let project = null;
-        let error = null;
+            let project = null;
+            let error = null;
 
-        try {
-            project = await self.db.sequelize.transaction(async(t) => {
-                project = await self.db.Project.destroy({
-                    where: {
-                        id: projectId
-                    }
-                }, { transaction: t, lock: true });
+            try {
+                project = await self.db.sequelize.transaction(async (t) => {
+                    project = await self.db.Project.destroy({
+                        where: {
+                            id: projectId
+                        }
+                    }, { transaction: t, lock: true });
 
-                return project;
-            });
-            if (project === 0) {
-                throw new ApiError('Project could not be deleted', 404);
+                    return project;
+                });
+                if (project === 0) {
+                    throw new ApiError('Project could not be deleted', 404);
+                }
+            } catch (err) {
+                error = err;
             }
-        } catch (err) {
-            error = err;
-        }
 
-        if (error) {
-            self.handleError(error);
+            if (error) {
+                self.handleError(error);
+            } else {
+                self.render({}, {
+                    statusCode: 204
+                });
+            }
         } else {
-            self.render({},{
-                statusCode: 204
+            self.render({}, {
+                statusCode: 403
             });
         }
     }
