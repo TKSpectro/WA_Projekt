@@ -1,7 +1,7 @@
 /**
  * @api {get} /projects Show projects
- * @apiName GetProjects
- * @apiGroup Project
+ * @apiName getProjects
+ * @apiGroup Projects
  *
  * @apiSuccess {Object[]} projects                  Array of projects.
  *
@@ -57,57 +57,59 @@
  */
 
 /**
-* @api {get} /project/:id Show project with id
-* @apiName GetProject
-* @apiGroup Project
-*
-* @apiSuccess {Object} project                One project.
-*
-* @apiSuccess {Number} project.id                 Users unique id.
-* @apiSuccess {String} project.name               Name of the project.
-* @apiSuccess {String} project.createdAt          Date of creation.
-* @apiSuccess {String} project.updatedAt          Date of last update.
-*
-* @apiSuccess {Object[]} project.tasks                Tasks which are in the project
-* @apiSuccess {Object}   project.tasks.task           Task in the tasks array
-* @apiSuccess {Number}   project.tasks.task.id        Task id.
-* @apiSuccess {String}   project.tasks.task.name      Task name.
-* @apiSuccess {String}   project.tasks.task.text      Task text.
-*
-* @apiSuccessExample Success-Response:
-*  HTTP/1.1 200 OK
-*  {
-*      "project": {
-*          "id": 1,
-*          "name": "First Project",
-*          "createdAt": "2020-06-18T13:07:03.000Z",
-*          "updatedAt": "2020-06-18T13:07:03.000Z",
-*          "tasks": [
-*              {
-*                  "id": 4,
-*                  "name": "First Task",
-*                  "text": "This is the first Task"
-*              },
-*              {
-*                  "id": 5,
-*                  "name": "Second Task",
-*                  "text": "This is the second Task"
-*              },
-*              {
-*                  "id": 6,
-*                  "name": "Third Task",
-*                  "text": "This is the thirdTask"
-*              }
-*          ]
-*      }
-*  }
+ * @api {get} /projects/:id Show project with id
+ * @apiName getProject
+ * @apiGroup Projects
+ * 
+ * @apiSuccess {Object} project                One project.
+ *
+ * @apiSuccess {Number} project.id                 Users unique id.
+ * @apiSuccess {String} project.name               Name of the project.
+ * @apiSuccess {String} project.createdAt          Date of creation.
+ * @apiSuccess {String} project.updatedAt          Date of last update.
+ *
+ * @apiSuccess {Object[]} project.tasks                Tasks which are in the project
+ * @apiSuccess {Object}   project.tasks.task           Task in the tasks array
+ * @apiSuccess {Number}   project.tasks.task.id        Task id.
+ * @apiSuccess {String}   project.tasks.task.name      Task name.
+ * @apiSuccess {String}   project.tasks.task.text      Task text.
+ *
+ * @apiSuccessExample Success-Response:
+ *  HTTP/1.1 200 OK
+ *  {
+ *      "project": {
+ *          "id": 1,
+ *          "name": "First Project",
+ *          "createdAt": "2020-06-18T13:07:03.000Z",
+ *          "updatedAt": "2020-06-18T13:07:03.000Z",
+ *          "tasks": [
+ *              {
+ *                  "id": 4,
+ *                  "name": "First Task",
+ *                  "text": "This is the first Task"
+ *              },
+ *              {
+ *                  "id": 5,
+ *                  "name": "Second Task",
+ *                  "text": "This is the second Task"
+ *              },
+ *              {
+ *                  "id": 6,
+ *                  "name": "Third Task",
+ *                  "text": "This is the thirdTask"
+ *              }
+ *          ]
+ *      }
+ *  }
 */
 
 /**
  * @api {post} /projects Create project
- * @apiName CreateProject
- * @apiGroup Project
+ * @apiName createProject
+ * @apiGroup Projects
  *
+ * @apiPermission canCreateProject
+ * 
  * @apiExample Usage:
  *  endpoint: http://localhost/api/projects
  *
@@ -138,12 +140,14 @@
  */
 
 /**
- * @api {post} /projects Update project
+ * @api {put} /projects/:id Update project with id
  * @apiName UpdateProject
- * @apiGroup Project
+ * @apiGroup Projects
  *
+ * @apiPermission canUpdateProject
+ * 
  * @apiExample Usage:
- *  endpoint: http://localhost/api/projects/:id/update
+ *  endpoint: http://localhost/api/projects/:id
  *
  *  json-body:
  *  {
@@ -172,13 +176,11 @@
  */
 
 /**
- * @api {get} /projects/:id/delete Delete project
+ * @api {delete} /projects/:id Delete project with id
  * @apiName DeleteProject
- * @apiGroup Project
+ * @apiGroup Projects
+ * 
+ * @apiPermission canDeleteProject
  *
- * @apiSuccessExample Success-Response:
- *  HTTP/1.1 200 OK
- *  {
- *      "project": "deleted"
- *  }
+ * @apiSuccess 204 Project was deleted
  */
