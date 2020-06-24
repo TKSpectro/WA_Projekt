@@ -1,30 +1,32 @@
 /**
- * @api {get} /users Show all users
- * @apiName GetUsers
- * @apiGroup User
+ * @api {get} /users Get all users
+ * @apiName GetAllUsers
+ * @apiGroup Users
  *
  * @apiSuccess {Object[]} users             Array of users.
  *
  * @apiSuccess {Object} users.user                One user from the array.
  *
- * @apiSuccess {Number} users.user.id                  Users unique id.
- * @apiSuccess {String} users.user.firstName           Users firstname.
- * @apiSuccess {String} users.user.lastName            Users lastname.
- * @apiSuccess {String} users.user.email               Users email.
- * @apiSuccess {String} users.user.createdAt           Date of creation.
- * @apiSuccess {String} users.user.updatedAt           Date of last update.
- * @apiSuccess {Object[]} users.user.taskCreated       Array of tasks which the user created.
- * @apiSuccess {Object[]} users.user.tasksAssignedTo   Array of tasks which are assigned to the user.
+ * @apiSuccess {Number}     users.user.id               Users unique id.
+ * @apiSuccess {String}     users.user.firstName        Users firstname.
+ * @apiSuccess {String}     users.user.lastName         Users lastname.
+ * @apiSuccess {String}     users.user.email            Users email.
+ * @apiSuccess {String}     users.user.createdAt        Date of creation.
+ * @apiSuccess {String}     users.user.updatedAt        Date of last update.
+ * @apiSuccess {Object[]}   users.user.taskCreated      Array of tasks which the user created.
+ * @apiSuccess {Object[]}   users.user.tasksAssignedTo  Array of tasks which are assigned to the user.
  *
+ * @apiError 404: UsersNotFound No users were found.
+ * 
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
  *  {
  *      "users": [
  *          {
  *              "id": 1,
- *              "firstName": "Tom",
- *              "lastName": "Käppler",
- *              "email": "t@mail.com",
+ *              "firstName": "firstName",
+ *              "lastName": "lastName",
+ *              "email": "email@mail.com",
  *              "createdAt": "2020-06-16T16:00:04.000Z",
  *              "updatedAt": "2020-06-16T16:00:04.000Z",
  *              "taskCreated": [
@@ -44,9 +46,9 @@
  *          },
  *          {
  *              "id": 2,
- *              "firstName": "Bilal",
- *              "lastName": "Alnaani",
- *              "email": "b@mail.com",
+ *              "firstName": "firstName2",
+ *              "lastName": "lastName2",
+ *              "email": "email2@mail.com",
  *              "createdAt": "2020-06-16T16:00:04.000Z",
  *              "updatedAt": "2020-06-16T16:00:04.000Z",
  *              "taskCreated": [],
@@ -57,33 +59,33 @@
  */
 
 /**
- * @api {get} /users/:id Show user with the id
- * @apiName GetUser
- * @apiGroup User
+ * @api {get} /users/:id Get user with id
+ * @apiName GetUserWithId
+ * @apiGroup Users
  *
  * @ApiParam {Number} id Users unique id
  *
  * @apiSuccess {Object} user                One user from the array.
  *
- * @apiSuccess {Number} user.id                  Users unique id.
- * @apiSuccess {String} user.firstName           Users firstname.
- * @apiSuccess {String} user.lastName            Users lastname.
- * @apiSuccess {String} user.email               Users email.
- * @apiSuccess {String} user.createdAt           Date of creation.
- * @apiSuccess {String} user.updatedAt           Date of last update.
- * @apiSuccess {Object[]} user.taskCreated       Array of tasks which the user created.
- * @apiSuccess {Object[]} user.tasksAssignedTo   Array of tasks which are assigned to the user.
+ * @apiSuccess {Number}     user.id                 Users unique id.
+ * @apiSuccess {String}     user.firstName          Users firstname.
+ * @apiSuccess {String}     user.lastName           Users lastname.
+ * @apiSuccess {String}     user.email              Users email.
+ * @apiSuccess {String}     user.createdAt          Date of creation.
+ * @apiSuccess {String}     user.updatedAt          Date of last update.
+ * @apiSuccess {Object[]}   user.taskCreated        Array of tasks which the user created.
+ * @apiSuccess {Object[]}   user.tasksAssignedTo    Array of tasks which are assigned to the user.
  *
- * @apiError 404:UserNotFound The User with the <code>id</code> was not found.
+ * @apiError 404: UserNotFound The User with the <code>id</code> was not found.
  *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
  *  {
  *      "user": {
  *          "id": 1,
- *          "firstName": "Tom",
- *          "lastName": "Käppler",
- *          "email": "t@mail.com",
+ *          "firstName": "firstName",
+ *          "lastName": "lastName",
+ *          "email": "email@mail.com",
  *          "createdAt": "2020-06-16T16:00:04.000Z",
  *          "updatedAt": "2020-06-16T16:00:04.000Z",
  *          "taskCreated": [
@@ -106,9 +108,10 @@
  */
 
 /**
- * @api {post} /users Create a user
+ * @api {post} /users Create user
+ * @apiDescription This should not be used (just here for the crud) -> Use api/users/signup instead
  * @apiName CreateUser
- * @apiGroup User
+ * @apiGroup Users
  *
  * @apiExample Usage:
  *      endpoint: http://localhost/api/users
@@ -116,36 +119,36 @@
  *      json-body:
  *      {
  *          "user": {
- *              "firstName": "Post",
- *              "lastName": "Man",
- *              "email": "post@mail.com",
- *              "passwordHash": "$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2",
+ *              "firstName": "firstName",
+ *              "lastName": "lastName",
+ *              "email": "email@mail.com",
+ *              "passwordHash": "alreadyHashed",
  *              "permission": 0
  *          }
  *      }
  *
  * @apiSuccess {Object} user                One user from the array.
  *
- * @apiSuccess {Number} user.permission          Users permission.
- * @apiSuccess {Number} user.id                  Users unique id.
- * @apiSuccess {String} user.firstName           Users firstname.
- * @apiSuccess {String} user.lastName            Users lastname.
- * @apiSuccess {String} user.email               Users email.
- * @apiSuccess {String} user.createdAt           Date of creation.
- * @apiSuccess {String} user.updatedAt           Date of last update.
- * @apiSuccess {Object[]} user.taskCreated       Array of tasks which the user created.
- * @apiSuccess {Object[]} user.tasksAssignedTo   Array of tasks which are assigned to the user.
+ * @apiSuccess {Number}     user.permission         Users permission.
+ * @apiSuccess {Number}     user.id                 Users unique id.
+ * @apiSuccess {String}     user.firstName          Users firstname.
+ * @apiSuccess {String}     user.lastName           Users lastname.
+ * @apiSuccess {String}     user.email              Users email.
+ * @apiSuccess {String}     user.createdAt          Date of creation.
+ * @apiSuccess {String}     user.updatedAt          Date of last update.
+ * @apiSuccess {Object[]}   user.taskCreated        Array of tasks which the user created.
+ * @apiSuccess {Object[]}   user.tasksAssignedTo    Array of tasks which are assigned to the user.
  *
  * @apiError 404:UserNotFound The User with the <code>id</code> was not found.
  *
  * @apiSuccessExample Success-Response:
- *  HTTP/1.1 200 OK
+ *  HTTP/1.1 201 OK
  *  {
  *      "user": {
  *          "id": 1,
- *          "firstName": "Tom",
- *          "lastName": "Käppler",
- *          "email": "t@mail.com",
+ *          "firstName": "firstName",
+ *          "lastName": "lastName",
+ *          "email": "email@mail.com",
  *          "createdAt": "2020-06-16T16:00:04.000Z",
  *          "updatedAt": "2020-06-16T16:00:04.000Z"
  *      }
@@ -154,45 +157,48 @@
  */
 
 /**
- * @api {post} /users/:id/update Update user with id
- * @apiName UpdateUser
- * @apiGroup User
+ * @api {put} /users/:id Update user with id
+ * @apiName UpdateUserWithId
+ * @apiGroup Users
  *
+ * @apiPermission canUpdateUser
+ * 
  * @apiExample Usage:
- *      endpoint: http://localhost/api/users/:id/update
+ *      endpoint: http://localhost/api/users/:id
  *
  *      json-body:
  *      {
  *          "user": {
- *              "firstName": "Post",
- *              "lastName": "Man",
- *              "email": "post@mail.com",
- *              "passwordHash": "$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2",
+ *              "firstName": "firstName",
+ *              "lastName": "lastName",
+ *              "email": "email@mail.com",
+ *              "passwordHash": "newPasswordHash",
  *              "permission": 0
  *          }
  *      }
  *
  * @apiSuccess {Object} user                One user from the array.
  *
- * @apiSuccess {Number} user.id                  Users unique id.
- * @apiSuccess {String} user.firstName           Users firstname.
- * @apiSuccess {String} user.lastName            Users lastname.
- * @apiSuccess {String} user.email               Users email.
- * @apiSuccess {Number} user.permission          Users permission.
- * @apiSuccess {String} user.createdAt           Date of creation.
- * @apiSuccess {String} user.updatedAt           Date of last update.
+ * @apiSuccess {Number} user.id             Users unique id.
+ * @apiSuccess {String} user.firstName      Users firstname.
+ * @apiSuccess {String} user.lastName       Users lastname.
+ * @apiSuccess {String} user.email          Users email.
+ * @apiSuccess {Number} user.permissio      Users permission.
+ * @apiSuccess {String} user.createdAt      Date of creation.
+ * @apiSuccess {String} user.updatedAt      Date of last update.
  *
+ * @apiError 403:Forbidden Logged in user does not have the permission to update users.
  * @apiError 404:UserCouldNotBeUpdated The User with the <code>id</code> could not be updated.
  *
  * @apiSuccessExample Success-Response:
- *  HTTP/1.1 200 OK
+ *  HTTP/1.1 202 OK
  *  {
  *      "user": {
  *          "id": 1,
- *          "firstName": "Tom",
- *          "lastName": "Käppler",
- *          "email": "t@mail.com",
- *          "passwordHash": "hashedPassword"
+ *          "firstName": "firstName",
+ *          "lastName": "lastName",
+ *          "email": "email@mail.com",
+ *          "passwordHash": "newPasswordHash"
  *          "createdAt": "2020-06-16T16:00:04.000Z",
  *          "updatedAt": "2020-06-16T16:00:04.000Z",
  *      }
@@ -201,24 +207,23 @@
  */
 
 /**
- * @api {get} /users/:id/delete Delete user with id
+ * @api {delete} /users/:id Delete user with id
  * @apiName DeleteUser
- * @apiGroup User
+ * @apiGroup Users
  *
+ * @apiPermission canDeleteUser
+ * 
+ * @apiError 403:Forbidden Logged in user does not have the permission to delete users.
  * @apiError 404:UserCouldNotBeDeleted The User with the <code>id</code> could not be deleted.
  *
- * @apiSuccessExample Success-Response:
- *  HTTP/1.1 200 OK
- *  {
- *      user: "deleted"
- *  }
+ * @apiSuccess Success 204
  *
  */
 
 /**
- * @api {post} /sigin Sigin as a user
+ * @api {post} /sigin Sigin
  * @apiName Signin
- * @apiGroup User
+ * @apiGroup Users
  *
  * @apiExample Usage:
  *      endpoint: http://localhost/api/sigin
@@ -233,20 +238,21 @@
  *
  * @apiSuccess {String} token   jwt token for cookie.
  *
+ * @apiError 403:Forbidden Could not login. Account is marked as deleted.
  * @apiError 404:UserNotFound Could not find user with this email or password.
  *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
  *  {
- *      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTI0ODQwOTM2MzIsImV4cCI6MTU5MjQ5ODQ5MzYzMiwiaWQiOjF9.dZAceitU9zRepMZ9j1C0gqfrYD1T_3Ndxao_oZWqyEg"
+ *      "token": "jwtToken"
  *  }
  *
  */
 
 /**
- * @api {post} /sigup Sigup as a user
+ * @api {post} /sigup Sigup
  * @apiName Signup
- * @apiGroup User
+ * @apiGroup Users
  *
  * @apiExample Usage:
  *      endpoint: http://localhost/api/sigup
@@ -291,9 +297,9 @@
  */
 
 /**
- * @api {get} /signout Signout a user
+ * @api {get} /signout Signout
  * @apiName Signout
- * @apiGroup User
+ * @apiGroup Users
  *
  * @apiError 404:UserNotFound Could not be logged out.
  *
