@@ -4,7 +4,7 @@
  */
 
 const Controller = require('./mainController.js')
-
+const Helper = require('./api/helper.js');
 class PagesController extends Controller {
 
     constructor(...args) {
@@ -36,6 +36,12 @@ class PagesController extends Controller {
         self.js('index');
 
         self.db.User.findAll().then(users => {
+            //remove all deleted user from the list
+            for (let i = 0; i < users.length; ++i) {
+                if (Helper.checkPermission(Helper.isUserDeleted, users[i].permission)){
+                    users.splice(i, 1);
+                }
+            }
             self.render({
                 title: 'Index',
                 users: users,
