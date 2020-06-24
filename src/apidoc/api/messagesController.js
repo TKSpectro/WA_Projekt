@@ -3,7 +3,7 @@
  * @apiDescription Shows all public messages if no ?fromId is specified.
  *                 If it is then it will show all messages to or from the user with the fromId
  * @apiName GetMessages
- * @apiGroup Message
+ * @apiGroup Messages
  *
  * @apiSuccess {Object[]} messages                  Array of messages.
  *
@@ -79,7 +79,7 @@
 /**
  * @api {get} /messages/:id Show message with id
  * @apiName GetMessage
- * @apiGroup Message
+ * @apiGroup Messages
  *
  * @apiSuccess {Object} message                One message.
  *
@@ -125,9 +125,9 @@
  */
 
 /**
-* @api {post} /messages/ Create message
+* @api {post} /messages Create message
 * @apiName CreateMessage
-* @apiGroup Message
+* @apiGroup Messages
 *
 * @apiExample Usage:
 *  endpoint: http://localhost/api/messages
@@ -135,7 +135,7 @@
 *  json-body:
 *  {
 *      "message": {
-*          "text": "Hi from Postman",
+*          "text": "Hi from ApiDoc",
 *          "fromId": 1,
 *          "toId": 2
 *      }
@@ -151,7 +151,7 @@
 * @apiSuccess {String} message.updatedAt          Date of last update.
 *
 * @apiSuccessExample Success-Response:
-*  HTTP/1.1 200 OK
+*  HTTP/1.1 201 OK
 *	{
 *      "message": {
 *          "id": 6,
@@ -165,12 +165,12 @@
 */
 
 /**
- * @api {post} /messages/:id/update Update message
+ * @api {put} /messages/:id Update message
  * @apiName UpdateMessage
- * @apiGroup Message
+ * @apiGroup Messages
  *
  * @apiExample Usage:
- *  endpoint: http://localhost/api/messages/:id/update
+ *  endpoint: http://localhost/api/messages/:id
  *
  *  json-body:
  *  {
@@ -191,7 +191,7 @@
  * @apiSuccess {String} message.updatedAt          Date of last update.
  *
  * @apiSuccessExample Success-Response:
- *  HTTP/1.1 200 OK
+ *  HTTP/1.1 202 OK
  *	{
  *      "message": {
  *          "id": 6,
@@ -205,9 +205,9 @@
  */
 
 /**
-* @api {get} /messages/:id/delete Delete message
+* @api {delete} /messages/:id Delete message
 * @apiName DeleteMessage
-* @apiGroup Message
+* @apiGroup Messages
 *
 * @apiSuccess {Object} message                One message from the array.
 *
@@ -218,16 +218,5 @@
 * @apiSuccess {Number} message.fromId             Sender id.
 * @apiSuccess {Number} message.toId               Receiver id (can be null for public message).
 *
-* @apiSuccessExample Success-Response:
-*  HTTP/1.1 200 OK
-*	{
-*      "message": {
-*          "id": 6,
-*          "text": "deleted",
-*          "createdAt": "2020-06-18T13:54:21.513Z"
-*          "updatedAt": "2020-06-18T13:54:21.513Z",
-*          "fromId": 1,
-*          "toId": 2,
-*      }
-*  }
+* @apiSuccess 204 Message was deleted
 */
