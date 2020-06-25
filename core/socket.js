@@ -42,6 +42,7 @@ class SocketHandler {
         self.initEvents();
     }
 
+    // um zu überprüfen ob der Nutzer online ist
     findUserSocketById(id) {
         let socket = null;
         for (let key in this.sockets) {
@@ -68,7 +69,7 @@ class SocketHandler {
                 }
             });
 
-            socket.on('message', async (data) => {
+            socket.on('message', async(data) => {
                 //write incoming message to database
                 let message = self.db.Message.build();
                 message.writeRemotes(data);

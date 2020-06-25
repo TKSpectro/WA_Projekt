@@ -3,8 +3,9 @@
  * @version 1.0.0
  */
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
     grunt.initConfig({
+        // Reference to all Plugun, that we have
         pkg: grunt.file.readJSON('package.json'),
         less: {
             development: {
@@ -14,15 +15,14 @@ module.exports = function (grunt) {
                     ],
                     compress: true,
                     plugins: [
-                        new (require('less-plugin-autoprefix'))({
+                        new(require('less-plugin-autoprefix'))({
                             browsers: [
                                 'last 2 versions',
                                 'ie 9'
                             ]
                         })
                     ],
-                    banner:
-                        '/*!\n' +
+                    banner: '/*!\n' +
                         ' * Created By Bilal Alnaani, Tom Käppler\n' +
                         ' * @version 1.0.0\n' +
                         ' */\n',
@@ -37,8 +37,8 @@ module.exports = function (grunt) {
         uglify: {
             build: {
                 files: {
-                    'assets/js/index.min.js' : 'src/js/index.js',
-                    'assets/js/signin.min.js' : 'src/js/signin.js'
+                    'assets/js/index.min.js': 'src/js/index.js',
+                    'assets/js/signin.min.js': 'src/js/signin.js'
                 }
             }
         },
@@ -58,6 +58,7 @@ module.exports = function (grunt) {
             }
         }
     });
+
 
 
     //load plugins
