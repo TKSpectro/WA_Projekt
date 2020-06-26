@@ -19,6 +19,10 @@ module.exports = function(Model, db) {
         return this.firstName + ' ' + this.lastName;
     }
 
+    Model.prototype.shortName = function(){
+        return this.firstName.charAt(0) + this.lastName.charAt(0);
+    }
+
     Model.prototype.writeRemotes = function(data) {
         const self = this;
 

@@ -1,65 +1,144 @@
 @import './shared/defines.less';
+@import './shared/mixins.less';
 
-.index-wrapper{
-    .chat-wrapper{
-        max-width: 640px;
-        height: 480px;
+.scroll-wrapper {
+    height: 100%;
+    width: 100%;
+    padding-right: 20px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.wrapper {
+    .left-side {
+        position: relative;
+        width: 44px;
+        height: 100vh;;
         overflow: hidden;
+        float: left;
+        background-color: red;
 
-        .user-wrapper{
-            width: 160px;
-            float: left;
-            background: lightgray;
-            height: 100%;
-            overflow: hidden;
+        .menu-list {
+            list-style: none;
+            li {
+                height: calc(@menu-width - 8px);
+                width: calc(@menu-width - 8px);
+                line-height: 27px;
+                font-size: 12px;
+                text-transform: uppercase;
+                cursor: pointer;
+                border-radius: 50%;
+                overflow: hidden;
+                background-color: @color-menu-item;
+                text-align: center;
+                box-sizing: border-box;
+                padding: 4px;
+                margin: 4px;
 
-            .userList-wrapper{
-                width: 100%;
-                padding-right: 20px;
-                overflow-y: scroll;
-
-                button{
-                    background: none;
-                    border: none;
-                    height: 37px; 
-                    width: 100%; 
-                    display: block;
+                &:hover {
+                    opacity: 0.8;
                 }
             }
         }
+    }
 
-        .chat{
-            width: calc(100% - 160px); 
-            float: left; 
-            height: 100%; 
-            background: rgba(211, 211, 211, 0.8);
+    .chat-wrapper {
+        position: relative;
+        width: @chat-width;
+        height: 100vh;;
+        overflow: hidden;
+        float: left;
+        display: none;
+        background-color: green;
 
-            .messages-wrapper{
-                height: calc(100% - 80px);
-
-                .messages{
-                    width: 100%; 
-                    height: 100%; 
-                    padding-right: 20px; 
-                    overflow-y: scroll;
-                }
+        .topbar {
+            .clearfix();
+            height: @chat-topbar-height;
+            width: 100%;
+            background-color: @color-chat-topbar-bg;
+            color: @color-chat-topbar-text;
+            .title {
+                width: calc(~"100% - @{chat-topbar-height}");
+                height: 100%;
+                float: left;
+                line-height: @chat-topbar-height;
+                padding-left:10px;
+                padding-right: 10px;
+                box-sizing: border-box;
+                font-size: 16px;
+                text-transform: uppercase;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: bold;
             }
 
-            .input-wrapper{
-                textarea{
-                    display: block; 
-                    height: 80px; 
-                    width: calc(100% - 80px); 
-                    float:left; 
-                    box-sizing: border-box;
-                }
-                button{
-                    height: 80px; 
-                    width: 80px; 
-                    display: block; 
+            .close {
+                width: @chat-topbar-height;
+                height: 100%;
+                float: left;
+                line-height: @chat-topbar-height;
+                text-align: center;
+                box-sizing: border-box;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: darken(@color-chat-topbar-bg, 15%);
+            }
+        }
+
+        .chat {
+            position: relative;
+            width: 100%;
+            height: calc(~"100vh - @{chat-topbar-height}");
+
+            .messages-wrapper {
+                height: calc(~"100% - @{chat-input-height}");
+            }
+
+            .input-wrapper {
+                textarea {
+                    display: block;
+                    height: @chat-input-height;
+                    width: calc(~"100% - @{chat-input-height}");
                     float: left;
+                    box-sizing: border-box;
+                    background-color: white;
+                    padding: 10px 10px;
+                    border: none;
+                    resize: none;     
+                    font-family: inherit;
+                    font-size: 14px;
+                }
+
+                button {
+                    display: block;
+                    height: @chat-input-height;
+                    width:  @chat-input-height;
+                    float: left;
+                    box-sizing: border-box;
+                    border: none;
+                    background-color: @color-chat-submit-bg;
+                    color: @color-chat-submit-text;
                 }
             }
+        }
+    }
+
+    .right-side {
+        position: relative;
+        width: calc(~"100vw - @{menu-width}");
+        height: 100vh;;
+        overflow: hidden;
+        float: left;
+        background-color: blue;
+    }
+
+    &.chat-open {
+        .chat-wrapper{
+            display: block;
+        }
+
+        .right-side{
+            width: calc(~"100vw - @{menu-width} - @{chat-width}");
         }
     }
 }

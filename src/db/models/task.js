@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         sort: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defautlValue: 9999999
+            defaultValue: 9999999
         },
     }, {
         tableName: 'task'
