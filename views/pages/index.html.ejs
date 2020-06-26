@@ -1,32 +1,45 @@
-<h1>Taskboard</h1>
-<div class="index-wrapper">
-    <div class="chat-wrapper">
-        <div class="user-wrapper">
-            <div class="userList-wrapper">
-                <button id="btn-chat-all" data-id="0" data-fullname="All" data-new="0"
-                    onclick="userPressed(this); return false;">All</button>
+<div class="wrapper chat-open">
+    <div class="left-side">
+        <div class="scroll-wrapper">
+            <ul class="menu-list">
+                <li>PR</li>
+                <li>SET</li>
+                <li id="btn-chat-all" data-id="0" data-fullname="ALL" data-new="0"
+                    onclick="userPressed(this); return false;">ALL</li>
                 <% for(let index = 0; index < users.length; ++index) { %>
                 <%
                     //exclude the current user
                     if(self.req.user.id === users[index].id){
                         continue;
                     } %>
-                    <button id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>"
-                        data-fullname="<%=users[index].fullname()%>" data-new="0"
-                        onclick="userPressed(this); return false;"><%=users[index].fullname()%>
-                    </button>
+                <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>"
+                    data-fullname="<%=users[index].shortName()%>" data-new="0"
+                    onclick="userPressed(this); return false;"><%=users[index].shortName()%>
+                </li>
                 <% } //endfor %>
+            </ul>
+        </div>
+    </div>
+    <div class="chat-wrapper">
+        <div class="topbar">
+            <div class="title">
+                Chat
+            </div>
+            <div class="close">
+                X
             </div>
         </div>
         <div class="chat">
             <div class="messages-wrapper">
-                <div class="messages" id="messages" data-action="<%-self.urlFor('api/messages', 'index')%>">
-                </div>
+                <div class="scroll-wrapper" id="messages" data-action="<%-self.urlFor('api/messages', 'index')%>"></div>
             </div>
             <div class="input-wrapper">
                 <textarea id="message"></textarea>
                 <button id="send-message" onclick="sendPressed(this); return false;">Send</button>
             </div>
         </div>
+    </div>
+    <div class="right-side">
+
     </div>
 </div>

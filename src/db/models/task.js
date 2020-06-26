@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        sort: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 9999999
+        },
     }, {
         tableName: 'task'
     });
