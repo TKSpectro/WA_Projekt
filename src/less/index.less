@@ -7,12 +7,13 @@
     padding-right: 20px;
     overflow: hidden;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .wrapper {
     .left-side {
         position: relative;
-        width: 44px;
+        width: @menu-width;
         height: 100vh;;
         overflow: hidden;
         float: left;
@@ -21,6 +22,7 @@
         .menu-list {
             list-style: none;
             li {
+                display: block;
                 height: calc(@menu-width - 8px);
                 width: calc(@menu-width - 8px);
                 line-height: 27px;
@@ -57,6 +59,7 @@
             width: 100%;
             background-color: @color-chat-topbar-bg;
             color: @color-chat-topbar-text;
+
             .title {
                 width: calc(~"100% - @{chat-topbar-height}");
                 height: 100%;
@@ -76,11 +79,11 @@
                 width: @chat-topbar-height;
                 height: 100%;
                 float: left;
-                line-height: @chat-topbar-height;
                 text-align: center;
                 box-sizing: border-box;
                 font-size: 16px;
                 font-weight: bold;
+                line-height: @chat-topbar-height;
                 background-color: darken(@color-chat-topbar-bg, 15%);
             }
         }
@@ -102,7 +105,7 @@
                     float: left;
                     box-sizing: border-box;
                     background-color: white;
-                    padding: 10px 10px;
+                    padding: 5px 5px;
                     border: none;
                     resize: none;     
                     font-family: inherit;
@@ -125,11 +128,136 @@
 
     .right-side {
         position: relative;
-        width: calc(~"100vw - @{menu-width}");
-        height: 100vh;;
+        width: calc(~"100% - @{menu-width}");
+        height: 100vh;
         overflow: hidden;
         float: left;
-        background-color: blue;
+
+        .kanban-wrapper {
+            .scroll-wrapper;
+            overflow-x: auto;
+            padding-bottom: 20px;
+
+            .row {
+                .clearfix();
+                white-space: nowrap;
+
+                &.tasks-wrapper {
+                    height: calc(~"100% - @{kanban-add-height} - @{kanban-title-height}");
+                    
+                    .col {
+                        height: 100%;
+                        overflow: hidden;
+                    }
+                }
+
+                .col {
+                    display: inline-block;
+                    width: @kanban-col-width;
+
+                    .title {
+                        position: relative;
+                        height: @kanban-title-height;
+                        width: calc(~"100% - 10px");
+                        box-sizing: border-box;
+                        padding: 10px;
+                        background-color: #9b59b6;
+                        line-height: 24px;
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: white;
+                        margin-right: 10px;
+
+                        &:after {
+                            content: " ";
+                            height: 0px;
+                            line-height: 0px;
+                            width: 0px;
+                            display: block;
+                            position: absolute;
+                            background: transparent;
+                            color: transparent;
+                            top: 0px;
+                            left: 100%;
+                            border-top: @kanban-title-height/2 solid;
+                            border-top-color: transparent;
+                            border-bottom: @kanban-title-height/2 solid;
+                            border-bottom-color: transparent;
+                            border-left: 10px solid;
+                            border-left-color: #9b59b6;
+                            border-right: 0px;
+                            border-right-color: transparent;
+                        }
+                    }
+
+                    .add {
+                        position: relative;
+                        height: @kanban-add-height;
+                        width: 100%;
+                        color: white;
+                        text-align: center;
+                        line-height: @kanban-add-height;
+                        font-size: 32px;
+                        font-weight: bold;
+                        opacity: 0.6;
+
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+
+                    .tasks {
+                        .scroll-wrapper;
+                        .task {
+                            margin-bottom: 10px;
+                            background: rgba(255,255,255,0.8);
+                            .line {
+                                height: 4px;
+                                background: #9b59b6;
+                            }
+
+                            .name {
+                                font-size: 14px;
+                                line-height: 18px;
+                                font-weight: bold;
+                                color: black;
+                                white-space: normal;
+                                padding: 4px;
+                            }
+
+                            .time {
+                                font-size: 14px;
+                                padding: 4px;
+                            }
+
+                            .footer {
+                                .clearfix();
+                                font-size: 12px;
+
+                                .assigned {
+                                    padding: 4px;
+                                    float: left;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    max-width: 60%;
+                                    box-sizing: border-box;
+                                }
+                                .deadline {
+                                    padding: 4px;
+                                    float: right;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    max-width: 40%;
+                                    box-sizing: border-box;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     &.chat-open {
@@ -139,6 +267,7 @@
 
         .right-side{
             width: calc(~"100vw - @{menu-width} - @{chat-width}");
+            
         }
     }
 }
