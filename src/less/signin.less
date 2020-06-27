@@ -2,16 +2,19 @@
 
 
 .signin-wrapper {
+    width:60%;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     background:fade(@color-signin-bg,40%);
-    width:20%;
     border-radius: 5px;
     overflow:hide;
     padding:2em;
-
+    @media (min-width:768px){
+   
+    width:20%;
+}
 
 
     button{
