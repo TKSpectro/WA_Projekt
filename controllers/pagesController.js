@@ -32,9 +32,11 @@ class PagesController extends Controller {
 
     async actionIndex() {
         const self = this;
-        self.css('index');
+        self.js('html5sortable')
         self.js('index');
 
+        self.css('index');
+        
         const users = await self.db.User.findAll();
         //remove all deleted users
         for (let i = 0; i < users.length; ++i) {
