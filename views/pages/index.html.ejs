@@ -42,95 +42,60 @@
     <div class="right-side">
         <div class="kanban-wrapper">
             <div class="row">
+                <% for (let index = 0; index < workflows.length; index++) { %>
+                <% const workflow = workflows[index]; %>
                 <div class="col">
-                    <div class="title">
-                        Backlog
+                    <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
+                        <%=workflow.name%>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="title">
-                        Progress
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="title">
-                        Review
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="title">
-                        Done
-                    </div>
-                </div>
+                <%} //ENDFOR %>
             </div>
 
             <div class="row">
+                <% for (let index = 0; index < workflows.length; index++) { %>
+                <% const workflow = workflows[index]; %>
                 <div class="col">
                     <div class="add">
                         +
                     </div>
                 </div>
-                <div class="col">
-                    <div class="add">
-                        +
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="add">
-                        +
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="add">
-                        +
-                    </div>
-                </div>
+                <%} //ENDFOR %>
             </div>
 
             <div class="row tasks-wrapper">
-                <div class="col">
-                    <div class="tasks">
-                        <div class="task">
-                            <div class="line"></div>
-                            <div class="name">
-                                [ZB] TEST Name Test Name Test Name
-                            </div>
-                            <div class="time">
-                                134:00 / 240:00 <button>play/pause</button>
-                            </div>
-                            <div class="footer">
-                                <div class="assigned">
-                                    Sabine Meyer
-                                </div>
-                                <div class="deadline">
-                                    12.12.1212
-                                </div>
-                            </div>
+                <% for (let index = 0; index < workflows.length; index++) { %>
+                    <% const workflow = workflows[index]; %>
+                    <div class="col">
+                        <div class="tasks">
+                            <% if(workflowTasks[workflow.id] instanceof Array) { %>
+                                <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
+                                    <% const task = workflowTasks[workflow.id][i]; %>
+                                    <div class="task">
+                                        <div class="line" style="background: <%-workflow.color%>;"></div>
+                                        <div class="name">
+                                            <%=task.name%>
+                                        </div>
+                                        <!-- TODO ADD TO DATABASE: Task/time -->
+                                        <div class="time">
+                                            134:00 / 240:00 <button>play/pause</button>
+                                        </div>
+
+                                        <div class="footer">
+                                            <div class="assigned">
+                                                <%=task.assignedTo.fullname()%>
+                                            </div>
+                                            <!-- TODO ADD DEADLINE TO DATABASE: Task/deadline -->
+                                            <div class="deadline">
+                                                12.12.1212
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } //ENDFOR %>
+                            <% } //ENDIF %>
                         </div>
-                        <div class="task">Task</div>
-                        <div class="task">Task</div>
-                        <div class="task">Task</div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="tasks">
-                        <div class="task"></div>
-                        <div class="task"></div>
-                        <div class="task"></div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="tasks">
-                        <div class="task"></div>
-                        <div class="task"></div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="tasks">
-                        <div class="task"></div>
-                        <div class="task"></div>
-                    </div>
-                </div>
+                <%} //ENDFOR %>
             </div>
         </div>
     </div>
