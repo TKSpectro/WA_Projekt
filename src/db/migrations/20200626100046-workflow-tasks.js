@@ -2,7 +2,7 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.sequelize.transaction(async (transaction) => {
-            await queryInterface.sequelize.query('SET GLOBAL FOREIGN_KEY_CHECKS=0;', { transaction });
+            await queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS=0;', { transaction });
             await queryInterface.addColumn(
                 'task',
                 'workflowId',
@@ -57,7 +57,7 @@ module.exports = {
 
                 const [updateResult] = await queryInterface.sequelize.query('UPDATE `task` SET `workflowId` = '+workflow.id+' WHERE `projectId` = '+project.id+';', { transaction });
             }
-            return queryInterface.sequelize.query('SET GLOBAL FOREIGN_KEY_CHECKS=1;', { transaction });
+            return queryInterface.sequelize.query('SET FOREIGN_KEY_CHECKS=1;', { transaction });
         });
     },
     down: (queryInterface, Sequelize) => {

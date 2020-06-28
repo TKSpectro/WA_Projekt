@@ -42,7 +42,7 @@ module.exports = {
             name: 'Fifth Task',
             text: 'This is the fifthTask',
             creatorId: 2,
-            assignedToId: null,
+            assignedToId: 2,
             projectId: 1,
             workflowId: 1,
             createdAt: new Date(),
