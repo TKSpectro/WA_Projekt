@@ -110,7 +110,7 @@ function sendPressed(elm) {
         }
 
         io.emit('message', data);
-    }else{
+    } else {
         textarea.placeholder = 'String is empty';
         console.log('String is empty or contains only spaces');
     }
@@ -179,3 +179,68 @@ textarea.addEventListener('keyup', function (event) {
 
 //initial load
 loadMessages(currentUserElm);
+
+//Drag and Drop for Kanban -> HTML5Sortable
+let sortableLists = sortable('.tasks', {
+    forcePlaceholderSize: true,
+    placeholderClass: 'task-placeholder',
+    acceptFrom: '.tasks',
+    hoverClass: 'dragging',
+});
+
+for (let index = 0; index < sortableLists.length; index++) {
+    const list = sortableLists[index];
+    list.addEventListener('sortstart', function (e) {
+        // do nothing
+    });
+
+    list.addEventListener('sortstop', function (e) {
+        //console.log('sortstop', e);
+        //do nothing
+    });
+
+    list.addEventListener('sortupdate', function (e) {
+        let item = e.detail.item;
+        let target = e.target;
+
+        let line = item.querySelector('.line');
+
+        if(line) {
+            line.style.background = target.getAttribute('data-workflow-color');
+        }
+
+        io.emit('task/move', {
+            id: item.getAttribute('data-id'),
+            workflowId: target.getAttribute('data-workflow-id'),
+            sort: Array.prototype.indexOf.call(item.parentNode.children, item)
+        });
+    });
+}
+
+io.on('task/move', (data) => {
+    let item = document.querySelector('.task[data-id="'+data.id+'"]');
+    if (item) {
+        let taskList = document.querySelector('.tasks[data-workflow-id="'+data.workflowId+'"]');
+        if(taskList){
+            let index = data.sort;
+            if(taskList.children.length <= index + 1){
+                taskList.appendChild(item);
+            }else {
+                let currentIndex = Array.prototype.indexOf.call(taskList.children, item);
+
+                if(index !== 0 && currentIndex !== - 1 && index >= currentIndex) {
+                    index = index + 1; 
+                }
+
+                let sibling = taskList.children[index];
+                taskList.insertBefore(item, sibling);
+
+                let line = item.querySelector('.line');
+
+                if(line) {
+                    line.style.background = taskList.getAttribute('data-workflow-color');
+                }
+            }
+        }
+    }
+});

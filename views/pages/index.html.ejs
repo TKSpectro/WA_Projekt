@@ -67,14 +67,14 @@
                 <% for (let index = 0; index < workflows.length; index++) { %>
                     <% const workflow = workflows[index]; %>
                     <div class="col">
-                        <div class="tasks">
+                        <div class="tasks" data-workflow-id="<%-workflow.id%>" data-workflow-color="<%-workflow.color%>">
                             <% if(workflowTasks[workflow.id] instanceof Array) { %>
                                 <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
                                     <% const task = workflowTasks[workflow.id][i]; %>
-                                    <div class="task">
+                                    <div class="task" data-id="<%-task.id%>">
                                         <div class="line" style="background: <%-workflow.color%>;"></div>
                                         <div class="name">
-                                            <%=task.name%>
+                                            #<%-task.id%> <%=task.name%>
                                         </div>
                                         <!-- TODO ADD TO DATABASE: Task/time -->
                                         <div class="time">

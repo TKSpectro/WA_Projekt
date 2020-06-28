@@ -209,9 +209,19 @@
 
                     .tasks {
                         .scroll-wrapper;
+
+                        .task-placeholder {
+                            margin-bottom: 5px;
+                        }
+
                         .task {
                             margin-bottom: 10px;
                             background: rgba(255,255,255,0.8);
+                            transition: transform 300ms;
+                            
+                            &.dragging {
+                            }
+
                             .line {
                                 height: 4px;
                                 background: #9b59b6;

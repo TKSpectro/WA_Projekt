@@ -109,6 +109,21 @@ class SocketHandler {
                     });
                 }
             });
+
+            socket.on('task/move', async (data) => {
+                let task = await self.db.Task.findOne({
+                    where: {
+                        id: data.id,
+                    }
+                });
+
+                if(task){
+                    task.sort = data.sort;
+                    await task.save();
+                }
+
+                socket.broadcast.emit('task/move', data);
+            });
         })
     }
 }
