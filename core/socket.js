@@ -69,7 +69,7 @@ class SocketHandler {
                 }
             });
 
-            socket.on('message', async(data) => {
+            socket.on('message', async (data) => {
                 //write incoming message to database
                 let message = self.db.Message.build();
                 message.writeRemotes(data);
@@ -87,15 +87,17 @@ class SocketHandler {
                     };
 
                     if (message.toId) {
+                        response.to = {
+                            id: message.toId
+                        }
+
                         let userSocket = self.findUserSocketById(message.toId);
                         if (userSocket) {
-                            response.to = {
-                                displayName: socket.user.fullname(),
-                                id: socket.user.id
-                            };
+                            response.to.displayName = userSocket.user.fullname();
                             userSocket.emit('message', response);
-                            socket.emit('message', response);
-                        }
+                        };
+
+                        socket.emit('message', response);
                     } else {
                         self.io.emit('message', response);
                     }
@@ -106,6 +108,21 @@ class SocketHandler {
                         message: data
                     });
                 }
+            });
+
+            socket.on('task/move', async (data) => {
+                let task = await self.db.Task.findOne({
+                    where: {
+                        id: data.id,
+                    }
+                });
+
+                if(task){
+                    task.sort = data.sort;
+                    await task.save();
+                }
+
+                socket.broadcast.emit('task/move', data);
             });
         })
     }

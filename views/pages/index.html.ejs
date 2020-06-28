@@ -1,4 +1,4 @@
-<div class="wrapper chat-open">
+<div class="wrapper">
     <div class="left-side">
         <div class="scroll-wrapper">
             <ul class="menu-list">
@@ -40,6 +40,63 @@
         </div>
     </div>
     <div class="right-side">
+        <div class="kanban-wrapper">
+            <div class="row">
+                <% for (let index = 0; index < workflows.length; index++) { %>
+                <% const workflow = workflows[index]; %>
+                <div class="col">
+                    <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
+                        <%=workflow.name%>
+                    </div>
+                </div>
+                <%} //ENDFOR %>
+            </div>
 
+            <div class="row">
+                <% for (let index = 0; index < workflows.length; index++) { %>
+                <% const workflow = workflows[index]; %>
+                <div class="col">
+                    <div class="add">
+                        +
+                    </div>
+                </div>
+                <%} //ENDFOR %>
+            </div>
+
+            <div class="row tasks-wrapper">
+                <% for (let index = 0; index < workflows.length; index++) { %>
+                    <% const workflow = workflows[index]; %>
+                    <div class="col">
+                        <div class="tasks" data-workflow-id="<%-workflow.id%>" data-workflow-color="<%-workflow.color%>">
+                            <% if(workflowTasks[workflow.id] instanceof Array) { %>
+                                <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
+                                    <% const task = workflowTasks[workflow.id][i]; %>
+                                    <div class="task" data-id="<%-task.id%>">
+                                        <div class="line" style="background: <%-workflow.color%>;"></div>
+                                        <div class="name">
+                                            #<%-task.id%> <%=task.name%>
+                                        </div>
+                                        <!-- TODO ADD TO DATABASE: Task/time -->
+                                        <div class="time">
+                                            134:00 / 240:00 <button>play/pause</button>
+                                        </div>
+
+                                        <div class="footer">
+                                            <div class="assigned">
+                                                <%=task.assignedTo.fullname()%>
+                                            </div>
+                                            <!-- TODO ADD DEADLINE TO DATABASE: Task/deadline -->
+                                            <div class="deadline">
+                                                12.12.1212
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } //ENDFOR %>
+                            <% } //ENDIF %>
+                        </div>
+                    </div>
+                <%} //ENDFOR %>
+            </div>
+        </div>
     </div>
 </div>

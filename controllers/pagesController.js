@@ -30,25 +30,50 @@ class PagesController extends Controller {
         });
     }
 
-    actionIndex() {
+    async actionIndex() {
         const self = this;
-        self.css('index');
+        self.js('html5sortable')
         self.js('index');
 
-        self.db.User.findAll().then(users => {
-            //remove all deleted user from the list
-            for (let i = 0; i < users.length; ++i) {
-                if (Helper.checkPermission(Helper.isUserDeleted, users[i].permission)){
-                    users.splice(i, 1);
-                }
+        self.css('index');
+        
+        const users = await self.db.User.findAll();
+        //remove all deleted users
+        for (let i = 0; i < users.length; ++i) {
+            if (Helper.checkPermission(Helper.isUserDeleted, users[i].permission)) {
+                users.splice(i, 1);
             }
-            self.render({
-                title: 'Index',
-                users: users,
-                navigation: false,
+        }
+        const workflows = await self.db.Workflow.findAll({
+            where: {
+                projectId: 1
+            },
+            order: [
+                ['sort', 'ASC']
+            ]
+        });
+        
+        const workflowTasks = {};
+
+        for (let index = 0; index < workflows.length; index++) {
+            const workflow = workflows[index];
+            workflowTasks[workflow.id] = await self.db.Task.findAll({
+                where: {
+                    workflowId: workflow.id,
+                    projectId: 1
+                },
+                include: ['assignedTo']
             });
+        }
+
+        self.render({
+            title: 'Kanban Project 1',
+            users: users,
+            workflows: workflows,
+            workflowTasks: workflowTasks,
         });
     }
+
 
     actionImprint() {
         const self = this;
