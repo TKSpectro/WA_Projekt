@@ -32,11 +32,12 @@ class PagesController extends Controller {
 
     async actionIndex() {
         const self = this;
+
         self.js('html5sortable')
         self.js('index');
 
         self.css('index');
-        
+
         const users = await self.db.User.findAll();
         //remove all deleted users
         for (let i = 0; i < users.length; ++i) {
@@ -44,36 +45,62 @@ class PagesController extends Controller {
                 users.splice(i, 1);
             }
         }
-        const workflows = await self.db.Workflow.findAll({
-            where: {
-                projectId: 1
-            },
-            order: [
-                ['sort', 'ASC']
-            ]
-        });
-        
-        const workflowTasks = {};
 
-        for (let index = 0; index < workflows.length; index++) {
-            const workflow = workflows[index];
-            workflowTasks[workflow.id] = await self.db.Task.findAll({
+        if (!self.param('projectId')) {
+            self.redirect('/project');
+        } else {
+            const projectId = self.param('projectId');
+
+            const project = await self.db.Project.findAll({
                 where: {
-                    workflowId: workflow.id,
-                    projectId: 1
+                    id: projectId
                 },
-                include: ['assignedTo']
+            });
+
+            const workflows = await self.db.Workflow.findAll({
+                where: {
+                    projectId: projectId
+                },
+                order: [
+                    ['sort', 'ASC']
+                ]
+            });
+
+            const workflowTasks = {};
+
+            for (let index = 0; index < workflows.length; index++) {
+                const workflow = workflows[index];
+                workflowTasks[workflow.id] = await self.db.Task.findAll({
+                    where: {
+                        workflowId: workflow.id,
+                        projectId: projectId
+                    },
+                    include: ['assignedTo']
+                });
+            }
+
+            self.render({
+                title: 'Project: ' + projectId,
+                users: users,
+                workflows: workflows,
+                workflowTasks: workflowTasks,
             });
         }
-
-        self.render({
-            title: 'Kanban Project 1',
-            users: users,
-            workflows: workflows,
-            workflowTasks: workflowTasks,
-        });
     }
 
+    async actionProject() {
+        const self = this;
+
+        self.js('project');
+        self.css('project');
+
+        const projects = await self.db.Project.findAll();
+
+        self.render({
+            title: 'Project-Chooser',
+            projects: projects,
+        });
+    }
 
     actionImprint() {
         const self = this;

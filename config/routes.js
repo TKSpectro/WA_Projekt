@@ -16,8 +16,8 @@ let routes = {
             { path: '/', action: 'index', method: 'get' },
             { path: '/imprint', action: 'imprint', method: 'get' },
             { path: '/signin', action: 'signin', method: 'get' },
-            { path: '/group', action: 'group', method: 'get' }
-
+            { path: '/group', action: 'group', method: 'get' },
+            { path: '/project', action: 'project', method: 'get' },
         ]
     },
     'api/users': {
