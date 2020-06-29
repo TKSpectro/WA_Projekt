@@ -312,6 +312,9 @@ class ApiUsersController extends Controller {
                 }
 
                 let newUser = self.db.User.build();
+                //give user the permission to create projects and tasks
+                remoteData['permission'] = 0b0000000000010010;
+
                 newUser.writeRemotes(remoteData);
                 await newUser.save({
                     transaction: t,
