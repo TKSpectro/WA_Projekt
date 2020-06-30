@@ -20,6 +20,13 @@ module.exports = function (Model, db) {
             attributes: ['id', 'name'],
             limit: 1,
             separate: false
+        },
+        {
+            model: db.Workflow,
+            as: 'workflow',
+            attributes: ['id'],
+            limit: 1,
+            separate: false
         }
     ];
 
@@ -44,6 +51,10 @@ module.exports = function (Model, db) {
 
         if (typeof data.projectId !== 'undefined') {
             self.projectId = data.projectId;
+        }
+
+        if (typeof data.workflowId !== 'undefined') {
+            self.workflowId = data.workflowId;
         }
     }
 };

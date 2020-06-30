@@ -118,6 +118,7 @@ class SocketHandler {
                 });
 
                 if(task){
+                    task.workflowId = data.workflowId;
                     task.sort = data.sort;
                     await task.save();
                 }

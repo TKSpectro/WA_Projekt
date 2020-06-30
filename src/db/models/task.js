@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
             as: 'project',
             foreignKey: 'projectId'
         });
+
+        Task.belongsTo(models.Workflow, {
+            as: 'workflow',
+            foreignKey: 'workflowId'
+        });
     };
     return Task;
 };

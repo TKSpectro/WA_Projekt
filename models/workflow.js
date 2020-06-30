@@ -12,9 +12,6 @@ module.exports = function(Model, db){
     Model.prototype.writeRemotes = function (data) {
         const self = this;
 
-        //TODO: needs to be refactored into its own function
-        // should be callable from everywhere
-        // fnc(...) <- takes parameter and returns if valid
         if (typeof data.name !== 'undefined') {
             self.name = data.name;
         }
@@ -25,6 +22,10 @@ module.exports = function(Model, db){
 
         if (typeof data.sort !== 'undefined') {
             self.sort = data.sort;
+        }
+
+        if (typeof data.projectId !== 'undefined') {
+            self.projectId = data.projectId;
         }
     }
 };
