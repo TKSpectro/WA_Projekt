@@ -16,6 +16,20 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      alreadyWorkedTime: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        comment: 'time in minutes'
+      },
+      maximumWorkTime: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        comment: 'time in minutes'
+      },
+      deadline: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
       creatorId: {
         type: Sequelize.INTEGER,
         references: {

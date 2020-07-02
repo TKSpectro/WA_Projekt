@@ -14,6 +14,21 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: 9999999
         },
+        alreadyWorkedTime: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          comment: 'time in minutes',
+          defaultValue: 0
+        },
+        maximumWorkTime: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          comment: 'time in minutes'
+        },
+        deadline: {
+          type: DataTypes.DATE,
+          allowNull: false
+        },
     }, {
         tableName: 'task'
     });

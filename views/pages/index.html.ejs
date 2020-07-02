@@ -76,18 +76,16 @@
                                         <div class="name">
                                             #<%-task.id%> <%=task.name%>
                                         </div>
-                                        <!-- TODO ADD TO DATABASE: Task/time -->
                                         <div class="time">
-                                            134:00 / 240:00 <button>play/pause</button>
+                                            <%-task.alreadyWorkedTime%> / <%-task.maximumWorkTime%> <button>play/pause</button>
                                         </div>
 
                                         <div class="footer">
                                             <div class="assigned">
                                                 <%=task.assignedTo.fullname()%>
                                             </div>
-                                            <!-- TODO ADD DEADLINE TO DATABASE: Task/deadline -->
                                             <div class="deadline">
-                                                12.12.1212
+                                                <%-task.deadline%>
                                             </div>
                                         </div>
                                     </div>
