@@ -4,19 +4,17 @@
             <ul class="menu-list">
                 <li>PR</li>
                 <li>SET</li>
-                <li id="btn-chat-all" data-id="0" data-fullname="ALL" data-new="0"
-                    onclick="userPressed(this); return false;">ALL</li>
+                <li id="btn-chat-all" data-id="0" data-fullname="ALL" data-new="0" onclick="userPressed(this); return false;">ALL</li>
                 <% for(let index = 0; index < users.length; ++index) { %>
-                <%
+                    <%
                     //exclude the current user
                     if(self.req.user.id === users[index].id){
                         continue;
                     } %>
-                <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>"
-                    data-fullname="<%=users[index].shortName()%>" data-new="0"
-                    onclick="userPressed(this); return false;"><%=users[index].shortName()%>
-                </li>
-                <% } //endfor %>
+                        <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>" data-fullname="<%=users[index].shortName()%>" data-new="0" onclick="userPressed(this); return false;">
+                            <%=users[index].shortName()%>
+                        </li>
+                        <% } //endfor %>
             </ul>
         </div>
     </div>
@@ -25,7 +23,7 @@
             <div class="title">
                 Chat
             </div>
-            <div class="close">
+            <div class="close" onclick="chatClose();">
                 X
             </div>
         </div>
@@ -34,8 +32,8 @@
                 <div class="scroll-wrapper" id="messages" data-action="<%-self.urlFor('api/messages', 'index')%>"></div>
             </div>
             <div class="input-wrapper">
-                <textarea id="message"></textarea>
-                <button id="send-message" onclick="sendPressed(this); return false;">Send</button>
+                <textarea id="message" placeholder="Schreiben Sie irgendwas...."></textarea>
+                <button id="send-message" onclick="sendPressed(this); return false;"><img src="../../assets/images/paper-plane.svg"></button>
             </div>
         </div>
     </div>
@@ -43,59 +41,61 @@
         <div class="kanban-wrapper">
             <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
-                <% const workflow = workflows[index]; %>
-                <div class="col">
-                    <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
-                        <%=workflow.name%>
-                    </div>
-                </div>
-                <%} //ENDFOR %>
+                    <% const workflow = workflows[index]; %>
+                        <div class="col">
+                            <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
+                                <%=workflow.name%>
+                            </div>
+                        </div>
+                        <%} //ENDFOR %>
             </div>
 
             <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
-                <% const workflow = workflows[index]; %>
-                <div class="col">
-                    <div class="add">
-                        +
-                    </div>
-                </div>
-                <%} //ENDFOR %>
+                    <% const workflow = workflows[index]; %>
+                        <div class="col">
+                            <div class="add">
+                                +
+                            </div>
+                        </div>
+                        <%} //ENDFOR %>
             </div>
 
             <div class="row tasks-wrapper">
                 <% for (let index = 0; index < workflows.length; index++) { %>
                     <% const workflow = workflows[index]; %>
-                    <div class="col">
-                        <div class="tasks" data-workflow-id="<%-workflow.id%>" data-workflow-color="<%-workflow.color%>">
-                            <% if(workflowTasks[workflow.id] instanceof Array) { %>
-                                <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
-                                    <% const task = workflowTasks[workflow.id][i]; %>
-                                    <div class="task" data-id="<%-task.id%>">
-                                        <div class="line" style="background: <%-workflow.color%>;"></div>
-                                        <div class="name">
-                                            #<%-task.id%> <%=task.name%>
-                                        </div>
-                                        <!-- TODO ADD TO DATABASE: Task/time -->
-                                        <div class="time">
-                                            134:00 / 240:00 <button>play/pause</button>
-                                        </div>
+                        <div class="col">
+                            <div class="tasks" data-workflow-id="<%-workflow.id%>" data-workflow-color="<%-workflow.color%>">
+                                <% if(workflowTasks[workflow.id] instanceof Array) { %>
+                                    <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
+                                        <% const task = workflowTasks[workflow.id][i]; %>
+                                            <div class="task" data-id="<%-task.id%>">
+                                                <div class="line" style="background: <%-workflow.color%>;"></div>
+                                                <div class="name">
+                                                    #
+                                                    <%-task.id%>
+                                                        <%=task.name%>
+                                                </div>
+                                                <!-- TODO ADD TO DATABASE: Task/time -->
+                                                <div class="time">
+                                                    134:00 / 240:00 <button>play/pause</button>
+                                                </div>
 
-                                        <div class="footer">
-                                            <div class="assigned">
-                                                <%=task.assignedTo.fullname()%>
+                                                <div class="footer">
+                                                    <div class="assigned">
+                                                        <%=task.assignedTo.fullname()%>
+                                                    </div>
+                                                    <!-- TODO ADD DEADLINE TO DATABASE: Task/deadline -->
+                                                    <div class="deadline">
+                                                        12.12.1212
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <!-- TODO ADD DEADLINE TO DATABASE: Task/deadline -->
-                                            <div class="deadline">
-                                                12.12.1212
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% } //ENDFOR %>
-                            <% } //ENDIF %>
+                                            <% } //ENDFOR %>
+                                                <% } //ENDIF %>
+                            </div>
                         </div>
-                    </div>
-                <%} //ENDFOR %>
+                        <%} //ENDFOR %>
             </div>
         </div>
     </div>

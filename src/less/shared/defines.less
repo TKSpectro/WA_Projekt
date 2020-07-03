@@ -10,24 +10,39 @@
 @color-button-bg:#6329b6;
 
 
+//chat color
+@color-menu-item: #21223f;
+@color-chat-topbar-bg:#2e2f41;
+@color-chat-topbar-text: #000000;
+@color-chat-submit-bg:#bdc3c7;
+@color-chat-submit-text: #000000;
+@color-name-bg:#0f102b;
+@color-chat-bg:#51526b;
+@color-font-name:#ffda77;
+@color-textarea:#0f102b00;
+@color-textarea-bg:#0f102b9f;
+@color-border-textarea:lighten(#0f102b,30%);
+
+
+
+
 
 @color-main: #26BFBB;
 @color-warning: #F3CF0A;
 @color-error: #C13F18;
 @color-fine: #17B859;
 
-@color-menu-item: #6A6A6A;
-@color-chat-topbar-bg:#bdc3c7;
-@color-chat-topbar-text: #000000;
-@color-chat-submit-bg:#bdc3c7;
-@color-chat-submit-text: #000000;
 
 //width defines
-@menu-width: 44px;
-@chat-width: 240px;
+@menu-width: 64px;
+@mobil-menu-width: 44px;
+@chat-width: 300px;
+@mobil-chat-width: calc(~"100% - @{mobil-menu-width}");
 @kanban-col-width: 240px;
 //height defines
 @chat-topbar-height: @menu-width;
 @chat-input-height: 80px;
 @kanban-title-height: @menu-width;
 @kanban-add-height: 37px;
+@chat-button: 70px;
+@chat-button-mobile: 50px;

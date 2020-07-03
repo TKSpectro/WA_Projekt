@@ -11,23 +11,35 @@
 }
 
 .wrapper {
+   
     .left-side {
         position: relative;
         width: @menu-width;
         height: 100vh;;
         overflow: hidden;
         float: left;
-        background-color: red;
+        background-color:@color-name-bg;
+        @media (max-width:767px){
+            width:@mobil-menu-width;
+            
+                 }
 
         .menu-list {
+
             list-style: none;
             li {
+                 @media (max-width:767px){
+                    height: calc(@mobil-menu-width - 8px);
+                    width: calc(@mobil-menu-width - 8px); 
+                    line-height: 27px;     
+                    font-size: 12px;      
+                 }
                 display: block;
                 height: calc(@menu-width - 8px);
                 width: calc(@menu-width - 8px);
-                line-height: 27px;
-                font-size: 12px;
-                text-transform: uppercase;
+                line-height: 45px;
+                font-size: 16px;
+                font-weight: bold;                text-transform: uppercase;
                 cursor: pointer;
                 border-radius: 50%;
                 overflow: hidden;
@@ -35,7 +47,8 @@
                 text-align: center;
                 box-sizing: border-box;
                 padding: 4px;
-                margin: 4px;
+                margin: 9px 4;
+                color:@color-font-name;
 
                 &:hover {
                     opacity: 0.8;
@@ -47,28 +60,37 @@
     .chat-wrapper {
         position: relative;
         width: @chat-width;
-        height: 100vh;;
+        height: 100vh;
         overflow: hidden;
         float: left;
         display: none;
-        background-color: green;
+        background-color: @color-chat-bg;
+        
+        @media (max-width:767px){
+        width:@mobil-chat-width;
+        img{
+            height: @chat-button-mobile;
+            width:  @chat-button-mobile;
+        }
+        
+             }
 
         .topbar {
             .clearfix();
             height: @chat-topbar-height;
             width: 100%;
             background-color: @color-chat-topbar-bg;
-            color: @color-chat-topbar-text;
+           
 
             .title {
                 width: calc(~"100% - @{chat-topbar-height}");
                 height: 100%;
                 float: left;
                 line-height: @chat-topbar-height;
-                padding-left:10px;
-                padding-right: 10px;
+                padding:0px 10px;
                 box-sizing: border-box;
-                font-size: 16px;
+                font-size: 20px;
+                color:@color-font-name;
                 text-transform: uppercase;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -81,10 +103,13 @@
                 float: left;
                 text-align: center;
                 box-sizing: border-box;
-                font-size: 16px;
+                font-size: 28px;
                 font-weight: bold;
                 line-height: @chat-topbar-height;
-                background-color: darken(@color-chat-topbar-bg, 15%);
+                background-color: @color-chat-topbar-bg;
+                cursor: pointer;
+                color:@color-font-name;
+
             }
         }
 
@@ -92,35 +117,63 @@
             position: relative;
             width: 100%;
             height: calc(~"100vh - @{chat-topbar-height}");
+            color:@color-font-name;
 
             .messages-wrapper {
                 height: calc(~"100% - @{chat-input-height}");
+                box-sizing: border-box;
+                padding:3px ;
+                .singleMessage{
+                    margin-bottom:5px;
+                }
+               
             }
 
             .input-wrapper {
-                textarea {
+                height: @chat-input-height;
+                background-color:@color-chat-topbar-bg;
+                
+                    textarea {
                     display: block;
                     height: @chat-input-height;
                     width: calc(~"100% - @{chat-input-height}");
                     float: left;
-                    box-sizing: border-box;
-                    background-color: white;
-                    padding: 5px 5px;
-                    border: none;
+                    padding: 9px;
+                    background-color:@color-textarea;
+                    border:none ;
                     resize: none;     
                     font-family: inherit;
                     font-size: 14px;
+                    color:@color-font-name;
+                    margin-bottom: 3px;
+                  
                 }
 
                 button {
                     display: block;
-                    height: @chat-input-height;
-                    width:  @chat-input-height;
+                    img{
+                        height: @chat-button;
+                        width:  @chat-button;
+                        margin: 5px 9px 0px -5px;
+                    }
+                    height: @chat-button;
+                    width:  @chat-button;
                     float: left;
                     box-sizing: border-box;
                     border: none;
-                    background-color: @color-chat-submit-bg;
-                    color: @color-chat-submit-text;
+                    background-color: inherit;
+                    color: @color-font-name;
+                    box-sizing: border-box;
+                    
+                    @media (max-width:767px){
+                        img{
+                            height: @chat-button-mobile;
+                            width:  @chat-button-mobile;
+                            margin-left:8px;
+
+                        }
+                        
+                             }
                 }
             }
         }
@@ -272,8 +325,10 @@
     }
 
     &.chat-open {
+       
         .chat-wrapper{
             display: block;
+         
         }
 
         .right-side{
