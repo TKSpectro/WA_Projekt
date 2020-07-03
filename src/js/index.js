@@ -13,7 +13,7 @@ function loadMessages(elm, fromId) {
     let xhr = new XMLHttpRequest();
 
     //handle request finished
-    xhr.onload = function () {
+    xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             let jsonData = JSON.parse(xhr.response);
 
@@ -30,13 +30,13 @@ function loadMessages(elm, fromId) {
                     text: message.text,
                     from: {
                         id: message.from.id,
-                        displayName: message.from.firstName + ' ' + message.from.lastName,
+                        displayName: message.from.firstName.charAt(0) + message.from.lastName.charAt(0),
                     },
                     to: message.to
                 });
             }
 
-            userPressed(elm);
+            // userPressed(elm);
         } else {
             console.log('request failed');
         }
@@ -74,6 +74,10 @@ function updateUserBtnName(elm) {
 
 function userPressed(elm) {
     currentUserElm = elm;
+    //let x = document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className;
+    document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper chat-open";
+
+
 
     elm.setAttribute('data-new', '0');
     updateUserBtnName(elm);
@@ -95,6 +99,12 @@ function userPressed(elm) {
         }
     }
 }
+
+function chatClose() {
+    document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper";
+
+}
+
 
 function sendPressed(elm) {
     let textarea = document.getElementById('message');
@@ -141,6 +151,8 @@ function handleIncomingMessage(data) {
         }
     } else {
         let elm = document.createElement('DIV');
+        elm.className = "singleMessage";
+
         elm.innerText = data.from.displayName + ': ' + data.text;
         messageElm.appendChild(elm);
         messageElm.scrollTop = messageElm.scrollHeight;
@@ -152,7 +164,7 @@ io.on('message', (data) => {
     handleIncomingMessage(data);
 });
 
-messagesElm.addEventListener('scroll', function () {
+messagesElm.addEventListener('scroll', function() {
     if (this.scrollTop === 0) {
         let fromId = currentUserElm.getAttribute('data-id');
         loadMessages(currentUserElm, fromId === '0' ? null : fromId);
@@ -160,13 +172,13 @@ messagesElm.addEventListener('scroll', function () {
 });
 
 textarea.altActive = false;
-textarea.addEventListener('keydown', function (event) {
+textarea.addEventListener('keydown', function(event) {
     if (event.keyCode === 18) {
         textarea.altActive = true;
     }
 });
 
-textarea.addEventListener('keyup', function (event) {
+textarea.addEventListener('keyup', function(event) {
     if (event.keyCode === 18) {
         textarea.altActive = false;
     }
@@ -190,22 +202,22 @@ let sortableLists = sortable('.tasks', {
 
 for (let index = 0; index < sortableLists.length; index++) {
     const list = sortableLists[index];
-    list.addEventListener('sortstart', function (e) {
+    list.addEventListener('sortstart', function(e) {
         // do nothing
     });
 
-    list.addEventListener('sortstop', function (e) {
+    list.addEventListener('sortstop', function(e) {
         //console.log('sortstop', e);
         //do nothing
     });
 
-    list.addEventListener('sortupdate', function (e) {
+    list.addEventListener('sortupdate', function(e) {
         let item = e.detail.item;
         let target = e.target;
 
         let line = item.querySelector('.line');
 
-        if(line) {
+        if (line) {
             line.style.background = target.getAttribute('data-workflow-color');
         }
 
@@ -218,18 +230,18 @@ for (let index = 0; index < sortableLists.length; index++) {
 }
 
 io.on('task/move', (data) => {
-    let item = document.querySelector('.task[data-id="'+data.id+'"]');
+    let item = document.querySelector('.task[data-id="' + data.id + '"]');
     if (item) {
-        let taskList = document.querySelector('.tasks[data-workflow-id="'+data.workflowId+'"]');
-        if(taskList){
+        let taskList = document.querySelector('.tasks[data-workflow-id="' + data.workflowId + '"]');
+        if (taskList) {
             let index = data.sort;
-            if(taskList.children.length <= index + 1){
+            if (taskList.children.length <= index + 1) {
                 taskList.appendChild(item);
-            }else {
+            } else {
                 let currentIndex = Array.prototype.indexOf.call(taskList.children, item);
 
-                if(index !== 0 && currentIndex !== - 1 && index >= currentIndex) {
-                    index = index + 1; 
+                if (index !== 0 && currentIndex !== -1 && index >= currentIndex) {
+                    index = index + 1;
                 }
 
                 let sibling = taskList.children[index];
@@ -237,7 +249,7 @@ io.on('task/move', (data) => {
 
                 let line = item.querySelector('.line');
 
-                if(line) {
+                if (line) {
                     line.style.background = taskList.getAttribute('data-workflow-color');
                 }
             }
