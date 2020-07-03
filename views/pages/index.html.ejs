@@ -3,19 +3,18 @@
         <div class="scroll-wrapper">
             <ul class="menu-list">
                 <li>PR</li>
-                <li>SET</li>
-                <li id="btn-chat-all" data-id="0" data-shortname="ALL" data-new="0" onclick="userPressed(this); return false;">ALL</li>
+                <li><img src="../../assets/images/gear.svg" alt=""></li>
+                <li id="btn-chat-all" data-id="0" data-new="0" data-shortname="All" onclick="userPressed(this); return false;"><img src="../../assets/images/chat.svg" alt="ALl"></li>
                 <% for(let index = 0; index < users.length; ++index) { %>
-                <%
+                    <%
                     //exclude the current user
                     if(self.req.user.id === users[index].id){
                         continue;
                     } %>
-                <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>" data-shortname="<%=users[index].shortName()%>"
-                 data-full="<%=users[index].fullname()%>" data-new="0" onclick="userPressed(this); return false;">
-                      <%=users[index].shortName()%>
-                </li>
-                <% } //endfor %>
+                        <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>" data-shortname="<%=users[index].shortName()%>" data-fullname="<%=users[index].fullname()%>" data-new="0" onclick="userPressed(this); return false;">
+                            <%=users[index].shortName()%>
+                        </li>
+                        <% } //endfor %>
             </ul>
         </div>
     </div>
@@ -43,57 +42,64 @@
         <div class="kanban-wrapper">
             <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
-                <% const workflow = workflows[index]; %>
-                <div class="col">
-                    <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
-                        <%=workflow.name%>
-                    </div>
-                </div>
-                <%} //ENDFOR %>
+                    <% const workflow = workflows[index]; %>
+                        <div class="col">
+                            <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
+                                <span class="workflow"><%=workflow.name%></span> <span class="add">+</span>
+                            </div>
+
+                        </div>
+                        <%} //ENDFOR %>
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
-                <% const workflow = workflows[index]; %>
-                <div class="col">
-                    <div class="add">
-                        +
-                    </div>
-                </div>
-                <%} //ENDFOR %>
-            </div>
+                    <% const workflow = workflows[index]; %>
+                        <div class="col">
+                            <div class="add">
+                                +
+                            </div>
+                        </div>
+                        <%} //ENDFOR %>
+            </div>-->
 
             <div class="row tasks-wrapper">
                 <% for (let index = 0; index < workflows.length; index++) { %>
                     <% const workflow = workflows[index]; %>
-                    <div class="col">
-                        <div class="tasks" data-workflow-id="<%-workflow.id%>" data-workflow-color="<%-workflow.color%>">
-                            <% if(workflowTasks[workflow.id] instanceof Array) { %>
-                                <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
-                                    <% const task = workflowTasks[workflow.id][i]; %>
-                                    <div class="task" data-id="<%-task.id%>">
-                                        <div class="line" style="background: <%-workflow.color%>;"></div>
-                                        <div class="name">
-                                            #<%-task.id%> <%=task.name%>
-                                        </div>
-                                        <div class="time">
-                                            <!--This will only be shown in the task editor-->
-                                        </div>
+                        <div class="col">
+                            <div class="tasks" data-workflow-id="<%-workflow.id%>" data-workflow-color="<%-workflow.color%>">
+                                <% if(workflowTasks[workflow.id] instanceof Array) { %>
+                                    <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
+                                        <% const task = workflowTasks[workflow.id][i]; %>
+                                            <div class="task" data-id="<%-task.id%>">
+                                                <div class="line" style="background: <%-workflow.color%>;"></div>
+                                                <div class="name">
+                                                    #
+                                                    <%-task.id%>
+                                                        <%=task.name%>
+                                                </div>
+                                                <div class="time">
+                                                    <!--This will only be shown in the task editor-->
+                                                </div>
 
-                                        <div class="footer">
-                                            <div class="assigned">
-                                                <%=task.assignedTo.fullname()%>
+                                                <div class="footer">
+                                                    <div class="assigned">
+                                                        <%=task.assignedTo.fullname()%>
+                                                    </div>
+                                                    <div class="deadline">
+                                                        <%-task.deadline.getDay()%>.
+                                                            <%-task.deadline.getMonth() + 1%>.
+                                                                <%-task.deadline.getFullYear()%>
+                                                                    <%-task.deadline.getHours()%>:
+                                                                        <%-task.deadline.getMinutes()%>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="deadline">
-                                                <%-task.deadline.getDay()%>.<%-task.deadline.getMonth() + 1%>.<%-task.deadline.getFullYear()%> <%-task.deadline.getHours()%>:<%-task.deadline.getMinutes()%>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% } //ENDFOR %>
-                            <% } //ENDIF %>
+                                            <% } //ENDFOR %>
+                                                <% } //ENDIF %>
+                            </div>
                         </div>
-                    </div>
-                <%} //ENDFOR %>
+                        <%} //ENDFOR %>
             </div>
         </div>
     </div>

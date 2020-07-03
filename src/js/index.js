@@ -75,11 +75,15 @@ function updateUserBtnName(elm) {
 function userPressed(elm) {
     currentUserElm = elm;
     document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper chat-open";
-    document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-full') || "ALL";
 
+    if (elm.getAttribute('data-fullname') !== null) {
+        document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-fullname');
+    } else {
+        document.getElementById("chatTitle").innerHTML = "All";
+
+    }
     elm.setAttribute('data-new', '0');
     updateUserBtnName(elm);
-    console.log(elm.getAttribute('data-full'));
 
     //clean current messages in pot
     let messagesElm = document.getElementById('messages');
