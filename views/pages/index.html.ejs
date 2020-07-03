@@ -6,15 +6,16 @@
                 <li>SET</li>
                 <li id="btn-chat-all" data-id="0" data-shortname="ALL" data-new="0" onclick="userPressed(this); return false;">ALL</li>
                 <% for(let index = 0; index < users.length; ++index) { %>
-                    <%
+                <%
                     //exclude the current user
                     if(self.req.user.id === users[index].id){
                         continue;
                     } %>
-                        <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>" data-shortname="<%=users[index].shortName()%>" data-full="<%=users[index].fullname()%>" data-new="0" onclick="userPressed(this); return false;">
-                            <%=users[index].shortName()%>
-                        </li>
-                        <% } //endfor %>
+                <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>" data-shortname="<%=users[index].shortName()%>"
+                 data-full="<%=users[index].fullname()%>" data-new="0" onclick="userPressed(this); return false;">
+                      <%=users[index].shortName()%>
+                </li>
+                <% } //endfor %>
             </ul>
         </div>
     </div>
@@ -33,7 +34,8 @@
             </div>
             <div class="input-wrapper">
                 <textarea id="message" placeholder="Schreiben Sie irgendwas...."></textarea>
-                <button id="send-message" onclick="sendPressed(this); return false;"><img src="../../assets/images/paper-plane.svg"></button>
+                <button id="send-message" onclick="sendPressed(this); return false;"><img
+                        src="../../assets/images/paper-plane.svg"></button>
             </div>
         </div>
     </div>
@@ -41,24 +43,24 @@
         <div class="kanban-wrapper">
             <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
-                    <% const workflow = workflows[index]; %>
-                        <div class="col">
-                            <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
-                                <%=workflow.name%>
-                            </div>
-                        </div>
-                        <%} //ENDFOR %>
+                <% const workflow = workflows[index]; %>
+                <div class="col">
+                    <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
+                        <%=workflow.name%>
+                    </div>
+                </div>
+                <%} //ENDFOR %>
             </div>
 
             <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
-                    <% const workflow = workflows[index]; %>
-                        <div class="col">
-                            <div class="add">
-                                +
-                            </div>
-                        </div>
-                        <%} //ENDFOR %>
+                <% const workflow = workflows[index]; %>
+                <div class="col">
+                    <div class="add">
+                        +
+                    </div>
+                </div>
+                <%} //ENDFOR %>
             </div>
 
             <div class="row tasks-wrapper">
@@ -95,8 +97,12 @@
                                                         <% } //ENDIF %>
                                                 </div>
                                             </div>
-                                            <%} //ENDFOR %>
-                            </div>
+                                        </div>
+                                    </div>
+                                <% } //ENDFOR %>
+                            <% } //ENDIF %>
                         </div>
+                    </div>
+                <%} //ENDFOR %>
             </div>
         </div>
