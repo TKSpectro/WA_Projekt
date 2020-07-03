@@ -154,7 +154,7 @@
                     img{
                         height: @chat-button;
                         width:  @chat-button;
-                        margin: 5px 9px 0px -5px;
+                        margin:12px 10px 0 0px;
                     }
                     height: @chat-button;
                     width:  @chat-button;
@@ -182,6 +182,10 @@
     .right-side {
         position: relative;
         width: calc(~"100% - @{menu-width}");
+        /*@media (max-width:767px){
+            width: calc(~"100% - @{mobil-menu-width}");
+               } */
+
         height: 100vh;
         overflow: hidden;
         float: left;
@@ -197,16 +201,21 @@
 
                 &.tasks-wrapper {
                     height: calc(~"100% - @{kanban-add-height} - @{kanban-title-height}");
-                    
+
                     .col {
                         height: 100%;
                         overflow: hidden;
+
                     }
                 }
 
                 .col {
                     display: inline-block;
                     width: @kanban-col-width;
+                   /* @media (max-width:767px){
+                        width:@mobile-kanban-col-width;
+                    }*/
+                    
 
                     .title {
                         position: relative;
@@ -333,7 +342,8 @@
 
         .right-side{
             width: calc(~"100vw - @{menu-width} - @{chat-width}");
-            
+           
+          
         }
     }
 }
