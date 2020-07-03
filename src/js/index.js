@@ -65,7 +65,7 @@ function loadMessages(elm, fromId) {
 
 function updateUserBtnName(elm) {
     //update user name if there is incoming message icon
-    elm.innerText = elm.getAttribute('data-fullname');
+    elm.innerText = elm.getAttribute('data-shortname');
 
     if (elm.getAttribute('data-new') !== '0') {
         elm.innerText += ' (' + elm.getAttribute('data-new') + ')';
@@ -74,13 +74,12 @@ function updateUserBtnName(elm) {
 
 function userPressed(elm) {
     currentUserElm = elm;
-    //let x = document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className;
     document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper chat-open";
-
-
+    document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-full') || "ALL";
 
     elm.setAttribute('data-new', '0');
     updateUserBtnName(elm);
+    console.log(elm.getAttribute('data-full'));
 
     //clean current messages in pot
     let messagesElm = document.getElementById('messages');
