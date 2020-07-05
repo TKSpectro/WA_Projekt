@@ -3,7 +3,7 @@
  */
 
 const Passport = require('./passport.js');
-
+const { Op, TableHints } = require("sequelize");
 
 class SocketHandler {
     constructor(io, db) {
@@ -111,18 +111,85 @@ class SocketHandler {
             });
 
             socket.on('task/move', async (data) => {
-                let task = await self.db.Task.findOne({
+                let movedTask = await self.db.Task.findOne({
                     where: {
                         id: data.id,
                     }
                 });
+                // Save oldSort for convenient usage
+                const oldSort = movedTask.sort;
 
-                if(task){
-                    task.workflowId = data.workflowId;
-                    task.sort = data.sort;
-                    await task.save();
+                // Determine if the user is moving the item up or down in the listing
+                // True = task was moved down
+                // False = task was moved up
+                const movedDown = oldSort < data.sort;
+
+                /*
+                if (movedTask) {
+                    movedTask.workflowId = data.workflowId;
+                    movedTask.sort = data.sort;
+                    await movedTask.save();
                 }
+                */
 
+                /*
+
+                Drag-and-drop moves (e.g., move item 6 to sit between items 9 and 10) are a little trickier and have to be done differently
+                depending on whether the new position is above or below the old one.
+                In the example above, you have to open up a hole by incrementing all positions greater than 9,
+                updating item 6's position to be the new 10 and then decrementing the position of everything greater than 6 to fill in the vacated spot.
+                
+                */
+
+                //if task was moved in the same workflow
+                if (parseInt(movedTask.workflowId) === parseInt(data.workflowId)) {
+                    let tasks = await self.db.Task.findAll({
+                        where: {
+                            workflowId: data.workflowId
+                        },
+                        order: [
+                            ['sort', 'ASC']
+                        ]
+                    });
+
+                    if (movedDown) {
+                        console.log('\nmovedDown\n')
+                        // Increment every sort of positions greater then the new one
+                        for (let i = data.sort; i < tasks.length; i++) {
+                            const task = tasks[i];
+                            task.sort++;
+                            task.save();
+                            tasks[i].sort = task.sort;
+                        }
+
+                        // Set the sort for the moved task
+                        movedTask.sort = data.sort;
+                        movedTask.save();
+                        tasks[data.sort].sort = movedTask.sort;
+
+                        // Decrement every sort of positions greater then the old one
+                        for (let i = oldSort + 1; i < tasks.length; i++) {
+                            const task = tasks[i];
+                            task.sort--;
+                            task.save();
+                            tasks[i].sort = task.sort;
+                        }
+                    } else {
+
+                    }
+                } else { //moved task to other workflow
+                    let movedTask = await self.db.Task.findOne({
+                        where: {
+                            id: data.id,
+                        }
+                    });
+
+                    if (movedTask) {
+                        movedTask.workflowId = data.workflowId;
+                        movedTask.sort = data.sort;
+                        await movedTask.save();
+                    }
+                }
                 socket.broadcast.emit('task/move', data);
             });
         })

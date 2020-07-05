@@ -75,7 +75,10 @@ class PagesController extends Controller {
                         workflowId: workflow.id,
                         projectId: projectId
                     },
-                    include: ['assignedTo']
+                    include: ['assignedTo'],
+                    order: [
+                        ['sort', 'ASC']
+                    ]
                 });
             }
 
