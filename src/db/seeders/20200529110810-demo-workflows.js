@@ -4,28 +4,28 @@ module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert('workflow', [{
             name: 'Todo',
-            color: '#2ecc71',
+            color: '#2A898F',
             sort: 1,
             projectId: 1,
             createdAt: new Date(),
             updatedAt: new Date(),
-        },{
+        }, {
             name: 'In Progress',
-            color: '#3498db',
+            color: '#94CFBD',
             sort: 2,
             projectId: 1,
             createdAt: new Date(),
             updatedAt: new Date(),
-        },{
+        }, {
             name: 'Review',
-            color: '#9b59b6',
+            color: '#FEA926',
             sort: 3,
             projectId: 1,
             createdAt: new Date(),
             updatedAt: new Date(),
-        },{
+        }, {
             name: 'Done',
-            color: '#f1c40f',
+            color: '#F53D35',
             sort: 4,
             projectId: 1,
             createdAt: new Date(),
