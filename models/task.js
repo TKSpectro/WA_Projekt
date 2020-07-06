@@ -1,6 +1,5 @@
-module.exports = function (Model, db) {
-    Model.extendInclude = [
-        {
+module.exports = function(Model, db) {
+    Model.extendInclude = [{
             model: db.User,
             as: 'creator',
             attributes: ['id', 'firstName', 'lastName'],
@@ -30,7 +29,7 @@ module.exports = function (Model, db) {
         }
     ];
 
-    Model.prototype.writeRemotes = function (data) {
+    Model.prototype.writeRemotes = function(data) {
         const self = this;
 
         if (typeof data.name !== 'undefined') {
@@ -51,6 +50,12 @@ module.exports = function (Model, db) {
 
         if (typeof data.projectId !== 'undefined') {
             self.projectId = data.projectId;
+        }
+        if (typeof data.maximumWorkTime !== 'undefined') {
+            self.maximumWorkTime = data.maximumWorkTime;
+        }
+        if (typeof data.deadline !== 'undefined') {
+            self.deadline = data.deadline;
         }
 
         if (typeof data.workflowId !== 'undefined') {
