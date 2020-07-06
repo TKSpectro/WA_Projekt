@@ -259,3 +259,27 @@ io.on('task/move', (data) => {
         }
     }
 });
+
+function addPressed(elm) {
+    //elm.className = 'active';
+
+    var form = document.getElementById('taskForm');
+    let currentUserId = document.getElementById('currentUserId').value;
+    console.log("done");
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(form.getAttribute('method') || 'POST', form.getAttribute('action'));
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        task: {
+            name: document.getElementById('nameTask').value,
+            text: document.getElementById('textTask').value,
+            creatorId = currentUserId,
+            maximumWorkTime: document.getElementById('maxTime').value,
+            deadline: document.getElementById('deadline').value,
+            assignedToId: document.getElementById('assignedToId').value,
+            projectId: document.getElementById('projectID').value,
+            workflowId: document.getElementById('workflowId').value,
+        }
+    }));
+}

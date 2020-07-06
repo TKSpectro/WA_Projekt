@@ -72,7 +72,7 @@
                                     <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
                                         <% const task = workflowTasks[workflow.id][i]; %>
                                             <div class="task" style="border-color: <%-workflow.color%>;" data-id="<%-task.id%>">
-                                                <!-- <div class="line" style="background: <%-workflow.color%>;"></div>-->
+
                                                 <div class="name">
                                                     #
                                                     <%-task.id%>
@@ -103,4 +103,49 @@
             </div>
         </div>
     </div>
+</div>
+<div class="taskForm">
+    <form id="taskForm" action="<%-self.urlFor('api/tasks', 'create', null, 'POST')%>" method="POST" data="<%=self.req.user.id%>">
+        <div><label for="name">name:</label><br>
+            <input type="text" id="nameTask" name="name"></div>
+
+        <div> <label for="text">Text:</label><br>
+            <input type="text" id="textTask" name="text"></div>
+
+        <input type="text" style="display:none;" id="currentUserId" value="<%-self.req.user.id%>">
+
+        <div><label for="maximumWorkedTime">Maximum Work Time</label><br>
+            <input type="number" id="maxTime" name="maxTime"></div>
+
+        <div><label for="deadline">Deadline:</label><br>
+            <input type="date" id="deadline" name="deadline"></div>
+
+
+        <div><label for="assignedToId">Assigned To:</label><br>
+            <select class="select" id="assignedToId" name="assignedToId">
+                    <% for(let index = 0; index < users.length; ++index) { %>
+                <option value="<%=users[index].id%>"><%=users[index].fullname()%></option>
+                <% } //endfor %>    
+            </select>
+        </div>
+
+        <div><label for="projects">Projects:</label><br>
+            <select class="select" id="projectID" name="projects">
+                    <% for(let index = 0; index < projects.length; ++index) { %>
+                <option value="<%=projects[index].id%>"><%=projects[index].name%></option>
+                <% } //endfor %>    
+            </select>
+        </div>
+
+
+        <div><label for="workflows">Workflow:</label><br>
+            <select class="select" name="workflows" id="workflowId">
+                    <% for(let index = 0; index < workflows.length; ++index) { %>
+                <option value="<%=workflows[index].id%>"><%=workflows[index].name%></option>
+                <% } //endfor %>    
+            </select><br>
+        </div>
+
+        <button onclick="addPressed(this); return false;">Add Task</button>
+    </form>
 </div>
