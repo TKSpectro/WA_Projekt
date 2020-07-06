@@ -71,8 +71,8 @@
                                 <% if(workflowTasks[workflow.id] instanceof Array) { %>
                                     <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
                                         <% const task = workflowTasks[workflow.id][i]; %>
-                                            <div class="task" data-id="<%-task.id%>">
-                                                <div class="line" style="background: <%-workflow.color%>;"></div>
+                                            <div class="task" style="border-color: <%-workflow.color%>;" data-id="<%-task.id%>">
+                                                <!-- <div class="line" style="background: <%-workflow.color%>;"></div>-->
                                                 <div class="name">
                                                     #
                                                     <%-task.id%>

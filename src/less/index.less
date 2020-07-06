@@ -65,6 +65,7 @@
         float: left;
         display: none;
         background-color: @color-chat-bg;
+        border-radius: 8px;
         
         @media (max-width:767px){
         width:@mobil-chat-width;
@@ -80,6 +81,7 @@
             height: @chat-topbar-height;
             width: 100%;
             background-color: @color-chat-topbar-bg;
+            border-radius: 8px;
            
 
             .title {
@@ -106,7 +108,7 @@
                 font-size: 28px;
                 font-weight: bold;
                 line-height: @chat-topbar-height;
-                background-color: @color-chat-topbar-bg;
+                //background-color: @color-chat-topbar-bg;
                 cursor: pointer;
                 color:@color-font-name;
 
@@ -132,6 +134,8 @@
             .input-wrapper {
                 height: @chat-input-height;
                 background-color:@color-chat-topbar-bg;
+                border-radius: 8px;
+
                 
                     textarea {
                     display: block;
@@ -146,6 +150,8 @@
                     font-size: 14px;
                     color:@color-font-name;
                     margin-bottom: 3px;
+                    border-radius: 8px;
+
                   
                 }
 
@@ -292,20 +298,26 @@
                             margin-bottom: 10px;
                             background: rgba(255,255,255,0.8);
                             transition: transform 300ms;
+                            border-radius: 8px;
+                            box-sizing: border-box;
+                            border-top: 5px solid;
+                            color: #4A5A73;
                             
                             &.dragging {
                             }
 
                             .line {
                                 height: 4px;
-                                background: #9b59b6;
+                                //background: #9b59b6;
+                                border-radius: 8px;
+
                             }
 
                             .name {
                                 font-size: 14px;
                                 line-height: 18px;
                                 font-weight: bold;
-                                color: black;
+                                
                                 white-space: normal;
                                 padding: 4px;
                             }
