@@ -132,6 +132,14 @@ function sendPressed(elm) {
 function handleIncomingMessage(data) {
     let messageElm = document.getElementById('messages');
     let elmId = null;
+    var today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+    let hour = today.getHours();
+    let minute = today.getMinutes();
+
+    today = mm + '.' + dd + '.' + yyyy + ' - ' + hour + ':' + minute;
 
     //check incoming message has data.to === null or not inside, means public chat
     if (!data.to) {
@@ -154,20 +162,27 @@ function handleIncomingMessage(data) {
         }
     } else {
         let elm = document.createElement('DIV');
-        elm.className = "singleMessage";
+        let info = document.createElement('DIV');
+        info.className = "info";
+        // console.log(elm.parentNode.className);
 
+        if (currentUserId == data.from.id) {
+            elm.className = "myMessage";
+            elm.innerText = data.text;
+            info.style.textAlign = "left";
+            info.style.margin = "0% 10% 0% 0%";
 
-        /* if (currentUserId == data.from.id) {
-             elm.style.textAlign = "right";
-             console.log(elm.className);
-             elm.innerText = data.from.displayName + ': ' + data.text;
+            info.innerText = "Du" + ' - ' + today;
+        } else {
+            elm.className = "yourMessage";
+            elm.innerText = data.text;
+            info.style.textAlign = "right";
+            info.innerText = data.from.displayName + ' - ' + today;
 
-         } else {
-            
-         }*/
-
-        elm.innerText = data.from.displayName + ': ' + data.text;
+        }
+        // info.innerText = data.from.displayName;
         messageElm.appendChild(elm);
+        messageElm.appendChild(info);
         messageElm.scrollTop = messageElm.scrollHeight;
     }
 }
