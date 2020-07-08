@@ -156,6 +156,16 @@ function handleIncomingMessage(data) {
         let elm = document.createElement('DIV');
         elm.className = "singleMessage";
 
+
+        /* if (currentUserId == data.from.id) {
+             elm.style.textAlign = "right";
+             console.log(elm.className);
+             elm.innerText = data.from.displayName + ': ' + data.text;
+
+         } else {
+            
+         }*/
+
         elm.innerText = data.from.displayName + ': ' + data.text;
         messageElm.appendChild(elm);
         messageElm.scrollTop = messageElm.scrollHeight;
@@ -260,12 +270,11 @@ io.on('task/move', (data) => {
     }
 });
 
+//Function to add a Task 
 function addPressed(elm) {
-    //elm.className = 'active';
-
-    var form = document.getElementById('taskForm');
+    var form = document.getElementById('form');
     let currentUserId = document.getElementById('currentUserId').value;
-    console.log("done");
+
 
     var xhr = new XMLHttpRequest();
     xhr.open(form.getAttribute('method') || 'POST', form.getAttribute('action'));
@@ -278,8 +287,30 @@ function addPressed(elm) {
             maximumWorkTime: document.getElementById('maxTime').value,
             deadline: document.getElementById('deadline').value,
             assignedToId: document.getElementById('assignedToId').value,
-            projectId: document.getElementById('projectID').value,
+            projectId: document.getElementById('projectId').value,
             workflowId: document.getElementById('workflowId').value,
         }
+
     }));
+    location.reload();
+}
+
+//function to show a TaskForm
+function addTask(elm) {
+    let test = document.getElementById("addIcon");
+    console.log(test);
+    document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
+}
+
+//function to show a TaskForm
+function edditTask(elm) {
+    let test = document.getElementById("taskName").parentNode;
+    console.log(test);
+    document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
+}
+
+function taskClose() {
+    document.getElementById("taskCloseId").parentNode.style.display = "none";
+    console.log("done");
+
 }
