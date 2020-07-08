@@ -66,6 +66,10 @@ function loadMessages(elm, fromId) {
 function updateUserBtnName(elm) {
     //update user name if there is incoming message icon
     elm.innerText = elm.getAttribute('data-shortname');
+    let img = document.createElement("img");
+    img.src = "../../assets/images/chat.svg";
+    let src = document.getElementById("btn-chat-all");
+    src.appendChild(img);
 
     if (elm.getAttribute('data-new') !== '0') {
         elm.innerText += ' (' + elm.getAttribute('data-new') + ')';
@@ -77,10 +81,8 @@ function userPressed(elm) {
     document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper chat-open";
 
     if (elm.getAttribute('data-fullname') !== null) {
-        document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-fullname');
-    } else {
-        document.getElementById("chatTitle").innerHTML = "All";
 
+        document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-fullname');
     }
     elm.setAttribute('data-new', '0');
     updateUserBtnName(elm);
