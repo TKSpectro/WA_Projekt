@@ -268,7 +268,16 @@ form {
 
             }
         }
-
+        .singleMessageStyle()
+        {
+            box-sizing: border-box;
+            width:90%;
+            margin :5px;
+            font-size: 17px;
+            padding:5px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
         .chat {
             position: relative;
             width: 100%;
@@ -279,8 +288,27 @@ form {
                 height: calc(~"100% - @{chat-input-height}");
                 box-sizing: border-box;
                 padding:3px ;
-                .singleMessage{
-                    margin-bottom:5px;
+                .myMessage{
+                    .singleMessageStyle();
+                    float:left;
+                    background-color: @color-message-bg;
+                    color:@color-message-font;
+                    text-align: left;
+                    
+                }
+                .info{
+                    .singleMessageStyle();
+                    font-size: 15px;
+                    font-weight: lighter;
+                    
+                }
+                .yourMessage{
+                    .singleMessageStyle();
+                    float:right;
+                    background-color: #94CFBD;
+                    color:@color-message-font;
+                    text-align: right;
+                    
                 }
                
             }
