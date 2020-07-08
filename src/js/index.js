@@ -173,12 +173,12 @@ function handleIncomingMessage(data) {
             elm.innerText = data.text;
             info.style.textAlign = "left";
             info.style.margin = "0% 10% 0% 0%";
-
             info.innerText = "Du" + ' - ' + today;
         } else {
             elm.className = "yourMessage";
             elm.innerText = data.text;
             info.style.textAlign = "right";
+            info.style.margin = "0% 0% 0% 10%";
             info.innerText = data.from.displayName + ' - ' + today;
 
         }
