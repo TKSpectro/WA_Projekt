@@ -16,7 +16,7 @@ class ApiTasksController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
-        self.before(['*'], function (next) {
+        self.before(['*'], function(next) {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -36,7 +36,7 @@ class ApiTasksController extends Controller {
         try {
             tasks = await self.db.Task.findAll({
                 where: {},
-                attributes: ['id', 'name', 'createdAt', 'updatedAt'],
+                attributes: ['id', 'name', 'text', 'alreadyWorkedTime', 'maximumWorkTime', 'deadline', 'createdAt', 'updatedAt'],
                 include: self.db.Task.extendInclude
             });
             if (!tasks) {
@@ -67,7 +67,7 @@ class ApiTasksController extends Controller {
                 where: {
                     id: taskId
                 },
-                attributes: ['id', 'name', 'createdAt', 'updatedAt'],
+                attributes: ['id', 'name', 'text', 'alreadyWorkedTime', 'maximumWorkTime', 'deadline', 'createdAt', 'updatedAt'],
                 include: self.db.Task.extendInclude
             });
             if (!task) {
@@ -97,12 +97,13 @@ class ApiTasksController extends Controller {
             let error = null;
 
             try {
-                task = await self.db.sequelize.transaction(async (t) => {
+                task = await self.db.sequelize.transaction(async(t) => {
                     let newTask = self.db.Task.build();
                     newTask.writeRemotes(remoteData);
 
                     await newTask.save({
-                        transaction: t, lock: true
+                        transaction: t,
+                        lock: true
                     });
 
                     return newTask;
@@ -135,6 +136,7 @@ class ApiTasksController extends Controller {
 
         //check if the logged in person has the permission to update tasks
         if (Helper.checkPermission(Helper.canUpdateTask, self.req.user.permission)) {
+
             //task should be a object with all the values (new and old)
             let remoteData = self.param('task');
             let taskId = self.param('id');
@@ -147,18 +149,16 @@ class ApiTasksController extends Controller {
                 let where = {};
 
                 where = {
-                    [Op.or]: [
-                        {
-                            id: taskId,
-                            assignedToId: self.req.user.id
-                        }, {
-                            id: taskId,
-                            creatorId: self.req.user.id
-                        },
-                    ]
+                    [Op.or]: [{
+                        id: taskId,
+                        assignedToId: self.req.user.id
+                    }, {
+                        id: taskId,
+                        creatorId: self.req.user.id
+                    }, ]
                 };
 
-                task = await self.db.sequelize.transaction(async (t) => {
+                task = await self.db.sequelize.transaction(async(t) => {
                     let updatedTask = await self.db.Task.findOne({
                         where: where
                     }, { transaction: t })
@@ -213,7 +213,7 @@ class ApiTasksController extends Controller {
 
             //get the old task
             try {
-                task = await self.db.sequelize.transaction(async (t) => {
+                task = await self.db.sequelize.transaction(async(t) => {
                     task = await self.db.Task.destroy({
                         where: {
                             id: taskId,

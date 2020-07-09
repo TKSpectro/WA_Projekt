@@ -3,7 +3,7 @@
  * @version 1.0.0
  */
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
     grunt.initConfig({
         // Reference to all Plugun, that we have
         pkg: grunt.file.readJSON('package.json'),
@@ -15,7 +15,7 @@ module.exports = function (grunt) {
                     ],
                     compress: true,
                     plugins: [
-                        new (require('less-plugin-autoprefix'))({
+                        new(require('less-plugin-autoprefix'))({
                             browsers: [
                                 'last 2 versions',
                                 'ie 9'
@@ -48,9 +48,10 @@ module.exports = function (grunt) {
             scripts: {
                 files: [
                     'src/less/**',
-                    'src/js/**'
+                    'src/js/**',
+                    'src/apidoc/**'
                 ],
-                tasks: ['less', 'uglify', 'copy'],
+                tasks: ['less', 'uglify', 'copy', 'apidoc'],
             }
         },
         apidoc: {
@@ -63,7 +64,7 @@ module.exports = function (grunt) {
             main: {
                 files: [
                     // includes files within path
-                    { src: 'node_modules/html5sortable/dist/html5sortable.min.js', dest: 'assets/js/html5sortable.min.js'},
+                    { src: 'node_modules/html5sortable/dist/html5sortable.min.js', dest: 'assets/js/html5sortable.min.js' },
                 ],
             },
         },

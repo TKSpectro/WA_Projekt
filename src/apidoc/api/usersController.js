@@ -16,7 +16,7 @@
  * @apiSuccess {Object[]}   users.user.taskCreated      Array of tasks which the user created.
  * @apiSuccess {Object[]}   users.user.tasksAssignedTo  Array of tasks which are assigned to the user.
  *
- * @apiError 404: UsersNotFound No users were found.
+ * @apiError 404: TasksNotFound No task was found.
  * 
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
