@@ -40,19 +40,21 @@ img{
 
 }
 .inputStyle(){
-    width:60%;
+    width:@input-column-width;
     height:@input-column-height;
     border:none;
     background: none;
     border-bottom:4px solid @color-input-border;
     color:@color-font-name;
+    @media (max-width:767px){
+        width:80%;
+    }
 
 }
 form {
-
     position: absolute;
-    width: 40%;
-    height: 40em;
+    width: @task-form-width;
+    height: @task-form-height;
     border-radius: @form-radius;
     top: 18%;
     bottom: 25%;
@@ -64,6 +66,24 @@ form {
     box-sizing: border-box;
     padding-top:@index-form-padding;
     background:@color-task-form;
+    @media screen and (max-width:767px){
+        width:@task-form-width-mobile;
+        height: @task-form-height-mobile;
+        top: 0%;
+        bottom: 0%;
+        left: 0%;
+        right:0%;
+        padding-top:20%;
+        border-radius: 0px;
+
+    }
+    @media (min-width:767px) and (max-width:1000px){
+        width:70%;
+        top: 18%;
+        bottom: 25%;
+        left: 15%;
+        right:15%;
+    }
     input {
         .inputStyle()
     }
@@ -124,6 +144,10 @@ form {
    
     .inputColumn{
           margin:2em 0em;
+          @media (max-width:767px){
+            margin:2.3em 0em;
+          }
+        
       }
     
    
@@ -131,19 +155,40 @@ form {
   .createTaskTitle(){
     display: block;
     text-align: center;
-    text-align: center;
     position: absolute;
     font-size:3em;
     font-weight: bold;
+    @media (max-width:767px){
+        font-size:1.5em;
+    }
+    @media (max-width:1000px){
+        font-size:2.3em;
+    }
   }
   .createTask{
     .createTaskTitle();
-    top: 16%;
+    height: @task-title-height;
+    top: 14%;
     bottom: 80%;
     left: 40%;
     right:41%; 
     z-index: 8;
     color: @color-task-title;
+    padding-top: @task-title-padding;
+    border-radius: @task-title-radius;
+    background-color: @color-task-form;
+    @media (max-width:767px){
+        top: 8%;
+        padding-top:0%;
+        left: 30%;
+        right:30%; 
+        height: @task-title-height-mobile;
+    }
+    @media (max-width:1000px){
+        
+        left: 30%;
+        right:30%;
+    }
   }
   &.taskClose{
     .createTaskTitle();
@@ -156,6 +201,15 @@ form {
    
     opacity: 0.6;
     &:hover {
+        opacity: 1;
+    }
+    @media (max-width:767px){
+        font-size: 2em;
+        top: 3%;
+        padding-top:0%;
+        left: 85%;
+        right:8%; 
+        height: @task-title-height-mobile;
         opacity: 1;
     }
     

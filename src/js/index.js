@@ -74,10 +74,12 @@ function updateUserBtnName(elm) {
     if (elm.getAttribute('data-new') !== '0') {
         elm.innerText += ' (' + elm.getAttribute('data-new') + ')';
     }
+
 }
 
 function userPressed(elm) {
     currentUserElm = elm;
+
     document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper chat-open";
 
     if (elm.getAttribute('data-fullname') !== null) {
@@ -89,6 +91,7 @@ function userPressed(elm) {
     }
     elm.setAttribute('data-new', '0');
     updateUserBtnName(elm);
+
 
     //clean current messages in pot
     let messagesElm = document.getElementById('messages');
