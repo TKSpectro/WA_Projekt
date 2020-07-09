@@ -67,7 +67,7 @@ function updateUserBtnName(elm) {
     //update user name if there is incoming message icon
     elm.innerText = elm.getAttribute('data-shortname');
     let img = document.createElement("img");
-    img.src = "../../assets/images/chat.svg";
+    img.src = "../../assets/images/team.svg";
     let src = document.getElementById("btn-chat-all");
     src.appendChild(img);
 
@@ -83,6 +83,9 @@ function userPressed(elm) {
     if (elm.getAttribute('data-fullname') !== null) {
 
         document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-fullname');
+    } else {
+        document.getElementById("chatTitle").innerHTML = "All";
+
     }
     elm.setAttribute('data-new', '0');
     updateUserBtnName(elm);
