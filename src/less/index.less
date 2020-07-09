@@ -4,8 +4,12 @@
 
 
 img{
-    width:48px;
-    height: 48px;
+    width:@img-width;
+    height: @img-width;
+    @media screen and (max-width:767px){
+        width:@img-width-mobile;
+        height: @img-width-mobile;
+    }
 }
 ::-moz-placeholder {
     opacity: 1;
