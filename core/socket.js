@@ -69,7 +69,7 @@ class SocketHandler {
                 }
             });
 
-            socket.on('message', async (data) => {
+            socket.on('message', async(data) => {
                 //write incoming message to database
                 let message = self.db.Message.build();
                 message.writeRemotes(data);
@@ -80,7 +80,7 @@ class SocketHandler {
                     let response = {
                         text: data.text,
                         from: {
-                            displayName: socket.user.fullname(),
+                            displayName: socket.user.shortName(),
                             id: socket.user.id
                         },
                         time: message.createdAt
@@ -112,6 +112,7 @@ class SocketHandler {
 
             socket.on('task/move', async (data) => {
                 //get message from database which was moved
+
                 let task = await self.db.Task.findOne({
                     where: {
                         id: data.id,

@@ -66,20 +66,32 @@ function loadMessages(elm, fromId) {
 function updateUserBtnName(elm) {
     //update user name if there is incoming message icon
     elm.innerText = elm.getAttribute('data-shortname');
+    let img = document.createElement("img");
+    img.src = "../../assets/images/team.svg";
+    let src = document.getElementById("btn-chat-all");
+    src.appendChild(img);
 
     if (elm.getAttribute('data-new') !== '0') {
         elm.innerText += ' (' + elm.getAttribute('data-new') + ')';
     }
+
 }
 
 function userPressed(elm) {
     currentUserElm = elm;
-    document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper chat-open";
-    document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-full') || "ALL";
 
+    document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper chat-open";
+
+    if (elm.getAttribute('data-fullname') !== null) {
+
+        document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-fullname');
+    } else {
+        document.getElementById("chatTitle").innerHTML = "All";
+
+    }
     elm.setAttribute('data-new', '0');
     updateUserBtnName(elm);
-    console.log(elm.getAttribute('data-full'));
+
 
     //clean current messages in pot
     let messagesElm = document.getElementById('messages');
@@ -128,6 +140,14 @@ function sendPressed(elm) {
 function handleIncomingMessage(data) {
     let messageElm = document.getElementById('messages');
     let elmId = null;
+    var today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+    let hour = today.getHours();
+    let minute = today.getMinutes();
+
+    today = mm + '.' + dd + '.' + yyyy + ' - ' + hour + ':' + minute;
 
     //check incoming message has data.to === null or not inside, means public chat
     if (!data.to) {
@@ -150,10 +170,27 @@ function handleIncomingMessage(data) {
         }
     } else {
         let elm = document.createElement('DIV');
-        elm.className = "singleMessage";
+        let info = document.createElement('DIV');
+        info.className = "info";
+        // console.log(elm.parentNode.className);
 
-        elm.innerText = data.from.displayName + ': ' + data.text;
+        if (currentUserId == data.from.id) {
+            elm.className = "myMessage";
+            elm.innerText = data.text;
+            info.style.textAlign = "left";
+            info.style.margin = "0% 10% 0% 0%";
+            info.innerText = "Du" + ' - ' + today;
+        } else {
+            elm.className = "yourMessage";
+            elm.innerText = data.text;
+            info.style.textAlign = "right";
+            info.style.margin = "0% 0% 0% 10%";
+            info.innerText = data.from.displayName + ' - ' + today;
+
+        }
+        // info.innerText = data.from.displayName;
         messageElm.appendChild(elm);
+        messageElm.appendChild(info);
         messageElm.scrollTop = messageElm.scrollHeight;
     }
 }
@@ -255,3 +292,48 @@ io.on('task/move', (data) => {
         }
     }
 });
+
+//Function to add a Task 
+function addPressed(elm) {
+    var form = document.getElementById('form');
+    let currentUserId = document.getElementById('currentUserId').value;
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(form.getAttribute('method') || 'POST', form.getAttribute('action'));
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        task: {
+            name: document.getElementById('nameTask').value,
+            text: document.getElementById('textTask').value,
+            creatorId = currentUserId,
+            maximumWorkTime: document.getElementById('maxTime').value,
+            deadline: document.getElementById('deadline').value,
+            assignedToId: document.getElementById('assignedToId').value,
+            projectId: document.getElementById('projectId').value,
+            workflowId: document.getElementById('workflowId').value,
+        }
+
+    }));
+    location.reload();
+}
+
+//function to show a TaskForm
+function addTask(elm) {
+    let test = document.getElementById("addIcon");
+    console.log(test);
+    document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
+}
+
+//function to show a TaskForm
+function edditTask(elm) {
+    let test = document.getElementById("taskName").parentNode;
+    console.log(test);
+    document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
+}
+
+function taskClose() {
+    document.getElementById("taskCloseId").parentNode.style.display = "none";
+    console.log("done");
+
+}

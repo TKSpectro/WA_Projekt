@@ -81,12 +81,14 @@ class PagesController extends Controller {
                     ]
                 });
             }
+            const projects = await self.db.Project.findAll();
 
             self.render({
                 title: 'Project: ' + projectId,
                 users: users,
                 workflows: workflows,
                 workflowTasks: workflowTasks,
+                projects: projects,
             });
         }
     }
