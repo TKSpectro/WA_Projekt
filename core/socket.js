@@ -111,108 +111,85 @@ class SocketHandler {
             });
 
             socket.on('task/move', async (data) => {
-                let movedTask = await self.db.Task.findOne({
+                //get message from database which was moved
+                let task = await self.db.Task.findOne({
                     where: {
                         id: data.id,
                     }
                 });
-                // Save oldSort for convenient usage
-                const oldSort = movedTask.sort;
 
-                // Determine if the user is moving the item up or down in the listing
-                // True = task was moved down
-                // False = task was moved up
-                const movedDown = oldSort < data.sort;
+                //if we found that task in the database
+                if (task) {
+                    //task was moved to another workflow
+                    if (task.workflowId !== data.workflowId) {
+                        //update old workflow by lowering every task.sort by 1 if it was greater then the moved task.sort
+                        await self.db.Task.update({
+                            sort: self.db.sequelize.literal('sort - 1')
+                        }, {
+                            where: {
+                                sort: {
+                                    //operator.greaterThen
+                                    [Op.gt]: task.sort,
+                                },
+                                workflowId: task.workflowId
+                            }
+                        });
 
-                /*
-                if (movedTask) {
-                    movedTask.workflowId = data.workflowId;
-                    movedTask.sort = data.sort;
-                    await movedTask.save();
-                }
-                */
-
-                /*
-
-                Drag-and-drop moves (e.g., move item 6 to sit between items 9 and 10) are a little trickier and have to be done differently
-                depending on whether the new position is above or below the old one.
-                In the example above, you have to open up a hole by incrementing all positions greater than 9,
-                updating item 6's position to be the new 10 and then decrementing the position of everything greater than 6 to fill in the vacated spot.
-                
-                */
-
-                //if task was moved in the same workflow
-                if (parseInt(movedTask.workflowId) === parseInt(data.workflowId)) {
-                    let tasks = await self.db.Task.findAll({
-                        where: {
-                            workflowId: data.workflowId
-                        },
-                        order: [
-                            ['sort', 'ASC']
-                        ]
-                    });
-
-                    if (movedDown) {
-                        console.log('\nmovedDown\n')
-                        // Increment every sort of positions greater then the new one
-                        for (let i = data.sort; i < tasks.length; i++) {
-                            const task = tasks[i];
-                            task.sort++;
-                            task.save();
-                            tasks[i].sort = task.sort;
+                        //update new workflow by increasing every task.sort by 1 if it was greater then equal to the moved task.sort
+                        await self.db.Task.update({
+                            sort: self.db.sequelize.literal('sort + 1')
+                        }, {
+                            where: {
+                                sort: {
+                                    //operator.greaterThenEqual
+                                    [Op.gte]: data.sort,
+                                },
+                                workflowId: data.workflowId
+                            }
+                        });
+                    //task stayed in the same workflow
+                    } else if (task.sort != data.sort) {
+                        let operator = '+';
+                        let sortWhere = {};
+                        //new sorting bigger then old sorting -> we have to lower
+                        if (data.sort > task.sort) {
+                            operator = '-';
+                            sortWhere = {
+                                [Op.gt]: task.sort,
+                                //operator.lowerThenEqual
+                                [Op.lte]: data.sort
+                            };
+                        //new sorting smaller then old sorting -> we have to higher
+                        } else {
+                            sortWhere = {
+                                [Op.gte]: data.sort,
+                                //operator.lowerThen
+                                [Op.lt]: task.sort
+                            };
                         }
 
-                        // Set the sort for the moved task
-                        movedTask.sort = data.sort;
-                        movedTask.save();
-                        tasks[data.sort].sort = movedTask.sort;
-
-                        // Decrement every sort of positions greater then the old one
-                        for (let i = oldSort + 1; i < tasks.length; i++) {
-                            const task = tasks[i];
-                            task.sort--;
-                            task.save();
-                            tasks[i].sort = task.sort;
-                        }
-                    } else {
-                        console.log('\nmovedDown\n')
-                        // Increment every sort of positions greater then the new one
-                        for (let i = data.sort; i < tasks.length; i++) {
-                            const task = tasks[i];
-                            task.sort++;
-                            task.save();
-                            tasks[i].sort = task.sort;
-                        }
-
-                        // Set the sort for the moved task
-                        movedTask.sort = data.sort;
-                        movedTask.save();
-                        tasks[data.sort].sort = movedTask.sort;
-
-                        // Decrement every sort of positions greater then the old one
-                        for (let i = oldSort + 1; i < tasks.length; i++) {
-                            const task = tasks[i];
-                            task.sort--;
-                            task.save();
-                            tasks[i].sort = task.sort;
-                        }
+                        //update all tasks from the same workflow
+                        await self.db.Task.update({
+                            sort: self.db.sequelize.literal('sort ' + operator + ' 1')
+                        }, {
+                            where: {
+                                sort: sortWhere,
+                                workflowId: task.workflowId,
+                                //we do not have to check for projectId as every workflow(ids) are project specific
+                                //one workflow cant be in two projects
+                            }
+                        });
                     }
-                } else { //moved task to other workflow
-                    let movedTask = await self.db.Task.findOne({
-                        where: {
-                            id: data.id,
-                        }
-                    });
 
-                    if (movedTask) {
-                        movedTask.workflowId = data.workflowId;
-                        movedTask.sort = data.sort;
-                        await movedTask.save();
-                    }
+                    //save the new data to our task
+                    task.workflowId = data.workflowId;
+                    task.sort = data.sort;
+                    await task.save();
                 }
+
                 socket.broadcast.emit('task/move', data);
             });
-        })
+        });
     }
 }
 
