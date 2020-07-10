@@ -84,8 +84,8 @@ class PagesController extends Controller {
                 title: 'Project: ' + projectId,
                 users: users,
                 workflows: workflows,
-                workflowTasks: workflowTasks,
-                projects: projects,
+                workflowTasks: workflowTasks
+
             });
         }
     }

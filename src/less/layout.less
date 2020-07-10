@@ -11,3 +11,11 @@ body{
 
     font-family: Arial, Helvetica, sans-serif;
 } 
+img{
+    width:@img-width;
+    height: @img-width;
+    @media screen and (max-width:767px){
+        width:@img-width-mobile;
+        height: @img-width-mobile;
+    }
+}

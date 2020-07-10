@@ -208,7 +208,7 @@
  *
  * @ApiParam {Number} id Tasks unique id
  * 
- * @apiPermission userWithRightsToUpdateTask
+ * @apiPermission  canUpdateTask
  * 
  * @apiExample Usage:
  *      endpoint: http://localhost/api/tasks/:id

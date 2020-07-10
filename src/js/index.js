@@ -294,9 +294,12 @@ io.on('task/move', (data) => {
 });
 
 //Function to add a Task 
-function addPressed(elm) {
+function addPressed(elm, obj) {
     var form = document.getElementById('form');
     let currentUserId = document.getElementById('currentUserId').value;
+    let workflowId = obj.parentNode.getAttribute('workflow');
+
+    console.log(tasks);
 
 
     var xhr = new XMLHttpRequest();
@@ -311,25 +314,30 @@ function addPressed(elm) {
             deadline: document.getElementById('deadline').value,
             assignedToId: document.getElementById('assignedToId').value,
             projectId: document.getElementById('projectId').value,
-            workflowId: document.getElementById('workflowId').value,
+            workflowId: workflowId,
         }
 
     }));
-    location.reload();
+
+
 }
 
 //function to show a TaskForm
-function addTask(elm) {
+function addTask(elm, workflowId) {
     let test = document.getElementById("addIcon");
-    console.log(test);
+    //console.log(workflowId);
+
     document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
+    document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.setAttribute("workflow", workflowId);
+
 }
 
 //function to show a TaskForm
-function edditTask(elm) {
-    let test = document.getElementById("taskName").parentNode;
-    console.log(test);
+function editTask(elm) {
+    let test = document.getElementById("taskName");
+    console.log(elm.getAttribute('data-id'));
     document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
+
 }
 
 function taskClose() {
