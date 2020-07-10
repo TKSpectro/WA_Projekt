@@ -175,7 +175,27 @@ class SocketHandler {
                             tasks[i].sort = task.sort;
                         }
                     } else {
+                        console.log('\nmovedDown\n')
+                        // Increment every sort of positions greater then the new one
+                        for (let i = data.sort; i < tasks.length; i++) {
+                            const task = tasks[i];
+                            task.sort++;
+                            task.save();
+                            tasks[i].sort = task.sort;
+                        }
 
+                        // Set the sort for the moved task
+                        movedTask.sort = data.sort;
+                        movedTask.save();
+                        tasks[data.sort].sort = movedTask.sort;
+
+                        // Decrement every sort of positions greater then the old one
+                        for (let i = oldSort + 1; i < tasks.length; i++) {
+                            const task = tasks[i];
+                            task.sort--;
+                            task.save();
+                            tasks[i].sort = task.sort;
+                        }
                     }
                 } else { //moved task to other workflow
                     let movedTask = await self.db.Task.findOne({
