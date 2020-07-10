@@ -12,6 +12,7 @@ module.exports = {
             assignedToId: 1,
             projectId: 1,
             workflowId: 1,
+            sort: 0,
             createdAt: new Date(),
             updatedAt: new Date(),
         }, {
@@ -24,6 +25,7 @@ module.exports = {
             assignedToId: 2,
             projectId: 1,
             workflowId: 1,
+            sort: 1,
             createdAt: new Date(),
             updatedAt: new Date(),
         }, {
@@ -36,6 +38,7 @@ module.exports = {
             assignedToId: 1,
             projectId: 1,
             workflowId: 1,
+            sort: 2,
             createdAt: new Date(),
             updatedAt: new Date(),
         }, {
@@ -47,6 +50,7 @@ module.exports = {
             creatorId: 2,
             assignedToId: 2,
             projectId: 1,
+            sort: 3,
             workflowId: 1,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -60,6 +64,7 @@ module.exports = {
             assignedToId: 2,
             projectId: 1,
             workflowId: 1,
+            sort: 4,
             createdAt: new Date(),
             updatedAt: new Date(),
         }], {});

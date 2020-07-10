@@ -3,7 +3,7 @@
  */
 
 const Passport = require('./passport.js');
-
+const { Op, TableHints } = require("sequelize");
 
 class SocketHandler {
     constructor(io, db) {
@@ -110,14 +110,79 @@ class SocketHandler {
                 }
             });
 
-            socket.on('task/move', async(data) => {
+            socket.on('task/move', async (data) => {
+                //get message from database which was moved
+
                 let task = await self.db.Task.findOne({
                     where: {
                         id: data.id,
                     }
                 });
 
+                //if we found that task in the database
                 if (task) {
+                    //task was moved to another workflow
+                    if (task.workflowId !== data.workflowId) {
+                        //update old workflow by lowering every task.sort by 1 if it was greater then the moved task.sort
+                        await self.db.Task.update({
+                            sort: self.db.sequelize.literal('sort - 1')
+                        }, {
+                            where: {
+                                sort: {
+                                    //operator.greaterThen
+                                    [Op.gt]: task.sort,
+                                },
+                                workflowId: task.workflowId
+                            }
+                        });
+
+                        //update new workflow by increasing every task.sort by 1 if it was greater then equal to the moved task.sort
+                        await self.db.Task.update({
+                            sort: self.db.sequelize.literal('sort + 1')
+                        }, {
+                            where: {
+                                sort: {
+                                    //operator.greaterThenEqual
+                                    [Op.gte]: data.sort,
+                                },
+                                workflowId: data.workflowId
+                            }
+                        });
+                    //task stayed in the same workflow
+                    } else if (task.sort != data.sort) {
+                        let operator = '+';
+                        let sortWhere = {};
+                        //new sorting bigger then old sorting -> we have to lower
+                        if (data.sort > task.sort) {
+                            operator = '-';
+                            sortWhere = {
+                                [Op.gt]: task.sort,
+                                //operator.lowerThenEqual
+                                [Op.lte]: data.sort
+                            };
+                        //new sorting smaller then old sorting -> we have to higher
+                        } else {
+                            sortWhere = {
+                                [Op.gte]: data.sort,
+                                //operator.lowerThen
+                                [Op.lt]: task.sort
+                            };
+                        }
+
+                        //update all tasks from the same workflow
+                        await self.db.Task.update({
+                            sort: self.db.sequelize.literal('sort ' + operator + ' 1')
+                        }, {
+                            where: {
+                                sort: sortWhere,
+                                workflowId: task.workflowId,
+                                //we do not have to check for projectId as every workflow(ids) are project specific
+                                //one workflow cant be in two projects
+                            }
+                        });
+                    }
+
+                    //save the new data to our task
                     task.workflowId = data.workflowId;
                     task.sort = data.sort;
                     await task.save();
@@ -125,7 +190,7 @@ class SocketHandler {
 
                 socket.broadcast.emit('task/move', data);
             });
-        })
+        });
     }
 }
 
