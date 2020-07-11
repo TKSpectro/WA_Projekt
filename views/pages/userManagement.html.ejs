@@ -1,0 +1,31 @@
+<% if(canUpdateUser || canDeleteUser){%>
+<div class="um-wrapper">
+    <table class="user-list">
+        <% for (let i = 0; i < users.length; i++) {
+            const user = users[i]; %>
+        <tr class="user">
+            <th class="user-id">
+                <%-user.id%>
+            </th>
+            <th class="user-firstname">
+                <%-user.firstName%>
+            </th>
+            <th class="user-lastname">
+                <%-user.lastName%>
+            </th>
+            <th class="btn-update">
+                <button>UPDATE</button>
+            </th>
+            <th class="btn-delete">
+                <button>DELETE</button>
+            </th>
+        </tr>
+        <% } //ENDFOR %>
+    </table>
+</div>
+<% } else { %>
+<!-- User is not allowed to update or delete users -->
+<div class="not-allowed">
+    YOU ARE NOT ALLOWED TO ACCESS THIS SITE
+</div>
+<% } %>

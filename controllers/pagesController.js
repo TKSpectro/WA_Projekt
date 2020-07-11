@@ -107,6 +107,28 @@ class PagesController extends Controller {
         });
     }
 
+    async actionUserManagement() {
+        const self = this;
+
+        self.css('userManagement');
+        let canUpdateUserPermission = false;
+        let canDeleteUserPermission = false;
+
+        const users = await self.db.User.findAll();
+        if (Helper.checkPermission(Helper.canUpdateUser, self.req.user.permission)) {
+            canUpdateUserPermission = true;
+        }
+        if (Helper.checkPermission(Helper.canDeleteUser, self.req.user.permission)) {
+            canUpdateUserPermission = true;
+        }
+        self.render({
+            title: 'User-Management',
+            users: users,
+            canUpdateUser: canUpdateUserPermission,
+            canDeleteUser: Helper.canDeleteUserPermission,
+        });
+    }
+
     actionImprint() {
         const self = this;
 
