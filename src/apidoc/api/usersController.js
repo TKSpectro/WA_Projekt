@@ -1,5 +1,6 @@
 /**
  * @api {get} /users Get all users
+ * @apiDescription Returns all users
  * @apiName GetAllUsers
  * @apiGroup Users
  *
@@ -16,7 +17,7 @@
  * @apiSuccess {Object[]}   users.user.taskCreated      Array of tasks which the user created.
  * @apiSuccess {Object[]}   users.user.tasksAssignedTo  Array of tasks which are assigned to the user.
  *
- * @apiError 404: TasksNotFound No task was found.
+ * @apiError 404: UserNotFound No user was found.
  * 
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK

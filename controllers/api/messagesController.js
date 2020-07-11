@@ -72,6 +72,10 @@ class ApiMessagesController extends Controller {
 
             total = count;
             messages = rows;
+
+            if (!messages) {
+                throw new ApiError('No messages found', 404);
+            }
         } catch (err) {
             error = err;
             console.log(err);
@@ -164,8 +168,9 @@ class ApiMessagesController extends Controller {
         let id = self.param('id');
         let message = null;
 
-
+        
         try {
+            //check if body structure is correct
             let remoteMessage = self.param('message');
             if (!remoteMessage) {
                 throw new ApiError('Message object is missing, check your body structure', 400);
@@ -190,7 +195,7 @@ class ApiMessagesController extends Controller {
                         }
                     }, { transaction: t, lock: true });
                 } else {
-                    throw new ApiError('No message found to update', 404);
+                    throw new ApiError('No message found to update (Maybe you are not the creator of this message)', 404);
                 }
 
                 return updatedMessage;
@@ -223,14 +228,14 @@ class ApiMessagesController extends Controller {
         //get the old message
         try {
             message = await self.db.sequelize.transaction(async (t) => {
-                let updatedMessage = await self.db.Message.findOne({
+                let message = await self.db.Message.findOne({
                     where: {
                         fromId: self.req.user.id,
                         id: messageId
                     }
                 }, { transaction: t })
-                if (updatedMessage) {
-                    await updatedMessage.update({
+                if (message) {
+                    await message.update({
                         text: 'deleted',
                     }, {
                         where: {
@@ -238,10 +243,10 @@ class ApiMessagesController extends Controller {
                         }
                     }, { transaction: t, lock: true });
                 } else {
-                    throw new ApiError('No message found to update', 404);
+                    throw new ApiError('No message found to delete (Maybe you are not the creator of this message)', 404);
                 }
 
-                return updatedMessage;
+                return message;
             });
         } catch (err) {
             error = err;

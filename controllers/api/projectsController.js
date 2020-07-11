@@ -113,7 +113,7 @@ class ApiProjectsController extends Controller {
                 });
 
                 if (!project) {
-                    throw new ApiError('Could not create the project', 404);
+                    throw new ApiError('Could not create the project', 400);
                 }
             } catch (err) {
                 error = err;
@@ -169,7 +169,7 @@ class ApiProjectsController extends Controller {
                     return updatedProject;
                 });
                 if (!project) {
-                    throw new ApiError('Project could not be updated', 404);
+                    throw new ApiError('Found no project with given id', 404);
                 }
             } catch (err) {
                 error = err;
@@ -211,8 +211,8 @@ class ApiProjectsController extends Controller {
 
                     return project;
                 });
-                if (project === 0) {
-                    throw new ApiError('Project could not be deleted', 404);
+                if (!project) {
+                    throw new ApiError('Found no project with given id', 404);
                 }
             } catch (err) {
                 error = err;
