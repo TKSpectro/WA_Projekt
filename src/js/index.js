@@ -251,10 +251,10 @@ for (let index = 0; index < sortableLists.length; index++) {
         let item = e.detail.item;
         let target = e.target;
 
-        let line = item.querySelector('.line');
+        //let line = item.querySelector('.line');
 
-        if (line) {
-            line.style.background = target.getAttribute('data-workflow-color');
+        if (item) {
+            item.style.borderColor = item.parentNode.getAttribute("data-workflow-color");
         }
 
         io.emit('task/move', {
@@ -266,14 +266,19 @@ for (let index = 0; index < sortableLists.length; index++) {
 }
 
 io.on('task/move', (data) => {
-    console.log("test");
+
     let item = document.querySelector('.task[data-id="' + data.id + '"]');
     if (item) {
         let taskList = document.querySelector('.tasks[data-workflow-id="' + data.workflowId + '"]');
+
         if (taskList) {
             let index = data.sort;
             if (taskList.children.length <= index + 1) {
                 taskList.appendChild(item);
+                console.log(item.parentNode.getAttribute("data-workflow-color"));
+                item.style.borderColor = item.parentNode.getAttribute("data-workflow-color");
+
+
             } else {
                 let currentIndex = Array.prototype.indexOf.call(taskList.children, item);
 
@@ -284,14 +289,9 @@ io.on('task/move', (data) => {
                 let sibling = taskList.children[index];
                 taskList.insertBefore(item, sibling);
 
-                let task = item.querySelector('.task');
-                console.log(task);
 
-                if (task) {
-                    task.style.border = taskList.getAttribute('data-workflow-color');
-                    console.log("STop");
+                //console.log(tasks);
 
-                }
             }
         }
     }
