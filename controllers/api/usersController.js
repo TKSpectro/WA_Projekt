@@ -16,7 +16,7 @@ class ApiUsersController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
-        self.before(['*', '-signin', '-signup'], function (next) {
+        self.before(['*', '-signin', '-signup'], function(next) {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -97,7 +97,7 @@ class ApiUsersController extends Controller {
         let error = null;
 
         try {
-            user = await self.db.sequelize.transaction(async (t) => {
+            user = await self.db.sequelize.transaction(async(t) => {
                 let newUser = self.db.User.build();
                 newUser.writeRemotes(remoteData);
 
@@ -130,8 +130,8 @@ class ApiUsersController extends Controller {
         const self = this;
 
         //check if the logged in person has the permission to update accounts (admin) or owns the account which will be updated
-        if (Helper.checkPermission(Helper.canUpdateUser, self.req.user.permission)
-            || (self.param('id') === self.req.user.id)) {
+        if (Helper.checkPermission(Helper.canUpdateUser, self.req.user.permission) ||
+            (self.param('id') === self.req.user.id)) {
 
             //user should be a object with all the values (new and old)
             let remoteData = self.param('user');
@@ -142,7 +142,7 @@ class ApiUsersController extends Controller {
 
             //get the old user
             try {
-                user = await self.db.sequelize.transaction(async (t) => {
+                user = await self.db.sequelize.transaction(async(t) => {
                     let updatedUser = await self.db.User.findOne({
                         where: {
                             id: userId
@@ -192,8 +192,8 @@ class ApiUsersController extends Controller {
         const self = this;
 
         //check if the logged in person has the permission to delete accounts (admin) or owns the account which will be deleted
-        if (Helper.checkPermission(Helper.canDeleteUser, self.req.user.permission)
-            || (self.param('id') === self.req.user.id)) {
+        if (Helper.checkPermission(Helper.canDeleteUser, self.req.user.permission) ||
+            (self.param('id') === self.req.user.id)) {
             // user wont actually be deleted but will get anonymized
             // firstName -> 'deleted'
             // lastName -> 'deleted'
@@ -207,7 +207,7 @@ class ApiUsersController extends Controller {
 
             //get the old user
             try {
-                user = await self.db.sequelize.transaction(async (t) => {
+                user = await self.db.sequelize.transaction(async(t) => {
                     let updatedUser = await self.db.User.findOne({
                         where: {
                             id: userId
@@ -297,7 +297,7 @@ class ApiUsersController extends Controller {
         let error = null;
 
         try {
-            user = await self.db.sequelize.transaction(async (t) => {
+            user = await self.db.sequelize.transaction(async(t) => {
 
                 let sameMail = await self.db.User.findOne({
                     where: {
