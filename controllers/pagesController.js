@@ -111,6 +111,7 @@ class PagesController extends Controller {
         const self = this;
 
         self.css('userManagement');
+
         let canUpdateUserPermission = false;
         let canDeleteUserPermission = false;
 
@@ -125,7 +126,7 @@ class PagesController extends Controller {
             title: 'User-Management',
             users: users,
             canUpdateUser: canUpdateUserPermission,
-            canDeleteUser: Helper.canDeleteUserPermission,
+            canDeleteUser: canDeleteUserPermission,
         });
     }
 

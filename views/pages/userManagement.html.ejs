@@ -13,9 +13,11 @@
             <th class="user-lastname">
                 <%-user.lastName%>
             </th>
+            <% if(canUpdateUser){%>
             <th class="btn-update">
                 <button>UPDATE</button>
             </th>
+            <% } %>
             <th class="btn-delete">
                 <button>DELETE</button>
             </th>
