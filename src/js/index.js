@@ -266,6 +266,7 @@ for (let index = 0; index < sortableLists.length; index++) {
 }
 
 io.on('task/move', (data) => {
+    console.log("test");
     let item = document.querySelector('.task[data-id="' + data.id + '"]');
     if (item) {
         let taskList = document.querySelector('.tasks[data-workflow-id="' + data.workflowId + '"]');
@@ -283,10 +284,13 @@ io.on('task/move', (data) => {
                 let sibling = taskList.children[index];
                 taskList.insertBefore(item, sibling);
 
-                let line = item.querySelector('.line');
+                let task = item.querySelector('.task');
+                console.log(task);
 
-                if (line) {
-                    line.style.background = taskList.getAttribute('data-workflow-color');
+                if (task) {
+                    task.style.border = taskList.getAttribute('data-workflow-color');
+                    console.log("STop");
+
                 }
             }
         }
