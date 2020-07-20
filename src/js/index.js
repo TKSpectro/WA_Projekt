@@ -269,7 +269,6 @@ for (let index = 0; index < sortableLists.length; index++) {
 io.on('task/move', (data) => {
     let item = document.querySelector('.task[data-id="' + data.id + '"]');
     if (item) {
-        console.log(item);
         let taskList = document.querySelector('.tasks[data-workflow-id="' + data.workflowId + '"]');
         if (taskList) {
             let index = data.sort;
