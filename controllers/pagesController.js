@@ -120,7 +120,7 @@ class PagesController extends Controller {
             canUpdateUserPermission = true;
         }
         if (Helper.checkPermission(Helper.canDeleteUser, self.req.user.permission)) {
-            canUpdateUserPermission = true;
+            canDeleteUserPermission = true;
         }
         self.render({
             title: 'User-Management',

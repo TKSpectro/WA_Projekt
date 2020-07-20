@@ -18,9 +18,11 @@
                 <button>UPDATE</button>
             </th>
             <% } %>
+            <% if(canDeleteUser){%>
             <th class="btn-delete">
                 <button>DELETE</button>
             </th>
+            <% } %>
         </tr>
         <% } //ENDFOR %>
     </table>
