@@ -110,6 +110,7 @@ class PagesController extends Controller {
     async actionUserManagement() {
         const self = this;
 
+        self.js('userManagement');
         self.css('userManagement');
 
         let canUpdateUserPermission = false;

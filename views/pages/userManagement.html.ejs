@@ -1,31 +1,56 @@
 <% if(canUpdateUser || canDeleteUser){%>
 <div class="um-wrapper">
-    <table class="user-list">
-        <% for (let i = 0; i < users.length; i++) {
-            const user = users[i]; %>
-        <tr class="user">
-            <th class="user-id">
-                <%-user.id%>
-            </th>
-            <th class="user-firstname">
-                <%-user.firstName%>
-            </th>
-            <th class="user-lastname">
-                <%-user.lastName%>
-            </th>
-            <% if(canUpdateUser){%>
-            <th class="btn-update">
-                <button>UPDATE</button>
-            </th>
-            <% } %>
-            <% if(canDeleteUser){%>
-            <th class="btn-delete">
-                <button>DELETE</button>
-            </th>
-            <% } %>
-        </tr>
-        <% } //ENDFOR %>
-    </table>
+    <div>
+        <table class="user-list">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    firstName
+                </th>
+                <th>
+                    lastName
+                </th>
+                <th>
+                    email
+                </th>
+                <th>
+                    permission
+                </th>
+            </tr>
+            <% for (let i = 0; i < users.length; i++) { %>
+            <% const user = users[i]; %>
+            <tr class="user">
+                <th class="user-id">
+                    <%-user.id%>
+                </th>
+                <th class="user-firstname">
+                    <%-user.firstName%>
+                </th>
+                <th class="user-lastname">
+                    <%-user.lastName%>
+                </th>
+                <th class="user-email">
+                    <%-user.email%>
+                </th>
+                <th class="user-permission">
+                    <%-user.permission%>
+                </th>
+                <% if(canUpdateUser){%>
+                <th class="btn-update">
+                    <button user-id="<%user.id%>" onclick="updateUserPressed(this); return false;">UPDATE</button>
+                </th>
+                <% } %>
+                <% if(canDeleteUser){%>
+                <th class="btn-delete">
+                    <button user-id="<%user.id%>" onclick="deleteUserPressed(this); return false;">DELETE</button>
+                </th>
+                <% } %>
+            </tr>
+            <% } //ENDFOR %>
+        </table>
+    </div>
 </div>
 <% } else { %>
 <!-- User is not allowed to update or delete users -->

@@ -42,6 +42,7 @@ module.exports = function(grunt) {
                     'assets/js/index.min.js': 'src/js/index.js',
                     'assets/js/signin.min.js': 'src/js/signin.js',
                     'assets/js/project.min.js': 'src/js/project.js',
+                    'assets/js/userManagement.min.js': 'src/js/userManagement.js',
                 }
             }
         },
