@@ -272,7 +272,7 @@ io.on('task/move', (data) => {
         let taskList = document.querySelector('.tasks[data-workflow-id="' + data.workflowId + '"]');
         if (taskList) {
             let index = data.sort;
-            if (taskList.children.length <= index + 1) {
+            if (taskList.children.length < index + 1) {
                 taskList.appendChild(item);
 
                 item.style.borderColor = item.parentNode.getAttribute("data-workflow-color");
