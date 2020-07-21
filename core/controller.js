@@ -49,7 +49,7 @@ class Controller {
             cb();
         } else {
             self.executeBefore(self.beforeList[index], () => {
-                process.nextTick(function () {
+                process.nextTick(function() {
                     self.executeBeforeList(cb, ++index);
                 })
             })
@@ -61,7 +61,7 @@ class Controller {
         if (before.actions.indexOf('*') !== -1 && before.actions.indexOf('-' + self.action) === -1 || before.actions.indexOf(self.action) !== -1) {
             before.fn.apply(self, [cb]);
         } else {
-            process.nextTick(function () {
+            process.nextTick(function() {
                 cb();
             })
         }
@@ -70,7 +70,7 @@ class Controller {
     render(params = {}, opts = {}) {
         const self = this;
 
-        opts = Object.assign(defaultRenderOptions, opts);
+        opts = Object.assign({...defaultRenderOptions }, opts);
 
         if (!opts.statusCode) {
             opts.statusCode = 200;
@@ -98,15 +98,14 @@ class Controller {
                         self.res.send(htmlStr);
                     } else {
                         params.body = htmlStr;
-                        
+
                         //get the default layout
                         let layoutFilePath = path.join(__dirname, '..', 'views', opts.layoutFileName);
 
                         ejs.renderFile(layoutFilePath, params, {}, (err, htmlStr) => {
                             if (err) {
                                 console.error(err);
-                            }
-                            else {
+                            } else {
                                 self.res.send(htmlStr);
                             }
                         })
@@ -121,11 +120,9 @@ class Controller {
 
         if (self.req.query && self.req.query[key] !== undefined) {
             return self.req.query[key];
-        }
-        else if (self.req.body && self.req.body[key] !== undefined) {
+        } else if (self.req.body && self.req.body[key] !== undefined) {
             return self.req.body[key];
-        }
-        else if (self.req.body && self.req.body[key] !== undefined) {
+        } else if (self.req.body && self.req.body[key] !== undefined) {
             return self.req.body[key];
         }
 

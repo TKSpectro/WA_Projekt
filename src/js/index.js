@@ -1,3 +1,19 @@
+// handle task show/create and edit popover
+let taskForm = new Taskform({});
+
+
+// retrieve all tasks rendered by ejs (backend)
+let tasks = document.querySelectorAll('.tasks .task');
+for (let index = 0; index < tasks.length; index++) {
+
+    const task = tasks[index];
+    task.addEventListener('click', function(e) {
+        taskForm.showWithTaskId(this.getAttribute('data-id'));
+    })
+
+}
+
+
 //default chat is all
 let textarea = document.getElementById('message');
 let currentUserElm = document.getElementById('btn-chat-all');
@@ -291,12 +307,12 @@ io.on('task/move', (data) => {
 
 
                 //console.log(tasks);
-
             }
         }
     }
 });
 
+/*
 //Function to add a Task 
 function addPressed(elm, obj) {
     var form = document.getElementById('form');
@@ -324,25 +340,18 @@ function addPressed(elm, obj) {
     }));
 
 
-}
+}*/
 
 //function to show a TaskForm
 function addTask(elm, workflowId) {
     let test = document.getElementById("addIcon");
-    //console.log(workflowId);
+    console.log(document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.className);
 
     document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
     document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.setAttribute("workflow", workflowId);
 
 }
 
-//function to show a TaskForm
-function editTask(elm) {
-    let test = document.getElementById("taskName");
-    console.log(elm.getAttribute('data-id'));
-    document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
-
-}
 
 function taskClose() {
     document.getElementById("taskCloseId").parentNode.style.display = "none";

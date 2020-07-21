@@ -23,7 +23,7 @@ module.exports = function(Model, db) {
         {
             model: db.Workflow,
             as: 'workflow',
-            attributes: ['id'],
+            attributes: ['id', 'name'],
             limit: 1,
             separate: false
         }
@@ -44,13 +44,26 @@ module.exports = function(Model, db) {
             self.creatorId = data.creatorId;
         }
 
+        if (typeof data.creator !== 'undefined' && typeof data.creator.id !== 'undefined') {
+            self.creatorId = data.creator.Id;
+        }
+
         if (typeof data.assignedToId !== 'undefined') {
             self.assignedToId = data.assignedToId;
+        }
+
+        if (typeof data.assignedTo !== 'undefined' && typeof data.assignedTo.id !== 'undefined') {
+            self.assignedToId = data.assignedTo.id;
         }
 
         if (typeof data.projectId !== 'undefined') {
             self.projectId = data.projectId;
         }
+
+        if (typeof data.project !== 'undefined' && typeof data.project.id !== 'undefined') {
+            self.projectId = data.project.id;
+        }
+
         if (typeof data.maximumWorkTime !== 'undefined') {
             self.maximumWorkTime = data.maximumWorkTime;
         }
@@ -62,4 +75,16 @@ module.exports = function(Model, db) {
             self.workflowId = data.workflowId;
         }
     }
+    Model.prototype.toJSON = function() {
+        let obj = this.get({ plain: true });
+
+        if (obj.creator && obj.creator.firstName && obj.creator.lastName) {
+            obj.creator.displayName = obj.creator.firstName + ' ' + obj.creator.lastName;
+        }
+
+        if (obj.assignedTo && obj.assignedTo.firstName && obj.assignedTo.lastName) {
+            obj.assignedTo.displayName = obj.assignedTo.firstName + ' ' + obj.assignedTo.lastName;
+        }
+        return obj;
+    };
 };
