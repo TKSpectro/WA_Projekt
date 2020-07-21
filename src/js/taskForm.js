@@ -26,30 +26,33 @@ function Taskform(opts) {
     let _elmWorkflowStatus = null;
     let _elmMaxTime = null;
     let _elmEditButton = null;
-    let Users = null;
+    let _users = null;
 
     //Input Felder
     let _inputName = document.createElement("INPUT");
+    let _inputSelect = document.createElement("select");
+
+
 
 
 
 
     function init() {
         _dom = document.getElementById(opts.id);
-        //console.log(_dom);
-        // _elmBackground = _dom.querySelector('.background');
-        // _elmTopBar = _dom.querySelector('.top-bar');
 
         _elmTitle = _dom.querySelector('.nameTask');
         _elmTitle.appendChild(_inputName);
 
-        _elmDesicription = _dom.querySelector('.textTask');
-        //_elmDesicription.appendChild(_textarea);
-        _elmCreatedBy = _dom.querySelector('.created-by');
         _elmAssignedTo = _dom.querySelector('.assigned-to');
+        _inputSelect.setAttribute("id", "mySelect");
+
+        _elmAssignedTo.appendChild(_inputSelect);
+
+        _elmDesicription = _dom.querySelector('.textTask');
+        _elmCreatedBy = _dom.querySelector('.created-by');
 
 
-        Users = document.querySelectorAll('.menu-list .user');
+        _users = document.querySelectorAll('.menu-list .user');
 
 
         _elmMaxTime = _dom.querySelector('.maxTime');
@@ -57,20 +60,6 @@ function Taskform(opts) {
         // _elmWorkflowStatus = _dom.querySelector('.workflow-Status');
         _elmEditButton = _dom.querySelector('.addTaskButton');
 
-
-
-        /*
-                _elmBackground.addEventListener('click', () => {
-                    self.hide();
-
-                });
-
-                _elmBackground.addEventListener('touch', () => {
-                    self.hide();
-
-                });
-
-        */
 
         _elmEditButton.addEventListener('click', () => {
             self.editMode(!_editMode);
@@ -103,25 +92,37 @@ function Taskform(opts) {
         xhr.onload = function() {
             if (xhr.status >= 200 && xhr.status < 300) {
 
-                let jsonData = JSON.parse(xhr.response);
 
+
+                let jsonData = JSON.parse(xhr.response);
                 _task = jsonData.task;
-                console.log(jsonData);
 
                 if (_task) {
                     //to show a TaskForm
                     document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
                 }
-
-
                 let deadline = _task.deadline.split("T");
-                //_elmTopBar.innerText = _elmTopBar.getAttribute('data-tpl').replace('{{id}}', task.id);
 
-                // the Value of the Task
+                // the name of the Task
                 _inputName.setAttribute("value", _task.name);
-                _inputName.readOnly = true
+                _inputName.readOnly = true;
 
+                if (!_inputSelect.length) {
+                    if (!_inputSelect.length) {
+                        for (let index = 0; index < _users.length; index++) {
+                            const element = _users[index];
+                            let option = document.createElement("option");
+                            option.setAttribute("value", element.getAttribute('data-id'));
+                            let value = document.createTextNode("Assigned To: " + element.getAttribute('data-fullname'));
+                            option.appendChild(value);
+                            document.getElementById("mySelect").appendChild(option);
 
+                        }
+                    }
+                }
+                _inputSelect.selectedIndex = _task.assignedTo.id - 1;
+
+                _inputSelect.disabled = true;
 
                 //_elmTitle.value = task.name;
                 _elmCreatedBy.value = "Created By " + _task.creator.displayName;
@@ -177,6 +178,9 @@ function Taskform(opts) {
         if (editMode === true && _editMode === false) {
 
             _editMode = true;
+            _inputName.readOnly = false;
+            _inputSelect.disabled = false;
+
 
             let textarea = document.createElement("textarea");
             textarea.style.width = '100%';
@@ -191,12 +195,16 @@ function Taskform(opts) {
         } else if (_editMode === true) {
 
             _editMode = false;
+            _task.name = _inputName.value;
+            _task.assignedToId = _inputSelect.value;
+            console.log(_inputSelect.value);
             let instance = sceditor.instance(_elmDesicription.waTXT);
             _task.text = instance.val();
             _elmDesicription.innerHTML = instance.fromBBCode(instance.val());
             _elmDesicription.waTXT = null;
             self.updateTask(_task);
         }
+
 
     }
 
@@ -208,8 +216,6 @@ function Taskform(opts) {
         xhr.onload = function() {
             if (xhr.status >= 200 && xhr.status < 300) {
 
-                console.log("test");
-
             } else {
                 // ToDo falls das Request nicht klappt
                 console.log('request failed');
@@ -217,16 +223,15 @@ function Taskform(opts) {
         };
 
         let url = '/api/tasks/' + task.id;
-        console.log(url);
 
         xhr.open('PUT', url);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({ task: task }));
 
-
     }
 
     // start init
     init();
+
 
 }
