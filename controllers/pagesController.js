@@ -33,7 +33,8 @@ class PagesController extends Controller {
     async actionIndex() {
         const self = this;
 
-        self.js('html5sortable')
+        self.js('html5sortable');
+        self.js('taskForm')
         self.js('index');
 
         self.css('index');

@@ -167,7 +167,12 @@ class ApiTasksController extends Controller {
                             name: remoteData['name'],
                             text: remoteData['text'],
                             assignedToId: remoteData['assignedToId'],
+                            alreadyWorkedTime: remoteData['alreadyWorkedTime'],
+                            maximumWorkTime: remoteData['maximumWorkTime'],
+                            deadline: remoteData['deadline'],
                             projectId: remoteData['projectId'],
+                            workflow: remoteData['workflow'],
+
                             updatedAt: new Date()
                         }, {
                             where: {
@@ -178,6 +183,9 @@ class ApiTasksController extends Controller {
 
                     return updatedTask;
                 });
+                if (!remoteData) {
+                    throw new ApiError('no task object in body found', 400);
+                }
                 if (!task) {
                     throw new ApiError('Task could not be updated', 404);
                 }

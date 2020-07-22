@@ -1,3 +1,19 @@
+// handle task show/create and edit popover
+let taskForm = new Taskform({});
+
+
+// retrieve all tasks rendered by ejs (backend)
+let tasks = document.querySelectorAll('.tasks .task');
+for (let index = 0; index < tasks.length; index++) {
+
+    const task = tasks[index];
+    task.addEventListener('click', function(e) {
+        taskForm.showWithTaskId(this.getAttribute('data-id'));
+    })
+
+}
+
+
 //default chat is all
 let textarea = document.getElementById('message');
 let currentUserElm = document.getElementById('btn-chat-all');
@@ -251,10 +267,10 @@ for (let index = 0; index < sortableLists.length; index++) {
         let item = e.detail.item;
         let target = e.target;
 
-        let line = item.querySelector('.line');
+        //let line = item.querySelector('.line');
 
-        if (line) {
-            line.style.background = target.getAttribute('data-workflow-color');
+        if (item) {
+            item.style.borderColor = item.parentNode.getAttribute("data-workflow-color");
         }
 
         io.emit('task/move', {
@@ -266,13 +282,19 @@ for (let index = 0; index < sortableLists.length; index++) {
 }
 
 io.on('task/move', (data) => {
+
     let item = document.querySelector('.task[data-id="' + data.id + '"]');
     if (item) {
         let taskList = document.querySelector('.tasks[data-workflow-id="' + data.workflowId + '"]');
+
         if (taskList) {
             let index = data.sort;
             if (taskList.children.length <= index + 1) {
                 taskList.appendChild(item);
+                console.log(item.parentNode.getAttribute("data-workflow-color"));
+                item.style.borderColor = item.parentNode.getAttribute("data-workflow-color");
+
+
             } else {
                 let currentIndex = Array.prototype.indexOf.call(taskList.children, item);
 
@@ -283,16 +305,14 @@ io.on('task/move', (data) => {
                 let sibling = taskList.children[index];
                 taskList.insertBefore(item, sibling);
 
-                let line = item.querySelector('.line');
 
-                if (line) {
-                    line.style.background = taskList.getAttribute('data-workflow-color');
-                }
+                //console.log(tasks);
             }
         }
     }
 });
 
+/*
 //Function to add a Task 
 function addPressed(elm, obj) {
     var form = document.getElementById('form');
@@ -320,25 +340,18 @@ function addPressed(elm, obj) {
     }));
 
 
-}
+}*/
 
 //function to show a TaskForm
 function addTask(elm, workflowId) {
     let test = document.getElementById("addIcon");
-    //console.log(workflowId);
+    console.log(document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.className);
 
     document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
     document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.setAttribute("workflow", workflowId);
 
 }
 
-//function to show a TaskForm
-function editTask(elm) {
-    let test = document.getElementById("taskName");
-    console.log(elm.getAttribute('data-id'));
-    document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
-
-}
 
 function taskClose() {
     document.getElementById("taskCloseId").parentNode.style.display = "none";

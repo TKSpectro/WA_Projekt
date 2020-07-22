@@ -1,0 +1,221 @@
+@import './shared/defines.less';
+@import './shared/reset.less';
+@import './shared/mixins.less';
+@import './layout.less';
+
+
+// ich soll mir überlegen ob ich mit after arbeiten will wenn die Form gezeigt wird 
+
+
+::-moz-placeholder {
+    opacity: 1;
+  }
+
+  ::placeholder {
+    color:@color-font-name;
+  }
+
+.task-editing {
+    position: absolute;
+    width: @task-form-width;
+    height: @task-form-height;
+    border-radius: @form-radius;
+    top: 6%;
+    bottom: 25%;
+    left: 20%;
+    right:20%;
+    text-align: center;
+    line-height: @input-column-height;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding-top:@index-form-padding;
+    background:@color-task-form;
+    @media screen and (max-width:767px){
+        width:@task-form-width-mobile;
+        height: @task-form-height-mobile;
+        top: 0%;
+        bottom: 0%;
+        left: 0%;
+        right:0%;
+        padding-top:20%;
+        border-radius: 0px;
+
+    }
+    @media (min-width:767px) and (max-width:1000px){
+        width:70%;
+        top: 18%;
+        bottom: 25%;
+        left: 15%;
+        right:15%;
+    }
+    
+}
+
+.inputColumn{
+    margin:2em 0em;
+    @media (max-width:767px){
+      margin:2.3em 0em;
+    }
+  
+}
+
+
+.createTaskTitle(){
+    display: block;
+    text-align: center;
+    position: absolute;
+    font-size:2.3em;
+    font-weight: bold;
+    @media (max-width:767px){
+        font-size:1.5em;
+    }
+    @media(min-width:767px) and (max-width:1000px){
+        font-size:2.3em;
+    }
+  }
+  .createTask{
+    .createTaskTitle();
+    height: @task-title-height;
+    top: 3%;
+    bottom: 80%;
+    left: 40%;
+    right:41%; 
+    z-index: 8;
+    color: @color-task-title;
+    padding-top: @task-title-padding;
+    border-radius: @task-title-radius;
+    background-color: @color-task-form;
+    @media (max-width:767px){
+        top: 8%;
+        padding-top:0%;
+        left: 30%;
+        right:30%; 
+        height: @task-title-height-mobile;
+    }
+    @media (max-width:1000px){
+        
+        left: 30%;
+        right:30%;
+    }
+  }
+
+
+.taskForm{
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.589);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right:0;
+    color:white;
+    text-align: center;
+    display: none;
+
+}
+  .inputStyle(){
+    width:@input-column-width;
+    height:@input-column-height;
+    border:none;
+    background: none;
+    border-bottom:4px solid @color-input-border;
+    color:@color-font-name;
+    @media (max-width:767px){
+        width:80%;
+    }
+
+}
+input {
+    .inputStyle()
+}
+.textTask{
+    .inputStyle();
+    height: @textarea-height;
+    font-size: 18px;
+    background-color:@color-textarea-bg ;
+    padding:@textarea-padding;
+    border-radius: @textarea-radius;
+    text-align: left;
+    margin:0% 10%;   
+    box-sizing: border-box; 
+
+   
+    
+}
+select{
+    .clearfix();
+    .inputStyle();
+    margin: 0;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    :hover {
+        background: transparent;        
+    }
+   
+    ::-ms-expand {
+        display: none;
+    }
+    :focus {
+        ::-ms-value {
+            background: transparent;
+            color: @color-font-name;
+          }
+        background-color: transparent;
+        outline: none;
+        box-shadow: 0 0 1px 3px rgba(180,222,250, 1);
+    }
+   select-selected{
+       background-color: rgb(250, 180, 180);
+   }
+    option {
+    font-weight:normal;  
+    }
+    background-image: url(../../assets/images/down-arrow.svg);
+    background-repeat: no-repeat, repeat;
+    background-position: right .7em top 50%, 0 0;
+    background-size: .65em auto, 100%;
+   
+}
+
+&.taskClose{
+    .createTaskTitle();
+    font-size: 3em;
+    top: 2%;
+    bottom: 80%;
+    left: 85%;
+    right:10%;  
+    color: white;
+    cursor: pointer;
+   
+    opacity: 0.6;
+    &:hover {
+        opacity: 1;
+    }
+    @media (max-width:767px){
+        font-size: 2em;
+        top: 3%;
+        padding-top:0%;
+        left: 85%;
+        right:8%; 
+        height: @task-title-height-mobile;
+        opacity: 1;
+    }
+    
+}
+
+
+.addTaskButton{
+    margin-top: @input-button-margin;
+    width:80%;
+    height:@input-column-height;
+    border:none;
+    color:@color-button-bg;
+    font-weight: bold;
+    border-radius: @form-radius-button;
+}
+
+

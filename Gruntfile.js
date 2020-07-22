@@ -39,6 +39,7 @@ module.exports = function(grunt) {
         uglify: {
             build: {
                 files: {
+                    'assets/js/taskForm.min.js': 'src/js/taskForm.js',
                     'assets/js/index.min.js': 'src/js/index.js',
                     'assets/js/signin.min.js': 'src/js/signin.js',
                     'assets/js/project.min.js': 'src/js/project.js',
