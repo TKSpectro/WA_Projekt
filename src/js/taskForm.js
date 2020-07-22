@@ -15,21 +15,22 @@ function Taskform(opts) {
     let _task = null; //current selected task
 
 
-    let _domBackground = null;
-    let _elmTopBar = null;
+
     let _dom = null;
     let _elmDeadline = null;
     let _elmTitle = null;
     let _elmDesicription = null;
     let _elmCreatedBy = null;
     let _elmAssignedTo = null;
-    let _elmWorkflowStatus = null;
     let _elmMaxTime = null;
     let _elmEditButton = null;
     let _users = null;
 
     //Input Felder
     let _inputName = document.createElement("INPUT");
+    let _inputCreator = document.createElement("INPUT");
+    let _inputDeadline = document.createElement("INPUT");
+    let _inputMaxTime = document.createElement("INPUT");
     let _inputSelect = document.createElement("select");
 
 
@@ -49,15 +50,20 @@ function Taskform(opts) {
         _elmAssignedTo.appendChild(_inputSelect);
 
         _elmDesicription = _dom.querySelector('.textTask');
-        _elmCreatedBy = _dom.querySelector('.created-by');
+
+        _elmCreatedBy = _dom.querySelector('.Created-by');
+        _elmCreatedBy.appendChild(_inputCreator);
+
+        _elmMaxTime = _dom.querySelector('.maxTime');
+        _inputMaxTime.setAttribute("type", "number");
+        _elmMaxTime.appendChild(_inputMaxTime);
 
 
         _users = document.querySelectorAll('.menu-list .user');
 
-
-        _elmMaxTime = _dom.querySelector('.maxTime');
         _elmDeadline = _dom.querySelector('.deadline');
-        // _elmWorkflowStatus = _dom.querySelector('.workflow-Status');
+        _elmDeadline.appendChild(_inputDeadline);
+
         _elmEditButton = _dom.querySelector('.addTaskButton');
 
 
@@ -101,12 +107,28 @@ function Taskform(opts) {
                     //to show a TaskForm
                     document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
                 }
+
                 let deadline = _task.deadline.split("T");
 
                 // the name of the Task
                 _inputName.setAttribute("value", _task.name);
                 _inputName.readOnly = true;
 
+                // the name of the creator
+                _inputCreator.setAttribute("value", "Created By: " + _task.creator.displayName);
+                _inputCreator.readOnly = true;
+
+
+                // the maximum Time for a Task
+                _inputMaxTime.setAttribute("placeholder", 'Maximum Time: ' + _task.maximumWorkTime);
+                _inputMaxTime.readOnly = true;
+
+                // the Deadline Time for a Task
+                _inputDeadline.setAttribute("placeholder", "Deadline: " + deadline[0]);
+                _inputDeadline.readOnly = true;
+
+
+                // the content of select 
                 if (!_inputSelect.length) {
                     if (!_inputSelect.length) {
                         for (let index = 0; index < _users.length; index++) {
@@ -121,15 +143,9 @@ function Taskform(opts) {
                     }
                 }
                 _inputSelect.selectedIndex = _task.assignedTo.id - 1;
-
                 _inputSelect.disabled = true;
+                _elmDesicription.innerText = _task.text;
 
-                //_elmTitle.value = task.name;
-                _elmCreatedBy.value = "Created By " + _task.creator.displayName;
-                _elmAssignedTo.value = "Assigned To " + _task.assignedTo.displayName;
-                _elmMaxTime.value = "Maximum Time: " + _task.maximumWorkTime;
-                _elmDeadline.value = "Deadline: " + deadline[0];
-                _elmDesicription.innerHTML = _task.text;
 
                 /*let textarea = document.createElement("textarea");
                 textarea.style.width = '100%';
@@ -180,7 +196,10 @@ function Taskform(opts) {
             _editMode = true;
             _inputName.readOnly = false;
             _inputSelect.disabled = false;
+            _inputMaxTime.readOnly = false;
+            _inputDeadline.readOnly = false;
 
+            _inputDeadline.setAttribute("type", "date");
 
             let textarea = document.createElement("textarea");
             textarea.style.width = '100%';
@@ -197,6 +216,16 @@ function Taskform(opts) {
             _editMode = false;
             _task.name = _inputName.value;
             _task.assignedToId = _inputSelect.value;
+
+            if (!_inputMaxTime.value || !_task.deadline) {
+                _task.maximumWorkTime = _task.maximumWorkTime;
+                _task.deadline = _task.deadline;
+
+            } else {
+                _task.maximumWorkTime = _inputMaxTime.value;
+                _task.deadline = _inputDeadline.value;
+            }
+
             console.log(_inputSelect.value);
             let instance = sceditor.instance(_elmDesicription.waTXT);
             _task.text = instance.val();
