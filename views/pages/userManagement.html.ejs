@@ -1,56 +1,78 @@
 <% if(canUpdateUser || canDeleteUser){%>
 <div class="um-wrapper">
-    <div>
-        <table class="user-list">
-            <tr>
-                <th>
-                    ID
-                </th>
-                <th>
-                    firstName
-                </th>
-                <th>
-                    lastName
-                </th>
-                <th>
-                    email
-                </th>
-                <th>
-                    permission
-                </th>
-            </tr>
-            <% for (let i = 0; i < users.length; i++) { %>
-            <% const user = users[i]; %>
-            <tr class="user">
-                <th class="user-id">
-                    <%-user.id%>
-                </th>
-                <th class="user-firstname">
-                    <%-user.firstName%>
-                </th>
-                <th class="user-lastname">
-                    <%-user.lastName%>
-                </th>
-                <th class="user-email">
-                    <%-user.email%>
-                </th>
-                <th class="user-permission">
-                    <%-user.permission%>
-                </th>
-                <% if(canUpdateUser){%>
-                <th class="btn-update">
-                    <button user-id="<%user.id%>" onclick="updateUserPressed(this); return false;">UPDATE</button>
-                </th>
-                <% } %>
-                <% if(canDeleteUser){%>
-                <th class="btn-delete">
-                    <button user-id="<%user.id%>" onclick="deleteUserPressed(this); return false;">DELETE</button>
-                </th>
-                <% } %>
-            </tr>
-            <% } //ENDFOR %>
-        </table>
-    </div>
+    <table class="user-list">
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                firstName
+            </th>
+            <th>
+                lastName
+            </th>
+            <th>
+                email
+            </th>
+            <th>
+                permission
+            </th>
+        </tr>
+        <% for (let i = 0; i < users.length; i++) { %>
+        <% const user = users[i]; %>
+        <tr class="user">
+            <td class="user-id">
+                <%-user.id%>
+            </td>
+            <td>
+                <input type="text" id="firstName<%-user.id%>" name="firstName" value="<%-user.firstName%>" disabled>
+            </td>
+            <td>
+                <input type="text" id="lastName<%-user.id%>" name="lastName" value="<%-user.lastName%>" disabled>
+            </td>
+            <td>
+                <input type="text" id="email<%-user.id%>" name="email" value="<%-user.email%>" disabled>
+            </td>
+            <td class="user-permission">
+                <input type="number" id="permission<%-user.id%>" name="permission" value="<%-user.permission%>"
+                    disabled>
+            </td>
+            <% if(canUpdateUser){%>
+            <td class="btn-update">
+                <button user-id="<%-user.id%>" id="update<%-user.id%>"
+                    onclick="updateUserPressed(this); return false;">UPDATE</button>
+            </td>
+            <% } %>
+            <% if(canDeleteUser){%>
+            <td class="btn-delete">
+                <button user-id="<%-user.id%>" onclick="deleteUserPressed(this); return false;">DELETE</button>
+            </td>
+            <% } %>
+        </tr>
+        <% } //ENDFOR %>
+    </table>
+</div>
+<div class="permission-calculator">
+    <form name="permission">
+
+        Permission:
+        <input type="text" name="permission_total" value="0" size="6" disabled><br>
+        Binary:
+        <input type="text" name="binary_total" value="" size="16" disabled><br>
+
+        <input type="checkbox" name="dUser" onclick="calc_permission()"> deleteUser<br>
+        <input type="checkbox" name="uUser" onclick="calc_permission()"> UpdateUser<br>
+
+        <input type="checkbox" name="dTask" onclick="calc_permission()"> deleteTask<br>
+        <input type="checkbox" name="uTask" onclick="calc_permission()"> updateTask<br>
+        <input type="checkbox" name="cTask" onclick="calc_permission()"> createTask<br>
+
+        <input type="checkbox" name="dProject" onclick="calc_permission()"> deleteProject<br>
+        <input type="checkbox" name="uProject" onclick="calc_permission()"> updateProject<br>
+        <input type="checkbox" name="cProject" onclick="calc_permission()"> createProject<br>
+
+        <input type="checkbox" name="isDeleted" onclick="calc_permission()"> isDeleted<br>
+    </form>
 </div>
 <% } else { %>
 <!-- User is not allowed to update or delete users -->
