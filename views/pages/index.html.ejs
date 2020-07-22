@@ -110,28 +110,16 @@
     </div>
 
     <div class="task-editing">
-        <!-- <form id="form" action="<%-self.urlFor( 'api/tasks', 'create', null, 'POST')%>" method="POST" data="
-                                                    <%=self.req.user.id%>">-->
+
         <div class="inputColumn nameTask"></div>
 
-        <!--<div class="inputColumn">
-            <select class="select" id="assignedToId" name="assignedToId" required>
-                <option  value="" select:invalid>Assigned To</option>
-
-                <% for(let index = 0; index < users.length; ++index) { %>
-                <option value="<%=users[index].id%>"><%=users[index].fullname()%></option>
-                <% } //endfor %>
-            </select>
-        </div>-->
-
-        <div class="inputColumn"><input type="text" class="created-by" name="Created-by" value="{{title}}" readonly>
-        </div>
+        <div class="inputColumn Created-by"></div>
 
         <div class="inputColumn assigned-to"></div>
 
-        <div class="inputColumn"><input type="text" class="maxTime" value="{{title}}" readonly></div>
+        <div class="inputColumn maxTime"></div>
 
-        <div class="inputColumn"><input type="text" class="deadline" value="{{title}}" readonly></div>
+        <div class="inputColumn deadline"></div>
 
         <div class="inputColumn textTask">
             <!--<textarea class="textTask" name="text" cols="30" rows="10" placeholder="What To do">
