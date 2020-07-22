@@ -123,9 +123,7 @@
  * 
  * @apiPermission canCreateProject
  * 
- * @apiExample Usage:
- *  endpoint: http://localhost/api/projects
- *
+ * @apiExample {json} Request (example):
  *  json-body:
  *  {
  *      "project": {
@@ -162,9 +160,7 @@
  *
  * @apiPermission canUpdateProject
  * 
- * @apiExample Usage:
- *  endpoint: http://localhost/api/projects/:id
- *
+ * @apiExample {json} Request (example):
  *  json-body:
  *  {
  *      "project": {

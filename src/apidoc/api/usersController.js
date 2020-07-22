@@ -114,10 +114,7 @@
  * @apiName CreateUser
  * @apiGroup Users
  *
- * @apiExample Usage:
- *      endpoint: http://localhost/api/users
- *
- *      json-body:
+ * @apiExample {json} Request (example):
  *      {
  *          "user": {
  *              "firstName": "firstName",
@@ -164,9 +161,7 @@
  *
  * @apiPermission canUpdateUser
  * 
- * @apiExample Usage:
- *      endpoint: http://localhost/api/users/:id
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *      {
  *          "user": {
@@ -226,9 +221,7 @@
  * @apiName Signin
  * @apiGroup Users
  *
- * @apiExample Usage:
- *      endpoint: http://localhost/api/sigin
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *      {
  *      	"user" : {
@@ -255,9 +248,7 @@
  * @apiName Signup
  * @apiGroup Users
  *
- * @apiExample Usage:
- *      endpoint: http://localhost/api/sigup
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *      {
  *      	"user" : {

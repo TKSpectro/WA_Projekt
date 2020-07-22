@@ -140,9 +140,7 @@
  *
  * @apiHeader {String} _wab_auth_jwt Login token:JWT-Token.
  *
- * @apiExample Usage:
- *  endpoint: http://localhost/api/messages
- *
+ * @apiExample {json} Request (example):
  *  json-body:
  *  {
  *      "message": {
@@ -183,9 +181,7 @@
  *
  * @apiHeader {String} _wab_auth_jwt Login token:JWT-Token.
  *
- * @apiExample Usage:
- *  endpoint: http://localhost/api/messages/:id
- *
+ * @apiExample {json} Request (example):
  *  json-body:
  *  {
  *      "message": {

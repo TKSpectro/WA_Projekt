@@ -148,9 +148,7 @@
  * @apiPermission userWithRightsToCreateTask
  *
  *
- * @apiExample Usage:
- *      endpoint: http://localhost/api/tasks
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *       {
  *      "task": {
@@ -210,9 +208,7 @@
  * 
  * @apiPermission  canUpdateTask
  * 
- * @apiExample Usage:
- *      endpoint: http://localhost/api/tasks/:id
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *      {
  *          "task": {
