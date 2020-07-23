@@ -328,22 +328,22 @@ function Taskform(opts) {
 
     self.createTask = function() {
 
-        let xhr = new XMLHttpRequest();
+        /* let xhr = new XMLHttpRequest();
 
-        xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 300) {
+         xhr.onload = function() {
+             if (xhr.status >= 200 && xhr.status < 300) {
 
-            } else {
-                // ToDo falls das Request nicht klappt
-                console.log('Post request failed');
-            }
-        };
+             } else {
+                 // ToDo falls das Request nicht klappt
+                 console.log('Post request failed');
+             }
+         };
 
-        let url = '/api/tasks';
+         let url = '/api/tasks';
 
-        xhr.open('POST', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({ task: createTask }));
+         xhr.open('POST', url);
+         xhr.setRequestHeader('Content-Type', 'application/json');
+         xhr.send(JSON.stringify({ task: createTask }));*/
 
         io.emit('tasks/create', {
             task: createTask
@@ -355,7 +355,7 @@ function Taskform(opts) {
 
 
 
-    io.on('tasks', (data) => {
+    io.on('tasks/wasCreated', (data) => {
         console.log(data);
     });
 
