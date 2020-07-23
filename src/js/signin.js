@@ -8,17 +8,17 @@ function submitPressed(elm) {
     var start = new Date();
 
     // handle request finished
-    xhr.onload = function () {
+    xhr.onload = function() {
         var end = new Date();
         var duration = 820 - (end.getTime() - start.getTime());
         duration = duration < 0 ? 0 : duration;
 
-        setTimeout(function(){
+        setTimeout(function() {
             if (xhr.status >= 200 && xhr.status < 300) {
                 console.log('worked !!!');
                 elm.className = 'fine';
 
-                setTimeout(function(){
+                setTimeout(function() {
                     window.location = '/project';
                 }, 300);
             } else {

@@ -207,6 +207,7 @@ function Taskform(opts) {
             let textarea = document.createElement("textarea");
             textarea.style.width = '100%';
             textarea.style.height = "100%";
+            textarea.style.boxSizing = "border-box%";
             textarea.innerHTML = _task.text;
             _elmDesicription.innerHTML = '';
             _elmDesicription.appendChild(textarea);
@@ -235,6 +236,7 @@ function Taskform(opts) {
             _task.text = instance.val();
             _elmDesicription.waTXT = null;
             self.updateTask(_task);
+
         }
 
 
@@ -275,6 +277,7 @@ function Taskform(opts) {
             _inputDeadline.value = "";
 
 
+
             _editMode = true;
             _inputName.readOnly = false;
             _inputSelect.disabled = false;
@@ -311,9 +314,11 @@ function Taskform(opts) {
 
             // Text Area with Editor
             textarea.style.width = '100%';
-            textarea.style.height = "100%";
+            textarea.style.height = '100%';
+            textarea.style.boxSizing = "border-box%";
+
             textarea.innerHTML = " ";
-            _elmDesicription.innerHTML = '';
+            _elmDesicription.innerHTML = ' ';
             _elmDesicription.appendChild(textarea);
             createScEditor(textarea);
 
@@ -358,5 +363,7 @@ function Taskform(opts) {
 
 function taskClose() {
     document.getElementById("taskCloseId").parentNode.style.display = "none";
+    _elmDesicription.innerHTML = ' ';
+
 
 }

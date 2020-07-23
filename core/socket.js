@@ -136,6 +136,7 @@ class SocketHandler {
                 } catch (err) {
                     error = err;
                 }
+
             });
 
 

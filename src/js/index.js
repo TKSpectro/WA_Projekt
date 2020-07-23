@@ -31,7 +31,7 @@ function loadMessages(elm, fromId) {
     let xhr = new XMLHttpRequest();
 
     //handle request finished
-    xhr.onload = function () {
+    xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             let jsonData = JSON.parse(xhr.response);
 
@@ -218,7 +218,7 @@ io.on('message', (data) => {
     handleIncomingMessage(data);
 });
 
-messagesElm.addEventListener('scroll', function () {
+messagesElm.addEventListener('scroll', function() {
     if (this.scrollTop === 0) {
         let fromId = currentUserElm.getAttribute('data-id');
         loadMessages(currentUserElm, fromId === '0' ? null : fromId);
@@ -226,13 +226,13 @@ messagesElm.addEventListener('scroll', function () {
 });
 
 textarea.altActive = false;
-textarea.addEventListener('keydown', function (event) {
+textarea.addEventListener('keydown', function(event) {
     if (event.keyCode === 18) {
         textarea.altActive = true;
     }
 });
 
-textarea.addEventListener('keyup', function (event) {
+textarea.addEventListener('keyup', function(event) {
     if (event.keyCode === 18) {
         textarea.altActive = false;
     }
@@ -256,16 +256,16 @@ let sortableLists = sortable('.tasks', {
 
 for (let index = 0; index < sortableLists.length; index++) {
     const list = sortableLists[index];
-    list.addEventListener('sortstart', function (e) {
+    list.addEventListener('sortstart', function(e) {
         // do nothing
     });
 
-    list.addEventListener('sortstop', function (e) {
+    list.addEventListener('sortstop', function(e) {
         //console.log('sortstop', e);
         //do nothing
     });
 
-    list.addEventListener('sortupdate', function (e) {
+    list.addEventListener('sortupdate', function(e) {
         let item = e.detail.item;
         let target = e.target;
 
@@ -311,8 +311,28 @@ io.on('task/move', (data) => {
     }
 });
 
-function taskClose() {
-    document.getElementById("taskCloseId").parentNode.style.display = "none";
-    console.log()
+function projectSwitch(elm) {
 
+
+    const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port
+
+    window.location.href = url;
+}
+
+function redirectPolicy(elm) {
+
+    const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "privacy"
+    window.location.href = url;
+}
+
+function redirectImprint(elm) {
+
+    const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "imprint"
+    window.location.href = url;
+}
+
+function logout(elm) {
+    var date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    var expires = date.toGMTString();
 }
