@@ -88,6 +88,7 @@ function Taskform(opts) {
             textarea.value = instance.val();
             createTask.text = textarea.value;
             self.createTask();
+            _dom.style.display = "none";
         });
 
     }
@@ -350,15 +351,6 @@ function Taskform(opts) {
         });
 
     }
-
-
-
-
-
-    io.on('tasks/wasCreated', (data) => {
-        console.log(data);
-    });
-
 
     init();
 }

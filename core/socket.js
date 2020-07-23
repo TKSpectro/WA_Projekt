@@ -110,27 +110,13 @@ class SocketHandler {
                 }
             });
 
-            /* socket.on('tasks/create', async(data) => {
-
-                
-                 console.log(tasks);
-                 if (tasks) {
-                     socket.emit('tasks', tasks);
-                 }
-             });*/
 
 
 
             socket.on('tasks/create', async(data) => {
-                console.log(data);
 
                 let task = null;
                 let error = null;
-                let tasks = await self.db.Task.findAll({
-                    where: {},
-                });
-
-
 
                 try {
                     console.log("dataName", data.task);
@@ -142,7 +128,7 @@ class SocketHandler {
 
                         return newTask;
                         console.log(newTask);
-                        io.emit('tasks/create', tasks);
+
                     });
                     if (!task) {
                         throw new ApiError('Task could not be created', 404);
@@ -150,7 +136,6 @@ class SocketHandler {
                 } catch (err) {
                     error = err;
                 }
-
             });
 
 
