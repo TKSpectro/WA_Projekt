@@ -6,6 +6,8 @@
                 <li><img src="../../assets/images/gear.svg" alt=""></li>
                 <li id="btn-chat-all" data-id="0" data-new="0" onclick="userPressed(this); return false;"><img src="../../assets/images/team.svg" alt="ALl"></li>
                 <% for(let index = 0; index < users.length; ++index) { %>
+                    <span class="user" data-id="<%=users[index].id%>" data-fullname="<%=users[index].fullname()%>"></span>
+
                     <%
                     //exclude the current user
                     if(self.req.user.id === users[index].id){
@@ -45,7 +47,7 @@
                     <% const workflow = workflows[index]; %>
                         <div class="col">
                             <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
-                                <span class="workflow"><%=workflow.name%></span> <span id="addIcon" onclick="addTask(this,'<%-workflow.id%>'); return false;" class="add">+</span>
+                                <span class="workflow"><%=workflow.name%></span> <span id="addIcon" class="add" workflow-id="<%-workflow.id%>" workflow-id="<%-workflow.id%>">+</span>
                             </div>
                         </div>
                         <%} //ENDFOR %>
@@ -67,7 +69,7 @@
                                         <% const task = workflowTasks[workflow.id][i]; %>
                                             <div class="task" style="border-color: <%-workflow.color%>;" data-id="<%-task.id%>">
 
-                                                <div class="name" id="taskName" data-id="<%-task.id%>" onclick="editTask(this);">
+                                                <div class="name" id="taskName" data-id="<%-task.id%>">
                                                     #
                                                     <%-task.id%>
                                                         <%=task.name%>
@@ -100,17 +102,100 @@
 </div>
 
 
-<div class="taskForm">
+<div class="taskForm" user-id="<%-self.req.user.id%>" user-name="<%-self.req.user.fullname()%>" test="<%-self.req%>" id="slide-in-popover">
 
-    <div class="createTask ">Create Task</div>
+    <div class="createTask ">Edit Task</div>
+    <div class="taskClose" id="taskCloseId" onclick="taskClose();">
+        X
+    </div>
 
-    <form id="form" action="<%-self.urlFor( 'api/tasks', 'create', null, 'POST')%>" method="POST" data="
-                                                    <%=self.req.user.id%>">
-        <div class="inputColumn"><input type="text" id="nameTask" name="name" placeholder="Name"></div>
+    <div class="task-editing">
+
+        <div class="inputColumn nameTask"></div>
+
+        <div class="inputColumn Created-by"></div>
+
+        <div class="inputColumn assigned-to"></div>
+
+        <div class="inputColumn maxTime"></div>
+
+        <div class="inputColumn deadline"></div>
+
+        <div class="inputColumn textTask"></div>
+
+        <button class="addTaskButton">Edit Task</button>
+        <button class="addTask">Add Task</button>
+
+
+
+
+    </div>
+
+</div>
+
+<!--ToDo: data-open in less Datai
+
+<div class="taskForm" data-open="0" id="slide-in-popover">
+    <div class="background">
+
+    </div>
+     <div class="createTask ">Edit Task</div>
+
+    <div class="content-wrapper">
+        <div class="top-bar" data-tpl="#{{id}} Task Details">#{{id}} Task Details</div>
+        <div class="content">
+            <div class="task-title">
+                {{title}}
+            </div>
+            <div class="task-infos">
+                <div class="grid">
+                    <div class="row">
+                        <div class="clo-4">
+                            <div class="label">Created by</div>
+                            <div class="text created-by">{{label-text}}</div>
+                        </div>
+                        <div class="clo-4">
+                            <div class="label">Assigned To</div>
+                            <div class="text assigned-to">{{label-text}}</div>
+                        </div>
+                        <div class="clo-4">
+                            <div class="label">Workflow Status</div>
+                            <div class="text workflow-status">{{label-text}}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="description">
+                {{html}}
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <button>Edit Task</button>
+        </div>
+
+    </div>
+
+</div>-->
+
+
+
+
+<!--
+<div class="taskForm" id="slide-in-popover">
+
+    <div class="createTask ">Add Task</div>
+    <div class="taskClose" id="taskCloseId" onclick="taskClose();">
+        X
+    </div>
+
+    <div id="form">
+
+        <div class="inputColumn"><input type="text" id="nameTask" name="{{title}}" value="Test"></div>
 
         <div class="inputColumn">
             <select class="select" id="assignedToId" name="assignedToId" required>
-                <option value="" select:invalid>Assigned To</option>
+                <option value="" select:invalid>{{label-text}}</option>
 
                 <% for(let index = 0; index < users.length; ++index) { %>
                 <option value="<%=users[index].id%>"><%=users[index].fullname()%></option>
@@ -120,21 +205,13 @@
 
         <input type="hidden" id="currentUserId" value="<%-self.req.user.id%>">
 
-        <div class="inputColumn"><input type="number" id="maxTime" placeholder="Maximum Work Time"></div>
-
-        <div class="inputColumn"><input placeholder="Deadline" type="text" onfocus="(this.type='date')" id="deadline">
-        </div>
-
-
-        <input type="hidden" id="projectId" value="<%-workflows[1].projectId%>">
+        <div class="inputColumn"><input type="number" id="maxTime" placeholder=""></div>
 
         <div class="inputColumn">
-            <textarea id="textTask" name="text" cols="30" rows="10" placeholder="What To do">
+            <textarea id="textTask" name="text" cols="30" rows="10" value="{{html}}">
             </textarea>
         </div>
-        <button class="addTaskButton" onclick="addPressed(this,this.parentNode); return false;">Add Task</button>
-    </form>
-    <div class="taskClose" id="taskCloseId" onclick="taskClose();">
-        X
+        <button class="Edit TASK" onclick="addPressed(this,this.parentNode); return false;">Add Task</button>
     </div>
-</div>
+
+</div>-->
