@@ -13,9 +13,6 @@ for (let index = 0; index < tasks.length; index++) {
 
 }
 
-
-
-
 //default chat is all
 let textarea = document.getElementById('message');
 let currentUserElm = document.getElementById('btn-chat-all');
@@ -319,20 +316,33 @@ function projectSwitch(elm) {
     window.location.href = url;
 }
 
-function redirectPolicy(elm) {
+function redirectPolicy() {
 
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "privacy"
     window.location.href = url;
 }
 
-function redirectImprint(elm) {
+function redirectImprint() {
 
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "imprint"
     window.location.href = url;
 }
 
-function logout(elm) {
-    var date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    var expires = date.toGMTString();
+function logout() {
+    let xhr = new XMLHttpRequest();
+
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+
+        } else {
+            // ToDo falls das Request nicht klappt
+            console.log('Post request failed');
+        }
+    };
+
+    let url = '/api/signout';
+
+    xhr.open('GET', url);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({}));
 }
