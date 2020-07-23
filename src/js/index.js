@@ -345,4 +345,5 @@ function logout() {
     xhr.open('GET', url);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({}));
+
 }
