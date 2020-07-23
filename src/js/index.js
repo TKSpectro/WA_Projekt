@@ -14,6 +14,8 @@ for (let index = 0; index < tasks.length; index++) {
 }
 
 
+
+
 //default chat is all
 let textarea = document.getElementById('message');
 let currentUserElm = document.getElementById('btn-chat-all');
@@ -128,7 +130,7 @@ function userPressed(elm) {
 }
 
 function chatClose() {
-    document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper";
+    document.querySelectorAll('.wrapper')[0].className = "wrapper";
 
 }
 
@@ -312,49 +314,8 @@ io.on('task/move', (data) => {
     }
 });
 
-/*
-//Function to add a Task 
-function addPressed(elm, obj) {
-    var form = document.getElementById('form');
-    let currentUserId = document.getElementById('currentUserId').value;
-    let workflowId = obj.parentNode.getAttribute('workflow');
-
-    console.log(tasks);
-
-
-    var xhr = new XMLHttpRequest();
-    xhr.open(form.getAttribute('method') || 'POST', form.getAttribute('action'));
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        task: {
-            name: document.getElementById('nameTask').value,
-            text: document.getElementById('textTask').value,
-            creatorId = currentUserId,
-            maximumWorkTime: document.getElementById('maxTime').value,
-            deadline: document.getElementById('deadline').value,
-            assignedToId: document.getElementById('assignedToId').value,
-            projectId: document.getElementById('projectId').value,
-            workflowId: workflowId,
-        }
-
-    }));
-
-
-}*/
-
-//function to show a TaskForm
-function addTask(elm, workflowId) {
-    let test = document.getElementById("addIcon");
-    console.log(document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.className);
-
-    document.getElementById("addIcon").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "block";
-    document.getElementById("taskName").parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.setAttribute("workflow", workflowId);
-
-}
-
-
 function taskClose() {
     document.getElementById("taskCloseId").parentNode.style.display = "none";
-    console.log("done");
+    console.log()
 
 }

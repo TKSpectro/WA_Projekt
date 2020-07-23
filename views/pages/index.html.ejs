@@ -47,7 +47,7 @@
                     <% const workflow = workflows[index]; %>
                         <div class="col">
                             <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
-                                <span class="workflow"><%=workflow.name%></span> <span id="addIcon" onclick="addTask(this,'<%-workflow.id%>'); return false;" class="add">+</span>
+                                <span class="workflow"><%=workflow.name%></span> <span id="addIcon" class="add" workflow-id="<%-workflow.id%>" workflow-id="<%-workflow.id%>">+</span>
                             </div>
                         </div>
                         <%} //ENDFOR %>
@@ -102,7 +102,7 @@
 </div>
 
 
-<div class="taskForm" id="slide-in-popover">
+<div class="taskForm" user-id="<%-self.req.user.id%>" user-name="<%-self.req.user.fullname()%>" test="<%-self.req%>" id="slide-in-popover">
 
     <div class="createTask ">Edit Task</div>
     <div class="taskClose" id="taskCloseId" onclick="taskClose();">
@@ -121,13 +121,15 @@
 
         <div class="inputColumn deadline"></div>
 
-        <div class="inputColumn textTask">
-            <!--<textarea class="textTask" name="text" cols="30" rows="10" placeholder="What To do">
-            </textarea>-->
-        </div>
+        <div class="inputColumn textTask"></div>
+
         <button class="addTaskButton">Edit Task</button>
+        <button class="addTask">Add Task</button>
+
+
+
+
     </div>
-    <!--</form>-->
 
 </div>
 
@@ -203,7 +205,7 @@
 
         <input type="hidden" id="currentUserId" value="<%-self.req.user.id%>">
 
-        <div class="inputColumn"><input type="number" id="maxTime" placeholder="Maximum Work Time"></div>
+        <div class="inputColumn"><input type="number" id="maxTime" placeholder=""></div>
 
         <div class="inputColumn">
             <textarea id="textTask" name="text" cols="30" rows="10" value="{{html}}">
