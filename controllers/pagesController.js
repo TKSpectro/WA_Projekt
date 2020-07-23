@@ -111,8 +111,20 @@ class PagesController extends Controller {
     actionImprint() {
         const self = this;
 
+        self.css('imprint');
+
         self.render({
             title: 'Imprint'
+        });
+    }
+
+    actionPrivacy() {
+        const self = this;
+
+        self.css('privacy');
+
+        self.render({
+            title: 'Privacy'
         });
     }
 
