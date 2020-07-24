@@ -329,21 +329,8 @@ function redirectImprint() {
 }
 
 function logout() {
-    let xhr = new XMLHttpRequest();
 
-    xhr.onload = function() {
-        if (xhr.status >= 200 && xhr.status < 300) {
-
-        } else {
-            // ToDo falls das Request nicht klappt
-            console.log('Post request failed');
-        }
-    };
-
-    let url = '/api/signout';
-
-    xhr.open('GET', url);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({}));
+    document.cookie = "_wab_auth_jwt" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    window.location.reload();
 
 }
