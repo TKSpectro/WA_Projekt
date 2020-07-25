@@ -13,7 +13,7 @@ class PagesController extends Controller {
 
         self.css('layout');
 
-        self.before(['*', '-imprint', '-signin'], (next) => {
+        self.before(['*', '-imprint', '-signin', '-userManagement'], (next) => {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -26,6 +26,16 @@ class PagesController extends Controller {
                 self.redirect(self.urlFor('pages', 'index'));
             } else {
                 next();
+            }
+        });
+
+        self.before(['userManagement'], (next) => {
+            if (self.req.authorized === true &&
+                (Helper.checkPermission(Helper.canUpdateUser, self.req.user.permission) ||
+                    Helper.checkPermission(Helper.canDeleteUser, self.req.user.permission))) {
+                next();
+            } else {
+                self.redirect(self.urlFor('pages', 'index'));
             }
         });
     }
