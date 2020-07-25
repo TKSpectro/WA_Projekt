@@ -69,7 +69,7 @@ class SocketHandler {
                 }
             });
 
-            socket.on('message', async(data) => {
+            socket.on('message', async (data) => {
                 //write incoming message to database
                 let message = self.db.Message.build();
                 message.writeRemotes(data);
@@ -242,6 +242,47 @@ class SocketHandler {
                 }
 
                 socket.broadcast.emit('task/move', data);
+            });
+
+            socket.on('user/delete', async (data) => {
+                self.db.User.destroy({
+                    where: {
+                        id: data.id,
+                    }
+                }).then(function (err) {
+                    socket.emit('user/wasDeleted');
+                }).catch(function (err) {
+                    socket.emit('user/cantDelete');
+                });
+            });
+
+            socket.on('user/update', async (data) => {
+                let user = null;
+                user = await self.db.sequelize.transaction(async(t) => {
+                    let updatedUser = await self.db.User.findOne({
+                        where: {
+                            id: data.id
+                        }
+                    }, { transaction: t })
+                    if (updatedUser) {
+                        await updatedUser.update({
+                            firstName: data.firstName,
+                            lastName: data.lastName,
+                            email: data.email,
+                            permission: data.permission,
+                            updatedAt: new Date()
+                        }, {
+                            where: {
+                                id: data.id
+                            }
+                        }, { transaction: t, lock: true }).then(function (err) {
+                            socket.emit('user/wasUpdated');
+                        }).catch(function (err) {
+                            socket.emit('user/cantUpdate');
+                        });
+                    }
+                    return updatedUser;
+                });
             });
         });
     }

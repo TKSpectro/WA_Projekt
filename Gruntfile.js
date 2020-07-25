@@ -32,6 +32,7 @@ module.exports = function(grunt) {
                     'assets/css/index.css': 'src/less/index.less',
                     'assets/css/signin.css': 'src/less/signin.less',
                     'assets/css/project.css': 'src/less/project.less',
+                    'assets/css/userManagement.css': 'src/less/userManagement.less',
                     'assets/css/imprint.css': 'src/less/imprint.less',
                     'assets/css/privacy.css': 'src/less/privacy.less',
                 }
@@ -44,6 +45,7 @@ module.exports = function(grunt) {
                     'assets/js/index.min.js': 'src/js/index.js',
                     'assets/js/signin.min.js': 'src/js/signin.js',
                     'assets/js/project.min.js': 'src/js/project.js',
+                    'assets/js/userManagement.min.js': 'src/js/userManagement.js',
                 }
             }
         },
