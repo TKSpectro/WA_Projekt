@@ -21,8 +21,8 @@
         <% for (let i = 0; i < users.length; i++) { %>
         <% const user = users[i]; %>
         <tr class="user">
-            <td class="user-id">
-                <%-user.id%>
+            <td class="user-id" style="padding: 2px;">
+                 <%-user.id%>
             </td>
             <td>
                 <input type="text" id="firstName<%-user.id%>" name="firstName" value="<%-user.firstName%>" disabled>
@@ -52,24 +52,21 @@
         <% } //ENDFOR %>
     </table>
 </div>
-<div class="permission-calculator">
-    <form name="permission">
+<div class="permission-calculator" id="permission_calculator">
+    <form name="permission_calculator">
 
-        Permission:
-        <input type="text" name="permission_total" value="0" size="6" disabled><br>
-        Binary:
-        <input type="text" name="binary_total" value="" size="16" disabled><br>
+        Permission:<br>
 
-        <input type="checkbox" name="dUser" onclick="calc_permission()"> deleteUser<br>
-        <input type="checkbox" name="uUser" onclick="calc_permission()"> UpdateUser<br>
+        <input type="checkbox" name="dUser" onclick="calc_permission()"> Delete Users<br>
+        <input type="checkbox" name="uUser" onclick="calc_permission()"> Update Users<br>
 
-        <input type="checkbox" name="dTask" onclick="calc_permission()"> deleteTask<br>
-        <input type="checkbox" name="uTask" onclick="calc_permission()"> updateTask<br>
-        <input type="checkbox" name="cTask" onclick="calc_permission()"> createTask<br>
+        <input type="checkbox" name="dTask" onclick="calc_permission()"> Delete Tasks<br>
+        <input type="checkbox" name="uTask" onclick="calc_permission()"> Update Tasks<br>
+        <input type="checkbox" name="cTask" onclick="calc_permission()"> Create Tasks<br>
 
-        <input type="checkbox" name="dProject" onclick="calc_permission()"> deleteProject<br>
-        <input type="checkbox" name="uProject" onclick="calc_permission()"> updateProject<br>
-        <input type="checkbox" name="cProject" onclick="calc_permission()"> createProject<br>
+        <input type="checkbox" name="dProject" onclick="calc_permission()"> Delete Projects<br>
+        <input type="checkbox" name="uProject" onclick="calc_permission()"> Update Projects<br>
+        <input type="checkbox" name="cProject" onclick="calc_permission()"> Create Projects<br>
 
         <input type="checkbox" name="isDeleted" onclick="calc_permission()"> isDeleted<br>
     </form>

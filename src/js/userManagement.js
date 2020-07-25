@@ -7,12 +7,11 @@ io.on('user/cantDelete', (data) => {
 });
 
 io.on('user/wasDeleted', (data) => {
-    alert('User got deleted');
     location.reload(true);
 });
 
 io.on('user/wasUpdated', (data) => {
-    alert('User was updated');
+    location.reload(true);
 });
 
 function deleteUserPressed(elm) {
@@ -20,13 +19,14 @@ function deleteUserPressed(elm) {
         io.emit('user/delete', {
             id: elm.getAttribute('user-id'),
         });
-
     } else {
         // Do nothing
     }
 }
 
 function updateUserPressed(elm) {
+    let _permission_calculator = document.getElementById("permission_calculator");
+
     let _firstName = document.getElementById("firstName" + elm.getAttribute("user-id"));
     _firstName.disabled = !_firstName.disabled;
 
@@ -43,9 +43,14 @@ function updateUserPressed(elm) {
 
     if(!_email.disabled){
         _update.innerText = " SEND ";
+
+        _permission_calculator.classList.add("show");
+
+        let id = _permission_calculator.setAttribute("user-id", elm.getAttribute("user-id"));
     }else{
         _update.innerText = "UPDATE";
-
+        _permission_calculator.classList.remove("show");
+        _permission_calculator.removeAttribute("user-id");
         if (confirm('Are you sure you want to update this user?')) {
             io.emit('user/update', {
                 id: elm.getAttribute('user-id'),
@@ -63,19 +68,20 @@ function updateUserPressed(elm) {
 function calc_permission() {
     let total = 0;
 
-    if (document.permission.dUser.checked == true) { total += 256 }
-    if (document.permission.uUser.checked == true) { total += 128 }
+    let calc = document.permission_calculator;
 
-    if (document.permission.dTask.checked == true) { total += 64 }
-    if (document.permission.uTask.checked == true) { total += 32 }
-    if (document.permission.cTask.checked == true) { total += 16 }
+    if (calc.dUser.checked == true) { total += 256 }
+    if (calc.uUser.checked == true) { total += 128 }
 
-    if (document.permission.dProject.checked == true) { total += 8 }
-    if (document.permission.uProject.checked == true) { total += 4 }
-    if (document.permission.cProject.checked == true) { total += 2 }
+    if (calc.dTask.checked == true) { total += 64 }
+    if (calc.uTask.checked == true) { total += 32 }
+    if (calc.cTask.checked == true) { total += 16 }
 
-    if (document.permission.isDeleted.checked == true) { total += 1 }
+    if (calc.dProject.checked == true) { total += 8 }
+    if (calc.uProject.checked == true) { total += 4 }
+    if (calc.cProject.checked == true) { total += 2 }
 
-    document.permission.permission_total.value = total;
-    document.permission.binary_total.value = (total >>> 0).toString(2);;
+    if (calc.isDeleted.checked == true) { total += 1 }
+
+    document.getElementById("permission" + document.getElementById('permission_calculator').getAttribute("user-id")).value = total;
 }
