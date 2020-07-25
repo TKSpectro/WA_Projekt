@@ -110,8 +110,61 @@ class SocketHandler {
                 }
             });
 
-            socket.on('task/move', async (data) => {
+
+
+
+            socket.on('tasks/create', async(data) => {
+
+                let task = null;
+                let error = null;
+
+                try {
+                    console.log("dataName", data.task);
+                    task = await self.db.sequelize.transaction(async(t) => {
+                        let newTask = self.db.Task.build();
+                        newTask.writeRemotes(data.task);
+
+                        await newTask.save();
+
+                        return newTask;
+                        console.log(newTask);
+
+                    });
+                    if (!task) {
+                        throw new ApiError('Task could not be created', 404);
+                    }
+                } catch (err) {
+                    error = err;
+                }
+
+            });
+
+
+
+
+            socket.on('task/move', async(data) => {
                 //get message from database which was moved
+
+                try {
+                    let task = await self.db.sequelize.transaction(async(t) => {
+                        let newTask = self.db.Task.build();
+                        newTask.writeRemotes(data);
+
+                        await newTask.save({
+                            transaction: t,
+                            lock: true
+                        });
+
+                        return newTask;
+                    });
+                    if (!task) {
+                        throw new ApiError('Task could not be created', 404);
+                    }
+                } catch (err) {
+                    error = err;
+                }
+
+
 
                 let task = await self.db.Task.findOne({
                     where: {

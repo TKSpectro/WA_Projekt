@@ -14,7 +14,6 @@
   ::placeholder {
     color:@color-font-name;
   }
-
 .task-editing {
     position: absolute;
     width: @task-form-width;
@@ -208,7 +207,8 @@ select{
 }
 
 
-.addTaskButton{
+.addTaskButton, .addTask{
+    position: absolute;
     margin-top: @input-button-margin;
     width:80%;
     height:@input-column-height;
@@ -216,6 +216,9 @@ select{
     color:@color-button-bg;
     font-weight: bold;
     border-radius: @form-radius-button;
+    left: 10%;
+    right:10%;
+   
 }
 
 
