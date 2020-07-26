@@ -18,7 +18,7 @@ function Taskform(opts) {
 
     let _dom = null;
     let _elmDeadline = null;
-    let _elmTitle = null;
+    let _elmName = null;
     let _elmDesicription = null;
     let _elmCreatedBy = null;
     let _elmAssignedTo = null;
@@ -26,6 +26,7 @@ function Taskform(opts) {
     let _elmEditButton = null;
     let _users = null;
     let _elmCreateButton = null;
+    let _elmTitle = null;
 
 
     //Input Felder
@@ -41,7 +42,9 @@ function Taskform(opts) {
     function init() {
         _dom = document.getElementById(opts.id);
 
-        _elmTitle = _dom.querySelector('.nameTask');
+        _elmTitle = _dom.querySelector('.createTask');
+
+        _elmName = _dom.querySelector('.nameTask');
         _elmCreateButton = _dom.querySelector('.addTask');
 
         _elmAssignedTo = _dom.querySelector('.assigned-to');
@@ -116,7 +119,7 @@ function Taskform(opts) {
                     _elmEditButton.style.display = "block";
                     _elmCreateButton.style.display = "none";
 
-                    _elmTitle.appendChild(_inputName);
+                    _elmName.appendChild(_inputName);
                     _elmAssignedTo.appendChild(_inputSelect);
                     _elmCreatedBy.appendChild(_inputCreator);
                     _elmMaxTime.appendChild(_inputMaxTime);
@@ -275,6 +278,7 @@ function Taskform(opts) {
             _inputName.value = "";
             _inputMaxTime.value = "";
             _inputDeadline.value = "";
+            _elmTitle.innerHTML = "Add Task";
 
 
 
@@ -287,7 +291,7 @@ function Taskform(opts) {
 
             _elmEditButton.style.display = "none";
             _elmCreateButton.style.display = "block";
-            _elmTitle.appendChild(_inputName);
+            _elmName.appendChild(_inputName);
             _elmAssignedTo.appendChild(_inputSelect);
             _elmCreatedBy.appendChild(_inputCreator);
             _elmMaxTime.appendChild(_inputMaxTime);
@@ -362,7 +366,7 @@ function Taskform(opts) {
 
 
 function taskClose() {
-    document.getElementById("taskCloseId").parentNode.style.display = "none";
+    document.getElementById("taskCloseId").parentNode.parentNode.style.display = "none";
     _elmDesicription.innerHTML = ' ';
 
 

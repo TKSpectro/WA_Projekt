@@ -16,6 +16,7 @@
                             <%=users[index].shortName()%>
                         </li>
                         <% } //endfor %>
+                            <li class="Documentation" onclick="redirectDocumentation();"><img src="../../assets/images/document.svg" alt="Documentation"></li>
                             <li class="privacyPolicy" onclick="redirectPolicy();"><img src="../../assets/images/policy.svg" alt="policy"></li>
                             <li class="imprint" onclick="redirectImprint();"><img src="../../assets/images/about.svg " alt="policy "></li>
                             <li class="logout" onclick="logout();"><img src="../../assets/images/logout.svg " alt="policy "></li>
@@ -100,10 +101,11 @@
 </div>
 <div class="taskForm" user-id="<%-self.req.user.id%>" user-name="<%-self.req.user.fullname()%>" test="<%-self.req%>" id="slide-in-popover">
     <div class="createTask ">Edit Task</div>
-    <div class="taskClose" id="taskCloseId" onclick="taskClose();">
-        X
-    </div>
+
     <div class="task-editing">
+        <div class="taskClose" id="taskCloseId" onclick="taskClose();">
+            X
+        </div>
         <div class="inputColumn nameTask"></div>
         <div class="inputColumn Created-by"></div>
         <div class="inputColumn assigned-to"></div>
@@ -114,66 +116,3 @@
         <button class="addTask">Add Task</button>
     </div>
 </div>
-<!--ToDo: data-open in less Datai
-<div class="taskForm" data-open="0" id="slide-in-popover">
-    <div class="background">
-    </div>
-     <div class="createTask ">Edit Task</div>
-    <div class="content-wrapper">
-        <div class="top-bar" data-tpl="#{{id}} Task Details">#{{id}} Task Details</div>
-        <div class="content">
-            <div class="task-title">
-                {{title}}
-            </div>
-            <div class="task-infos">
-                <div class="grid">
-                    <div class="row">
-                        <div class="clo-4">
-                            <div class="label">Created by</div>
-                            <div class="text created-by">{{label-text}}</div>
-                        </div>
-                        <div class="clo-4">
-                            <div class="label">Assigned To</div>
-                            <div class="text assigned-to">{{label-text}}</div>
-                        </div>
-                        <div class="clo-4">
-                            <div class="label">Workflow Status</div>
-                            <div class="text workflow-status">{{label-text}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="description">
-                {{html}}
-            </div>
-        </div>
-        <div class="bottom-bar">
-            <button>Edit Task</button>
-        </div>
-    </div>
-</div>-->
-<!--
-<div class="taskForm" id="slide-in-popover">
-    <div class="createTask ">Add Task</div>
-    <div class="taskClose" id="taskCloseId" onclick="taskClose();">
-        X
-    </div>
-    <div id="form">
-        <div class="inputColumn"><input type="text" id="nameTask" name="{{title}}" value="Test"></div>
-        <div class="inputColumn">
-            <select class="select" id="assignedToId" name="assignedToId" required>
-                <option value="" select:invalid>{{label-text}}</option>
-                <% for(let index = 0; index < users.length; ++index) { %>
-                <option value="<%=users[index].id%>"><%=users[index].fullname()%></option>
-                <% } //endfor %>
-            </select>
-        </div>
-        <input type="hidden" id="currentUserId" value="<%-self.req.user.id%>">
-        <div class="inputColumn"><input type="number" id="maxTime" placeholder=""></div>
-        <div class="inputColumn">
-            <textarea id="textTask" name="text" cols="30" rows="10" value="{{html}}">
-            </textarea>
-        </div>
-        <button class="Edit TASK" onclick="addPressed(this,this.parentNode); return false;">Add Task</button>
-    </div>
-</div>-->

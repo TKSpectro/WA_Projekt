@@ -36,7 +36,7 @@
         bottom: 0%;
         left: 0%;
         right:0%;
-        padding-top:20%;
+        padding-top:10%;
         border-radius: 0px;
 
     }
@@ -53,7 +53,7 @@
 .inputColumn{
     margin:2em 0em;
     @media (max-width:767px){
-      margin:2.3em 0em;
+      margin:1.5em 0em;
     }
   
 }
@@ -66,7 +66,7 @@
     font-size:2.3em;
     font-weight: bold;
     @media (max-width:767px){
-        font-size:1.5em;
+        font-size:1.2em;
     }
     @media(min-width:767px) and (max-width:1000px){
         font-size:2.3em;
@@ -85,11 +85,15 @@
     border-radius: @task-title-radius;
     background-color: @color-task-form;
     @media (max-width:767px){
-        top: 8%;
+        top: 3%;
         padding-top:0%;
         left: 30%;
         right:30%; 
-        height: @task-title-height-mobile;
+        height: @task-title-height-mobile;  
+          background-color: transparent;
+
+        
+
     }
     @media (max-width:1000px){
         
@@ -139,6 +143,9 @@ input {
     text-align: left;
     margin:0% 10%;   
     box-sizing: border-box; 
+    @media (max-width:767px){
+        height:30%;
+    }
 
    
     
@@ -195,13 +202,15 @@ select{
         opacity: 1;
     }
     @media (max-width:767px){
+       
         font-size: 2em;
         top: 3%;
         padding-top:0%;
-        left: 85%;
+        left: 83%;
         right:8%; 
         height: @task-title-height-mobile;
         opacity: 1;
+        color: white;
     }
     
 }
