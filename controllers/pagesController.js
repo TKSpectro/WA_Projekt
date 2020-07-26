@@ -94,12 +94,23 @@ class PagesController extends Controller {
             }
             const projects = await self.db.Project.findAll();
 
+            let canUpdateUserPermission = false;
+            let canDeleteUserPermission = false;
+    
+            if (Helper.checkPermission(Helper.canUpdateUser, self.req.user.permission)) {
+                canUpdateUserPermission = true;
+            }
+            if (Helper.checkPermission(Helper.canDeleteUser, self.req.user.permission)) {
+                canDeleteUserPermission = true;
+            }
+
             self.render({
                 title: 'Project: ' + projectId,
                 users: users,
                 workflows: workflows,
-                workflowTasks: workflowTasks
-
+                workflowTasks: workflowTasks,
+                canUpdateUser: canUpdateUserPermission,
+                canDeleteUser: canDeleteUserPermission,
             });
         }
     }

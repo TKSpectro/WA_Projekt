@@ -316,6 +316,12 @@ function projectSwitch(elm) {
     window.location.href = url;
 }
 
+function redirectUserManagement() {
+
+    const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "userManagement"
+    window.location.href = url;
+}
+
 function redirectPolicy() {
 
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "privacy"
