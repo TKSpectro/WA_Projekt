@@ -3,23 +3,31 @@
         <div class="scroll-wrapper">
             <ul class="menu-list">
                 <li><img src="../../assets/images/user.svg" alt="PR"></li>
-                <li><img src="../../assets/images/gear.svg" alt=""></li>
-                <li id="btn-chat-all" data-id="0" data-new="0" onclick="userPressed(this); return false;"><img src="../../assets/images/team.svg" alt="ALl"></li>
+                <%if(canUpdateUser || canDeleteUser){%>
+                <li class="UserManagement" onclick="redirectUserManagement();"><img src="../../assets/images/gear.svg" alt="User-Management"></li>
+                <% } //ENDIF %>
+                <li id="btn-chat-all" data-id="0" data-new="0" onclick="userPressed(this); return false;"><img
+                        src="../../assets/images/team.svg" alt="ALl"></li>
                 <% for(let index = 0; index < users.length; ++index) { %>
-                    <span class="user" data-id="<%=users[index].id%>" data-fullname="<%=users[index].fullname()%>"></span>
-                    <%
+                <span class="user" data-id="<%=users[index].id%>" data-fullname="<%=users[index].fullname()%>"></span>
+                <%
                     //exclude the current user
                     if(self.req.user.id === users[index].id){
                         continue;
                     } %>
-                        <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>" data-shortname="<%=users[index].shortName()%>" data-fullname="<%=users[index].fullname()%>" data-new="0" onclick="userPressed(this); return false;">
-                            <%=users[index].shortName()%>
-                        </li>
-                        <% } //endfor %>
-                            <li class="Documentation" onclick="redirectDocumentation();"><img src="../../assets/images/document.svg" alt="Documentation"></li>
-                            <li class="privacyPolicy" onclick="redirectPolicy();"><img src="../../assets/images/policy.svg" alt="policy"></li>
-                            <li class="imprint" onclick="redirectImprint();"><img src="../../assets/images/about.svg " alt="policy "></li>
-                            <li class="logout" onclick="logout();"><img src="../../assets/images/logout.svg " alt="policy "></li>
+                <li id="btn-chat-<%=users[index].id%>" data-id="<%=users[index].id%>"
+                    data-shortname="<%=users[index].shortName()%>" data-fullname="<%=users[index].fullname()%>"
+                    data-new="0" onclick="userPressed(this); return false;">
+                    <%=users[index].shortName()%>
+                </li>
+                <% } //endfor %>
+                <li class="Documentation" onclick="redirectDocumentation();"><img src="../../assets/images/document.svg"
+                        alt="Documentation"></li>
+                <li class="privacyPolicy" onclick="redirectPolicy();"><img src="../../assets/images/policy.svg"
+                        alt="policy"></li>
+                <li class="imprint" onclick="redirectImprint();"><img src="../../assets/images/about.svg "
+                        alt="policy "></li>
+                <li class="logout" onclick="logout();"><img src="../../assets/images/logout.svg " alt="policy "></li>
             </ul>
         </div>
     </div>
@@ -47,13 +55,14 @@
         <div class="kanban-wrapper">
             <div class="row">
                 <%for (let index = 0; index < workflows.length; index++) { %>
-                    <% const workflow = workflows[index]; %>
-                        <div class="col">
-                            <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
-                                <span class="workflow"><%=workflow.name%></span> <span id="addIcon" class="add" workflow-id="<%-workflow.id%>" workflow-id="<%-workflow.id%>">+</span>
-                            </div>
-                        </div>
-                        <%} //ENDFOR %>
+                <% const workflow = workflows[index]; %>
+                <div class="col">
+                    <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
+                        <span class="workflow"><%=workflow.name%></span> <span id="addIcon" class="add"
+                            workflow-id="<%-workflow.id%>" workflow-id="<%-workflow.id%>">+</span>
+                    </div>
+                </div>
+                <%} //ENDFOR %>
             </div>
             <!-- <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
@@ -62,44 +71,45 @@
             </div>-->
             <div class="row tasks-wrapper">
                 <% for (let index = 0; index < workflows.length; index++) { %>
-                    <% const workflow = workflows[index]; %>
-                        <div class="col">
-                            <div class="tasks" data-workflow-id="<%-workflow.id%>" data-workflow-color="<%-workflow.color%>">
-                                <% if(workflowTasks[workflow.id] instanceof Array) { %>
-                                    <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
-                                        <% const task = workflowTasks[workflow.id][i]; %>
-                                            <div class="task" style="border-color: <%-workflow.color%>;" data-id="<%-task.id%>">
-                                                <div class="name" id="taskName" data-id="<%-task.id%>">
-                                                    #
-                                                    <%-task.id%>
-                                                        <%=task.name%>
-                                                </div>
-                                                <div class=" time ">
-                                                    <!--This will only be shown in the task editor-->
-                                                </div>
-                                                <div class="footer ">Ì
-                                                    <div class="assigned ">
-                                                        <%=task.assignedTo.fullname()%>
-                                                    </div>
-                                                    <div class="deadline ">
-                                                        <%-task.deadline.getDay()%>.
-                                                            <%-task.deadline.getMonth() + 1%>.
-                                                                <%-task.deadline.getFullYear()%>
-                                                                    <%-task.deadline.getHours()%>:
-                                                                        <%-task.deadline.getMinutes()%>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <% } //ENDFOR %>
-                                                <% } //ENDIF %>
+                <% const workflow = workflows[index]; %>
+                <div class="col">
+                    <div class="tasks" data-workflow-id="<%-workflow.id%>" data-workflow-color="<%-workflow.color%>">
+                        <% if(workflowTasks[workflow.id] instanceof Array) { %>
+                        <% for (let i = 0; i < workflowTasks[workflow.id].length; i++) { %>
+                        <% const task = workflowTasks[workflow.id][i]; %>
+                        <div class="task" style="border-color: <%-workflow.color%>;" data-id="<%-task.id%>">
+                            <div class="name" id="taskName" data-id="<%-task.id%>">
+                                #
+                                <%-task.id%>
+                                <%=task.name%>
+                            </div>
+                            <div class=" time ">
+                                <!--This will only be shown in the task editor-->
+                            </div>
+                            <div class="footer ">Ì
+                                <div class="assigned ">
+                                    <%=task.assignedTo.fullname()%>
+                                </div>
+                                <div class="deadline ">
+                                    <%-task.deadline.getDay()%>.
+                                    <%-task.deadline.getMonth() + 1%>.
+                                    <%-task.deadline.getFullYear()%>
+                                    <%-task.deadline.getHours()%>:
+                                    <%-task.deadline.getMinutes()%>
+                                </div>
                             </div>
                         </div>
-                        <%} //ENDFOR %>
+                        <% } //ENDFOR %>
+                        <% } //ENDIF %>
+                    </div>
+                </div>
+                <%} //ENDFOR %>
             </div>
         </div>
     </div>
 </div>
-<div class="taskForm" user-id="<%-self.req.user.id%>" user-name="<%-self.req.user.fullname()%>" test="<%-self.req%>" id="slide-in-popover">
+<div class="taskForm" user-id="<%-self.req.user.id%>" user-name="<%-self.req.user.fullname()%>" test="<%-self.req%>"
+    id="slide-in-popover">
     <div class="createTask ">Edit Task</div>
 
     <div class="task-editing">
