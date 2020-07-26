@@ -1,7 +1,7 @@
 @import './shared/defines.less';
 @import './shared/mixins.less';
 @import './shared/reset.less';
-
+@import './shared/animations.less';
 
 
 
@@ -143,6 +143,7 @@
             width:  @chat-button;
             margin:12px 10px 0 0px;
         }
+        
         height: @chat-button;
         width:  @chat-button;
         float: left;
@@ -161,6 +162,11 @@
             }
             
         }
+        }
+        .animate {
+            #plane, #wind{
+                animation: plane 1.5s;
+            }
         }
         }
     }

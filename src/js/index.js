@@ -138,6 +138,8 @@ function sendPressed(elm) {
         text: textarea.value,
     };
 
+    let button = document.getElementById('send-message').classList.add('animate');
+
     textarea.value = '';
 
     if (!isNullOrEmpty(data.text)) {
@@ -150,6 +152,8 @@ function sendPressed(elm) {
         textarea.placeholder = 'String is empty';
         console.log('String is empty or contains only spaces');
     }
+
+    setTimeout("document.getElementById('send-message').classList.remove('animate')", 1500);
 }
 
 function handleIncomingMessage(data) {
