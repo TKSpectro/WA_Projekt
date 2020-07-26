@@ -116,6 +116,8 @@ function Taskform(opts) {
             xhr.onload = function() {
                 if (xhr.status >= 200 && xhr.status < 300) {
 
+
+                    _elmTitle.innerHTML = "Edit Task";
                     _elmEditButton.style.display = "block";
                     _elmCreateButton.style.display = "none";
 
@@ -198,12 +200,13 @@ function Taskform(opts) {
     self.editMode = function(editMode) {
 
         if (editMode === true && _editMode === false) {
-
+            _elmTitle.innerHTML = "Edit Task";
             _editMode = true;
             _inputName.readOnly = false;
             _inputSelect.disabled = false;
             _inputMaxTime.readOnly = false;
             _inputDeadline.readOnly = false;
+
 
             _inputDeadline.setAttribute("type", "date");
 
