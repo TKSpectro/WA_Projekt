@@ -3,7 +3,9 @@
         <div class="scroll-wrapper">
             <ul class="menu-list">
                 <li><img src="../../assets/images/user.svg" alt="PR"></li>
-                <li><img src="../../assets/images/gear.svg" alt=""></li>
+                <%if(canUpdateUser || canDeleteUser){%>
+                <li class="UserManagement" onclick="redirectUserManagement();"><img src="../../assets/images/gear.svg" alt="User-Management"></li>
+                <% } //ENDIF %>
                 <li id="btn-chat-all" data-id="0" data-new="0" onclick="userPressed(this); return false;"><img
                         src="../../assets/images/team.svg" alt="ALl"></li>
                 <% for(let index = 0; index < users.length; ++index) { %>
