@@ -16,7 +16,9 @@ class ApiUsersController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
-        self.before(['*', '-signin', '-signup'], function(next) {
+        //user needs to be authorized, else he will get 401: unauthorized
+        //signin and signup can be called even when not authorized
+        self.before(['*', '-signin', '-signup'], function (next) {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -97,7 +99,7 @@ class ApiUsersController extends Controller {
         let error = null;
 
         try {
-            user = await self.db.sequelize.transaction(async(t) => {
+            user = await self.db.sequelize.transaction(async (t) => {
                 let newUser = self.db.User.build();
                 newUser.writeRemotes(remoteData);
 
@@ -142,7 +144,7 @@ class ApiUsersController extends Controller {
 
             //get the old user
             try {
-                user = await self.db.sequelize.transaction(async(t) => {
+                user = await self.db.sequelize.transaction(async (t) => {
                     let updatedUser = await self.db.User.findOne({
                         where: {
                             id: userId
@@ -207,7 +209,7 @@ class ApiUsersController extends Controller {
 
             //get the old user
             try {
-                user = await self.db.sequelize.transaction(async(t) => {
+                user = await self.db.sequelize.transaction(async (t) => {
                     let updatedUser = await self.db.User.findOne({
                         where: {
                             id: userId
@@ -297,7 +299,7 @@ class ApiUsersController extends Controller {
         let error = null;
 
         try {
-            user = await self.db.sequelize.transaction(async(t) => {
+            user = await self.db.sequelize.transaction(async (t) => {
 
                 let sameMail = await self.db.User.findOne({
                     where: {

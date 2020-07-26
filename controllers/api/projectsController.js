@@ -15,6 +15,7 @@ class ApiProjectsController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
+        //user needs to be authorized, else he will get 401: unauthorized
         self.before(['*'], function (next) {
             if (self.req.authorized === true) {
                 next();

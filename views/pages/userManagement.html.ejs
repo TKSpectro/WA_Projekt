@@ -1,0 +1,81 @@
+<% if(canUpdateUser || canDeleteUser){%>
+<div class="um-wrapper">
+    <table class="user-list">
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                firstName
+            </th>
+            <th>
+                lastName
+            </th>
+            <th>
+                email
+            </th>
+            <th>
+                permission
+            </th>
+        </tr>
+        <% for (let i = 0; i < users.length; i++) { %>
+        <% const user = users[i]; %>
+        <tr class="user">
+            <td class="user-id" style="padding: 2px;">
+                 <%-user.id%>
+            </td>
+            <td>
+                <input type="text" id="firstName<%-user.id%>" name="firstName" value="<%-user.firstName%>" disabled>
+            </td>
+            <td>
+                <input type="text" id="lastName<%-user.id%>" name="lastName" value="<%-user.lastName%>" disabled>
+            </td>
+            <td>
+                <input type="text" id="email<%-user.id%>" name="email" value="<%-user.email%>" disabled>
+            </td>
+            <td class="user-permission">
+                <input type="number" id="permission<%-user.id%>" name="permission" value="<%-user.permission%>"
+                    disabled>
+            </td>
+            <% if(canUpdateUser){%>
+            <td class="btn-update">
+                <button user-id="<%-user.id%>" id="update<%-user.id%>"
+                    onclick="updateUserPressed(this); return false;">UPDATE</button>
+            </td>
+            <% } %>
+            <% if(canDeleteUser){%>
+            <td class="btn-delete">
+                <button user-id="<%-user.id%>" onclick="deleteUserPressed(this); return false;">DELETE</button>
+            </td>
+            <% } %>
+        </tr>
+        <% } //ENDFOR %>
+    </table>
+</div>
+<div class="permission-calculator" id="permission_calculator">
+    <form name="permission_calculator">
+
+        Permission:<br>
+
+        <input type="checkbox" name="dUser" onclick="calc_permission()"> Delete Users<br>
+        <input type="checkbox" name="uUser" onclick="calc_permission()"> Update Users<br>
+
+        <input type="checkbox" name="dTask" onclick="calc_permission()"> Delete Tasks<br>
+        <input type="checkbox" name="uTask" onclick="calc_permission()"> Update Tasks<br>
+        <input type="checkbox" name="cTask" onclick="calc_permission()"> Create Tasks<br>
+
+        <input type="checkbox" name="dProject" onclick="calc_permission()"> Delete Projects<br>
+        <input type="checkbox" name="uProject" onclick="calc_permission()"> Update Projects<br>
+        <input type="checkbox" name="cProject" onclick="calc_permission()"> Create Projects<br>
+
+        <input type="checkbox" name="isDeleted" onclick="calc_permission()"> isDeleted<br>
+    </form>
+</div>
+<% } else { %>
+<!-- User is not allowed to update or delete users -->
+<div class="not-allowed">
+    <div class="message">
+        YOU ARE NOT ALLOWED TO ACCESS THIS SITE
+    </div>
+</div>
+<% } %>

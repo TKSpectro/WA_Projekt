@@ -16,7 +16,8 @@ class ApiTasksController extends Controller {
 
         self.format = Controller.HTTP_FORMAT_JSON;
 
-        self.before(['*'], function(next) {
+        //user needs to be authorized, else he will get 401: unauthorized
+        self.before(['*'], function (next) {
             if (self.req.authorized === true) {
                 next();
             } else {
@@ -97,7 +98,7 @@ class ApiTasksController extends Controller {
             let error = null;
 
             try {
-                task = await self.db.sequelize.transaction(async(t) => {
+                task = await self.db.sequelize.transaction(async (t) => {
                     let newTask = self.db.Task.build();
                     newTask.writeRemotes(remoteData);
 
@@ -155,10 +156,10 @@ class ApiTasksController extends Controller {
                     }, {
                         id: taskId,
                         creatorId: self.req.user.id
-                    }, ]
+                    },]
                 };
 
-                task = await self.db.sequelize.transaction(async(t) => {
+                task = await self.db.sequelize.transaction(async (t) => {
                     let updatedTask = await self.db.Task.findOne({
                         where: where
                     }, { transaction: t })
@@ -221,7 +222,7 @@ class ApiTasksController extends Controller {
 
             //get the old task
             try {
-                task = await self.db.sequelize.transaction(async(t) => {
+                task = await self.db.sequelize.transaction(async (t) => {
                     task = await self.db.Task.destroy({
                         where: {
                             id: taskId,
