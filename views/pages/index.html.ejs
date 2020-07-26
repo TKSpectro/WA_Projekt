@@ -1,4 +1,4 @@
-<div class="wrapper chat-open">
+<div class="wrapper">
     <div class="left-side">
         <div class="scroll-wrapper">
             <ul class="menu-list">
@@ -64,7 +64,7 @@
                                     fill="white" />
                             </g>
                         </g>
-                        
+
                         <defs>
                             <linearGradient id="paint0_linear" x1="101" y1="462" x2="437" y2="79"
                                 gradientUnits="userSpaceOnUse">
@@ -84,10 +84,17 @@
                     <% const workflow = workflows[index]; %>
                         <div class="col">
                             <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
-                                <span class="workflow"><%=workflow.name%></span> <span id="addIcon" class="add" workflow-id="<%-workflow.id%>" workflow-id="<%-workflow.id%>">+</span>
+                                <span class="workflow"><%=workflow.name%></span> <span id="addIcon" class="add" workflow-id="<%-workflow.id%>" project-id="<%-workflow.projectId%>">+</span>
                             </div>
                         </div>
                         <%} //ENDFOR %>
+                            <div class="col AddWorkflow">
+                                <div class="title" style="background: rgba(75, 42, 165, 0.561);">
+                                    <span class="workflow icon">Add Workflow</span> <span class="addWorkflow" onclick="showWorkflowBlock()">+</span>
+
+                                </div>
+                            </div>
+
             </div>
             <!-- <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
@@ -150,7 +157,12 @@
         <button class="addTask">Add Task</button>
     </div>
 </div>
-<div class="workflow-Addition" style="display:block;">
-    <input type="text" class="inputColumn workflowName" placeholder="Enter the Name of Workflow">
-    <button class="addWorkflowButton">Edit Task</button>
+<div class="workflowAdditionWrapper" style="display:none;" workflow-count="<%-workflows.length%>" project-id="<%-workflows[0].projectId%>">
+    <div class="workflowAddition">
+        <div class="workflowBlockdisappear " onclick="workflowBlockdisappear(); ">
+            X
+        </div>
+        <input type="text " class="inputColumn workflowName " placeholder="Enter the Name of Workflow ">
+        <button class="addWorkflowButton " onclick="addWorkflow(); ">Add Workflow</button>
+    </div>
 </div>

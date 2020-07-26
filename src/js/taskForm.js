@@ -19,7 +19,7 @@ function Taskform(opts) {
     let _dom = null;
     let _elmDeadline = null;
     let _elmName = null;
-    let _elmDesicription = null;
+    let _elmDescription = null;
     let _elmCreatedBy = null;
     let _elmAssignedTo = null;
     let _elmMaxTime = null;
@@ -52,7 +52,7 @@ function Taskform(opts) {
 
 
 
-        _elmDesicription = _dom.querySelector('.textTask');
+        _elmDescription = _dom.querySelector('.textTask');
 
         _elmCreatedBy = _dom.querySelector('.Created-by');
 
@@ -170,13 +170,13 @@ function Taskform(opts) {
 
                     _inputSelect.selectedIndex = _task.assignedTo.id - 1;
                     _inputSelect.disabled = true;
-                    _elmDesicription.innerHTML = '';
+                    _elmDescription.innerHTML = '';
                     let textarea = document.createElement("textarea");
                     textarea.innerHTML = _task.text;
-                    _elmDesicription.appendChild(textarea);
+                    _elmDescription.appendChild(textarea);
                     createScEditor(textarea);
                     let instance = sceditor.instance(textarea);
-                    _elmDesicription.innerHTML = instance.fromBBCode(instance.val());
+                    _elmDescription.innerHTML = instance.fromBBCode(instance.val());
 
 
                 } else {
@@ -215,11 +215,11 @@ function Taskform(opts) {
             textarea.style.height = "100%";
             textarea.style.boxSizing = "border-box%";
             textarea.innerHTML = _task.text;
-            _elmDesicription.innerHTML = '';
-            _elmDesicription.appendChild(textarea);
+            _elmDescription.innerHTML = ' ';
+            _elmDescription.appendChild(textarea);
 
             createScEditor(textarea);
-            _elmDesicription.waTXT = textarea;
+            _elmDescription.waTXT = textarea;
 
         } else if (_editMode === true) {
 
@@ -235,12 +235,12 @@ function Taskform(opts) {
                 _task.deadline = _inputDeadline.value;
             }
             _editMode = false;
-            let instance = sceditor.instance(_elmDesicription.waTXT);
+            let instance = sceditor.instance(_elmDescription.waTXT);
 
 
-            _elmDesicription.innerHTML = instance.fromBBCode(instance.val());
+            _elmDescription.innerHTML = instance.fromBBCode(instance.val());
             _task.text = instance.val();
-            _elmDesicription.waTXT = null;
+            _elmDescription.waTXT = null;
             self.updateTask(_task);
 
         }
@@ -251,25 +251,25 @@ function Taskform(opts) {
 
     self.updateTask = function(task) {
 
-        let xhr = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
 
-        xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 300) {
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
 
-            } else {
-                // ToDo falls das Request nicht klappt
-                console.log('request failed');
-            }
-        };
+                } else {
+                    // ToDo falls das Request nicht klappt
+                    console.log('request failed');
+                }
+            };
 
-        let url = '/api/tasks/' + task.id;
+            let url = '/api/tasks/' + task.id;
 
-        xhr.open('PUT', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({ task: task }));
+            xhr.open('PUT', url);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({ task: task }));
 
-    }
-
+        }
+        // Add aTask
     let workflows = document.querySelectorAll('.row .add');
     for (let index = 0; index < workflows.length; index++) {
 
@@ -325,13 +325,14 @@ function Taskform(opts) {
             textarea.style.boxSizing = "border-box%";
 
             textarea.innerHTML = " ";
-            _elmDesicription.innerHTML = ' ';
-            _elmDesicription.appendChild(textarea);
+            _elmDescription.innerHTML = ' ';
+            _elmDescription.appendChild(textarea);
             createScEditor(textarea);
 
             createTask.creatorId = user.getAttribute("user-id");
-            createTask.projectId = window.location.href.split("=", )[1];
+            createTask.projectId = workflow.getAttribute("project-id");
             createTask.workflowId = workflow.getAttribute("workflow-id");
+            console.log(workflow.getAttribute("project-id"));
 
 
         });
@@ -365,12 +366,15 @@ function Taskform(opts) {
     }
 
     init();
-}
 
+
+}
 
 function taskClose() {
     document.getElementById("taskCloseId").parentNode.parentNode.style.display = "none";
-    _elmDesicription.innerHTML = ' ';
+    let _elmDescription = document.querySelector('.textTask');
+
+    _elmDescription.innerHTML = ' ';
 
 
 }

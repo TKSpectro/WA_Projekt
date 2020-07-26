@@ -284,28 +284,65 @@ for (let index = 0; index < sortableLists.length; index++) {
         });
     });
 
-    function addWorkflow() {
-        var form = document.getElementById('taskForm');
-        let currentUserId = document.getElementById('currentUserId').value;
-        console.log("done");
 
-        var xhr = new XMLHttpRequest();
-        xhr.open(form.getAttribute('method') || 'POST', form.getAttribute('action'));
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-            task: {
-                name: document.getElementById('nameTask').value,
-                text: document.getElementById('textTask').value,
-                creatorId = currentUserId,
-                maximumWorkTime: document.getElementById('maxTime').value,
-                deadline: document.getElementById('deadline').value,
-                assignedToId: document.getElementById('assignedToId').value,
-                projectId: document.getElementById('projectID').value,
-                workflowId: document.getElementById('workflowId').value,
-            }
-        }));
-    }
 }
+
+function showWorkflowBlock() {
+
+    let workflow = document.querySelector(".workflowAdditionWrapper");
+    workflow.style.display = "block";
+}
+
+function workflowBlockdisappear() {
+    let workflow = document.querySelector(".workflowAdditionWrapper");
+    workflow.style.display = "none";
+}
+
+function addWorkflow() {
+    let workflowName = document.querySelector('.workflowName');
+    let workflow = document.querySelector(".workflowAdditionWrapper");
+    let workflowAdd = document.querySelector(".AddWorkflow");
+    console.log(workflowAdd);
+    let workflowSort = workflow.getAttribute("workflow-count");
+    let projektID = workflow.getAttribute("project-id");
+
+
+    let createWorkflow = {};
+    createWorkflow.name = workflowName.value;
+    createWorkflow.color = "#2A898F";
+    createWorkflow.projectId = projektID;
+    createWorkflow.sort = workflowSort;
+
+    io.emit('workflow/create', {
+        workflow: createWorkflow
+    });
+
+    io.on('workflow/wasCreated', (data) => {
+        workflowAdd.innerHTML = "";
+        let wrapper = document.createElement("DIV");
+        wrapper.className = "title";
+        wrapper.style.backgroundColor = "#2A898F";
+        workflowAdd.appendChild(wrapper);
+
+        let workflowName = document.createElement("span");
+        workflowName.className = "workflow";
+        workflowName.innerHTML = createWorkflow.name;
+        wrapper.appendChild(workflowName);
+
+        let addIcon = document.createElement("span");
+        addIcon.className = "addWorkflow";
+        addIcon.innerHTML = "+";
+        wrapper.appendChild(addIcon);
+        //location.reload(true);
+
+
+    });
+
+
+}
+
+
+
 
 io.on('task/move', (data) => {
     let item = document.querySelector('.task[data-id="' + data.id + '"]');

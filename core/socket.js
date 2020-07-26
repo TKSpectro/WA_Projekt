@@ -69,7 +69,7 @@ class SocketHandler {
                 }
             });
 
-            socket.on('message', async (data) => {
+            socket.on('message', async(data) => {
                 //write incoming message to database
                 let message = self.db.Message.build();
                 message.writeRemotes(data);
@@ -119,7 +119,6 @@ class SocketHandler {
                 let error = null;
 
                 try {
-                    console.log("dataName", data.task);
                     task = await self.db.sequelize.transaction(async(t) => {
                         let newTask = self.db.Task.build();
                         newTask.writeRemotes(data.task);
@@ -136,6 +135,36 @@ class SocketHandler {
                 } catch (err) {
                     error = err;
                 }
+
+            });
+
+            socket.on('workflow/create', async(data) => {
+
+                let workflow = null;
+                let error = null;
+
+                try {
+                    //console.log("dataName", data.workflow);
+                    workflow = await self.db.sequelize.transaction(async(t) => {
+                        let newWorkflow = self.db.Workflow.build();
+                        newWorkflow.writeRemotes(data.workflow);
+
+                        await newWorkflow.save();
+
+                        return newWorkflow;
+                        console.log("newWorkflow");
+
+                    });
+                    if (!workflow) {
+                        console.log("ERROR");
+                        throw new ApiError('Workflow could not be created', 404);
+                    }
+                } catch (err) {
+                    error = err;
+
+                }
+                let workflows = await self.db.Workflow.findAll();
+                socket.emit('workflow/wasCreated', workflows);
 
             });
 
@@ -244,19 +273,19 @@ class SocketHandler {
                 socket.broadcast.emit('task/move', data);
             });
 
-            socket.on('user/delete', async (data) => {
+            socket.on('user/delete', async(data) => {
                 self.db.User.destroy({
                     where: {
                         id: data.id,
                     }
-                }).then(function (err) {
+                }).then(function(err) {
                     socket.emit('user/wasDeleted');
-                }).catch(function (err) {
+                }).catch(function(err) {
                     socket.emit('user/cantDelete');
                 });
             });
 
-            socket.on('user/update', async (data) => {
+            socket.on('user/update', async(data) => {
                 let user = null;
                 user = await self.db.sequelize.transaction(async(t) => {
                     let updatedUser = await self.db.User.findOne({
@@ -275,9 +304,9 @@ class SocketHandler {
                             where: {
                                 id: data.id
                             }
-                        }, { transaction: t, lock: true }).then(function (err) {
+                        }, { transaction: t, lock: true }).then(function(err) {
                             socket.emit('user/wasUpdated');
-                        }).catch(function (err) {
+                        }).catch(function(err) {
                             socket.emit('user/cantUpdate');
                         });
                     }
