@@ -62,7 +62,7 @@ class PagesController extends Controller {
         } else {
             const projectId = self.param('projectId');
 
-            const project = await self.db.Project.findAll({
+            const project = await self.db.Project.findOne({
                 where: {
                     id: projectId
                 },
@@ -92,7 +92,6 @@ class PagesController extends Controller {
                     ]
                 });
             }
-            const projects = await self.db.Project.findAll();
 
             let canUpdateUserPermission = false;
             let canDeleteUserPermission = false;
@@ -106,6 +105,7 @@ class PagesController extends Controller {
 
             self.render({
                 title: 'Project: ' + projectId,
+                projectId: projectId,
                 users: users,
                 workflows: workflows,
                 workflowTasks: workflowTasks,
