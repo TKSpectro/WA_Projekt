@@ -54,4 +54,4 @@ Used:
 * 0000000000000010 : **2**   : can create project
 * 0000000000000001 : **1**   : is deleted?
 
-The first last bit is used as a flag for account deletion
+The last bit is used as a flag for account deletion
