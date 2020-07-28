@@ -1,8 +1,3 @@
-/**
- * @author Tom Käppler <tomkaeppler@web.de>
- * @version 1.0.0
- */
-
 // define our constants
 const SocketHandler = require('./core/socket.js');
 const express = require('express');
