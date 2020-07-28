@@ -7,7 +7,7 @@ let tasks = document.querySelectorAll('.tasks .task');
 for (let index = 0; index < tasks.length; index++) {
 
     const task = tasks[index];
-    task.addEventListener('click', function(e) {
+    task.addEventListener('click', function (e) {
         taskForm.showWithTaskId(this.getAttribute('data-id'));
     })
 
@@ -28,7 +28,7 @@ function loadMessages(elm, fromId) {
     let xhr = new XMLHttpRequest();
 
     //handle request finished
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             let jsonData = JSON.parse(xhr.response);
 
@@ -87,9 +87,16 @@ function updateUserBtnName(elm) {
     src.appendChild(img);
 
     if (elm.getAttribute('data-new') !== '0') {
-        elm.innerText += ' (' + elm.getAttribute('data-new') + ')';
-    }
+        //elm.innerText += ' (' + elm.getAttribute('data-new') + ')';
 
+        let div = document.createElement('div');
+
+        div.innerHTML = elm.getAttribute('data-new');
+  
+        div.className= 'notification-counter';
+        
+        elm.appendChild(div);
+    }
 }
 
 function userPressed(elm) {
@@ -222,7 +229,7 @@ io.on('message', (data) => {
     handleIncomingMessage(data);
 });
 
-messagesElm.addEventListener('scroll', function() {
+messagesElm.addEventListener('scroll', function () {
     if (this.scrollTop === 0) {
         let fromId = currentUserElm.getAttribute('data-id');
         loadMessages(currentUserElm, fromId === '0' ? null : fromId);
@@ -230,13 +237,13 @@ messagesElm.addEventListener('scroll', function() {
 });
 
 textarea.altActive = false;
-textarea.addEventListener('keydown', function(event) {
+textarea.addEventListener('keydown', function (event) {
     if (event.keyCode === 18) {
         textarea.altActive = true;
     }
 });
 
-textarea.addEventListener('keyup', function(event) {
+textarea.addEventListener('keyup', function (event) {
     if (event.keyCode === 18) {
         textarea.altActive = false;
     }
@@ -260,16 +267,16 @@ let sortableLists = sortable('.tasks', {
 
 for (let index = 0; index < sortableLists.length; index++) {
     const list = sortableLists[index];
-    list.addEventListener('sortstart', function(e) {
+    list.addEventListener('sortstart', function (e) {
         // do nothing
     });
 
-    list.addEventListener('sortstop', function(e) {
+    list.addEventListener('sortstop', function (e) {
         //console.log('sortstop', e);
         //do nothing
     });
 
-    list.addEventListener('sortupdate', function(e) {
+    list.addEventListener('sortupdate', function (e) {
         let item = e.detail.item;
         let target = e.target;
 
