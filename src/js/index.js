@@ -101,8 +101,11 @@ function updateUserBtnName(elm) {
 
 function userPressed(elm) {
     currentUserElm = elm;
+    document.querySelector('.chat').style.display = "block";
+    document.querySelector('.userInfo').style.display = "none";
 
-    document.getElementById("btn-chat-all").parentNode.parentNode.parentNode.parentNode.className = "wrapper chat-open";
+
+    document.querySelector('.wrapper').className = "wrapper chat-open";
 
     if (elm.getAttribute('data-fullname') !== null) {
 
@@ -173,7 +176,7 @@ function handleIncomingMessage(data) {
     let hour = today.getHours();
     let minute = today.getMinutes();
 
-    today = mm + '.' + dd + '.' + yyyy + ' - ' + hour + ':' + minute;
+    today = dd + '.' + mm + '.' + yyyy + ' - ' + hour + ':' + minute;
 
     //check incoming message has data.to === null or not inside, means public chat
     if (!data.to) {
@@ -319,10 +322,14 @@ function addWorkflow() {
     createWorkflow.color = "#2A898F";
     createWorkflow.projectId = projektID;
     createWorkflow.sort = workflowSort;
+    if (!createWorkflow.name == null) {
+        io.emit('workflow/create', {
+            workflow: createWorkflow
+        });
 
-    io.emit('workflow/create', {
-        workflow: createWorkflow
-    });
+    } else {
+        alert("please enter Workflow Name");
+    }
 
     io.on('workflow/wasCreated', (data) => {
         workflowAdd.innerHTML = "";
@@ -414,5 +421,43 @@ function logout() {
 
     document.cookie = "_wab_auth_jwt" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location.reload();
+
+}
+
+function chatOpen(data) {
+    var today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+    today = dd + '.' + mm + '.' + yyyy;
+    document.getElementById("date").innerHTML = "";
+    document.getElementById("date").innerHTML = today;
+
+
+
+
+
+    let wrapper = document.querySelector('.wrapper');
+    wrapper.className = "wrapper chat-open";
+
+    document.getElementById("chatTitle").innerHTML = data.getAttribute('data-name');
+
+    let personalInfo = document.querySelector('.userInfo');
+    personalInfo.style.display = "block";
+    document.querySelector('.chat').style.display = "none";
+    //.appendChild(personalInfo);
+    console.log(personalInfo);
+
+
+    /*document.createElement("DIV");
+     personalInfo.style.backgroundColor = "red";
+     personalInfo.className = "userInfo";
+     personalInfo.innerHTML = "PersonalInfo";
+
+     console.log(personalInfo);*/
+
+
+
+
 
 }

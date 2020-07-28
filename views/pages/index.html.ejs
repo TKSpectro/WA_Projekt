@@ -2,7 +2,7 @@
     <div class="left-side">
         <div class="scroll-wrapper">
             <ul class="menu-list">
-                <li><img src="../../assets/images/user.svg" alt="PR"></li>
+                <li><img src="../../assets/images/user.svg" alt="PR" data-name="Personal info" onclick="chatOpen(this);"></li>
                 <%if(canUpdateUser || canDeleteUser){%>
                 <li class="UserManagement" onclick="redirectUserManagement();"><img src="../../assets/images/gear.svg"
                         alt="User-Management"></li>
@@ -39,6 +39,20 @@
             </div>
             <div class="close" onclick="chatClose();">
                 X
+            </div>
+        </div>
+        <div class="userInfo" style="display: none;">
+            <div class="infoLabel">Name</div>
+            <div class="InfoValue">
+                <%-self.req.user.fullname()%>
+            </div>
+            <div class="infoLabel">E-Mail</div>
+            <div class="InfoValue">
+                <%-self.req.user.email%>
+            </div>
+            <div class="infoLabel">Created Date</div>
+            <div id="date" class="InfoValue">
+                <%-self.req.user.createdAt%>
             </div>
         </div>
         <div class="chat">
@@ -149,8 +163,7 @@
         </div>
     </div>
 </div>
-<div class="taskForm" user-id="<%-self.req.user.id%>" user-name="<%-self.req.user.fullname()%>" test="<%-self.req%>"
-    id="slide-in-popover">
+<div class="taskForm" user-id="<%-self.req.user.id%>" user-name="<%-self.req.user.fullname()%>" id="slide-in-popover">
     <div class="createTask ">Edit Task</div>
 
     <div class="task-editing">
