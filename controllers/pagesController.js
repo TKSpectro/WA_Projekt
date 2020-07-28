@@ -96,7 +96,7 @@ class PagesController extends Controller {
 
             let canUpdateUserPermission = false;
             let canDeleteUserPermission = false;
-    
+
             if (Helper.checkPermission(Helper.canUpdateUser, self.req.user.permission)) {
                 canUpdateUserPermission = true;
             }

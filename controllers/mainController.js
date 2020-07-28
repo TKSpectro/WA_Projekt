@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 const Controller = require('../core/controller.js');
 const Passport = require('../core/passport.js');
 const ApiError = require('../core/error.js');
@@ -92,11 +88,11 @@ class MainController extends Controller {
         }
     }
 
-    js(file){
+    js(file) {
         this.jsFiles.push(file);
     }
 
-    css(file){
+    css(file) {
         this.cssFiles.push(file);
     }
 }

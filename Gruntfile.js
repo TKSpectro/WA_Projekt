@@ -1,11 +1,5 @@
-/**
- * @author Tom Käppler <tomkaeppler@web.de>
- * @version 1.0.0
- */
-
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
-        // Reference to all Plugun, that we have
         pkg: grunt.file.readJSON('package.json'),
         less: {
             development: {
@@ -15,7 +9,7 @@ module.exports = function(grunt) {
                     ],
                     compress: true,
                     plugins: [
-                        new(require('less-plugin-autoprefix'))({
+                        new (require('less-plugin-autoprefix'))({
                             browsers: [
                                 'last 2 versions',
                                 'ie 9'

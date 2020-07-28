@@ -1,8 +1,3 @@
-/**
- * @author Tom Käppler <tomkaeppler@web.de>
- * @version 1.0.0
- */
-
 class Router {
     constructor(app, routes, database) {
         const self = this;

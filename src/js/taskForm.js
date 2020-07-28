@@ -7,13 +7,9 @@ function Taskform(opts) {
 
     }, opts);
 
-
-
     let _editMode = false; //stores the current edit mode active or not.
     let _task = null; //current selected task
     let createTask = {};
-
-
 
     let _dom = null;
     let _elmDeadline = null;
@@ -27,16 +23,13 @@ function Taskform(opts) {
     let _elmCreateButton = null;
     let _elmTitle = null;
 
-
-    //Input Felder
+    //inputs
     let _inputName = document.createElement("INPUT");
     let _inputCreator = document.createElement("INPUT");
     let _inputDeadline = document.createElement("INPUT");
     let _inputMaxTime = document.createElement("INPUT");
     let _inputSelect = document.createElement("select");
     let textarea = document.createElement("textarea");
-
-
 
     function init() {
         _dom = document.getElementById(opts.id);
@@ -49,17 +42,12 @@ function Taskform(opts) {
         _elmAssignedTo = _dom.querySelector('.assigned-to');
         _inputSelect.setAttribute("id", "mySelect");
 
-
-
         _elmDescription = _dom.querySelector('.textTask');
 
         _elmCreatedBy = _dom.querySelector('.Created-by');
 
-
         _elmMaxTime = _dom.querySelector('.maxTime');
         _inputMaxTime.setAttribute("type", "number");
-
-
 
         _users = document.querySelectorAll('.menu-list .user');
 
@@ -75,9 +63,7 @@ function Taskform(opts) {
             } else {
                 _elmEditButton.innerText = 'Edit Task';
             }
-
         });
-
 
         _elmCreateButton.addEventListener('click', () => {
 
@@ -92,9 +78,7 @@ function Taskform(opts) {
             self.createTask();
             _dom.style.display = "none";
         });
-
     }
-
 
     function createScEditor(textarea) {
         sceditor.create(textarea, {
@@ -103,9 +87,7 @@ function Taskform(opts) {
             toolbar: 'bold,italic,underline|source',
             style: 'assets/libs/sceditor/minified/themes/content/default.min.css'
         });
-
     }
-
 
     // public method
     self.showWithTaskId = function (taskId) {
@@ -114,7 +96,6 @@ function Taskform(opts) {
             //handle request finished
             xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 300) {
-
 
                     _elmTitle.innerHTML = "Edit Task";
                     _elmEditButton.style.display = "block";
@@ -129,13 +110,12 @@ function Taskform(opts) {
                     let jsonData = JSON.parse(xhr.response);
                     _task = jsonData.task;
 
-
-                    //to show a TaskForm
+                    // show the taskform
                     _dom.style.display = "block";
 
                     let deadline = _task.deadline.split("T");
 
-                    // the name of the Task
+                    // the name of the task
                     _inputName.setAttribute("value", _task.name);
                     _inputName.readOnly = true;
 
@@ -144,17 +124,15 @@ function Taskform(opts) {
                     _inputCreator.readOnly = true;
 
 
-                    // the maximum Time for a Task
+                    // the maximum time for a task
                     _inputMaxTime.setAttribute("placeholder", 'Maximum Time: ' + _task.maximumWorkTime);
                     _inputMaxTime.readOnly = true;
 
-                    // the Deadline Time for a Task
+                    // the deadline time for a task
                     _inputDeadline.setAttribute("placeholder", "Deadline: " + deadline[0]);
                     _inputDeadline.readOnly = true;
 
-
                     // the content of select 
-
                     if (!_inputSelect.length) {
                         for (let index = 0; index < _users.length; index++) {
                             const element = _users[index];
@@ -163,7 +141,6 @@ function Taskform(opts) {
                             let value = document.createTextNode("Assigned To: " + element.getAttribute('data-fullname'));
                             option.appendChild(value);
                             document.getElementById("mySelect").appendChild(option);
-
                         }
                     }
 
@@ -177,24 +154,17 @@ function Taskform(opts) {
                     let instance = sceditor.instance(textarea);
                     _elmDescription.innerHTML = instance.fromBBCode(instance.val());
 
-
                 } else {
-                    // ToDo 
                     console.log('request failed');
                 }
             }
-
             let url = '/api/tasks/' + taskId;
 
             xhr.open('GET', url);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send();
         };
-
-
-
     };
-
 
     self.editMode = function (editMode) {
 
@@ -236,15 +206,11 @@ function Taskform(opts) {
             _editMode = false;
             let instance = sceditor.instance(_elmDescription.waTXT);
 
-
             _elmDescription.innerHTML = instance.fromBBCode(instance.val());
             _task.text = instance.val();
             _elmDescription.waTXT = null;
             self.updateTask(_task);
-
         }
-
-
     }
 
     self.updateTask = function (task) {
@@ -253,9 +219,7 @@ function Taskform(opts) {
 
         xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 300) {
-
             } else {
-                // ToDo falls das Request nicht klappt
                 console.log('request failed');
             }
         };
@@ -265,7 +229,6 @@ function Taskform(opts) {
         xhr.open('PUT', url);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({ task: task }));
-
     }
 
     // Add a Task
@@ -274,15 +237,10 @@ function Taskform(opts) {
 
         const workflow = workflows[index];
         workflow.addEventListener('click', function (e) {
-            //   taskForm.addTask(this.getAttribute('workflow-id'));
-
-
             _inputName.value = "";
             _inputMaxTime.value = "";
             _inputDeadline.value = "";
             _elmTitle.innerHTML = "Add Task";
-
-
 
             _editMode = true;
             _inputName.readOnly = false;
@@ -303,7 +261,6 @@ function Taskform(opts) {
             _inputCreator.setAttribute("value", "Creator: " + user.getAttribute("user-name"));
             _inputMaxTime.setAttribute("placeholder", "Maximum Work Time");
             _inputDeadline.setAttribute("type", "date");
-
 
             if (!_inputSelect.length) {
                 for (let index = 0; index < _users.length; index++) {
@@ -331,12 +288,7 @@ function Taskform(opts) {
             createTask.creatorId = user.getAttribute("user-id");
             createTask.projectId = workflow.getAttribute("project-id");
             createTask.workflowId = workflow.getAttribute("workflow-id");
-            console.log(workflow.getAttribute("project-id"));
-
-
         });
-
-
     }
 
     self.createTask = function () {
@@ -358,6 +310,4 @@ function taskClose() {
     let _elmDescription = document.querySelector('.textTask');
 
     _elmDescription.innerHTML = ' ';
-
-
 }

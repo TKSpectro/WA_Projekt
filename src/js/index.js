@@ -50,8 +50,6 @@ function loadMessages(elm, fromId) {
                     to: message.to
                 });
             }
-
-            // userPressed(elm);
         } else {
             console.log('request failed');
         }
@@ -92,9 +90,9 @@ function updateUserBtnName(elm) {
         let div = document.createElement('div');
 
         div.innerHTML = elm.getAttribute('data-new');
-  
-        div.className= 'notification-counter';
-        
+
+        div.className = 'notification-counter';
+
         elm.appendChild(div);
     }
 }
@@ -103,7 +101,6 @@ function userPressed(elm) {
     currentUserElm = elm;
     document.querySelector('.chat').style.display = "block";
     document.querySelector('.userInfo').style.display = "none";
-
 
     document.querySelector('.wrapper').className = "wrapper chat-open";
 
@@ -116,7 +113,6 @@ function userPressed(elm) {
     }
     elm.setAttribute('data-new', '0');
     updateUserBtnName(elm);
-
 
     //clean current messages in pot
     let messagesElm = document.getElementById('messages');
@@ -138,9 +134,7 @@ function userPressed(elm) {
 
 function chatClose() {
     document.querySelectorAll('.wrapper')[0].className = "wrapper";
-
 }
-
 
 function sendPressed(elm) {
     let textarea = document.getElementById('message');
@@ -162,7 +156,6 @@ function sendPressed(elm) {
         textarea.placeholder = 'String is empty';
         console.log('String is empty or contains only spaces');
     }
-
     setTimeout("document.getElementById('send-message').classList.remove('animate')", 1500);
 }
 
@@ -201,7 +194,6 @@ function handleIncomingMessage(data) {
         let elm = document.createElement('DIV');
         let info = document.createElement('DIV');
         info.className = "info";
-        // console.log(elm.parentNode.className);
 
         if (currentUserId == data.from.id) {
             elm.className = "myMessage";
@@ -217,7 +209,6 @@ function handleIncomingMessage(data) {
             info.innerText = data.from.displayName + ' - ' + today;
 
         }
-        // info.innerText = data.from.displayName;
         messageElm.appendChild(elm);
         messageElm.appendChild(info);
         messageElm.scrollTop = messageElm.scrollHeight;
@@ -272,15 +263,12 @@ for (let index = 0; index < sortableLists.length; index++) {
     });
 
     list.addEventListener('sortstop', function (e) {
-        //console.log('sortstop', e);
         //do nothing
     });
 
     list.addEventListener('sortupdate', function (e) {
         let item = e.detail.item;
         let target = e.target;
-
-        //let line = item.querySelector('.line');
 
         if (item) {
             item.style.borderColor = item.parentNode.getAttribute("data-workflow-color");
@@ -293,17 +281,14 @@ for (let index = 0; index < sortableLists.length; index++) {
             sort: Array.prototype.indexOf.call(item.parentNode.children, item)
         });
     });
-
-
 }
 
 function showWorkflowBlock() {
-
     let workflow = document.querySelector(".workflowAdditionWrapper");
     workflow.style.display = "block";
 }
 
-function workflowBlockdisappear() {
+function hideWorkflowBlock() {
     let workflow = document.querySelector(".workflowAdditionWrapper");
     workflow.style.display = "none";
 }
@@ -312,21 +297,19 @@ function addWorkflow() {
     let workflowName = document.querySelector('.workflowName');
     let workflow = document.querySelector(".workflowAdditionWrapper");
     let workflowAdd = document.querySelector(".AddWorkflow");
-    console.log(workflowAdd);
     let workflowSort = workflow.getAttribute("workflow-count");
-    let projektID = workflow.getAttribute("project-id");
-
+    let projectID = workflow.getAttribute("project-id");
 
     let createWorkflow = {};
     createWorkflow.name = workflowName.value;
     createWorkflow.color = "#2A898F";
-    createWorkflow.projectId = projektID;
+    createWorkflow.projectId = projectID;
     createWorkflow.sort = workflowSort;
     if (createWorkflow.name !== null) {
         io.emit('workflow/create', {
             workflow: createWorkflow
         });
-        workflowBlockdisappear();
+        hideWorkflowBlock();
     } else {
         alert("please enter Workflow Name");
     }
@@ -347,12 +330,10 @@ function addWorkflow() {
         addIcon.className = "addWorkflow";
         addIcon.innerHTML = "+";
         wrapper.appendChild(addIcon);
+
+        // we do not reload here because we want to show that the workflow is dynamically added to the page
         //location.reload(true);
-
-
     });
-
-
 }
 
 io.on('task/move', (data) => {
@@ -383,42 +364,34 @@ io.on('task/move', (data) => {
 });
 
 function projectSwitch(elm) {
-
-
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port
 
     window.location.href = url;
 }
 
 function redirectUserManagement() {
-
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "userManagement"
     window.location.href = url;
 }
 
 function redirectPolicy() {
-
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "privacy"
     window.location.href = url;
 }
 
 function redirectImprint() {
-
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "imprint"
     window.location.href = url;
 }
 
 function redirectDocumentation() {
-
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + "apiDoc"
     window.location.href = url;
 }
 
 function logout() {
-
     document.cookie = "_wab_auth_jwt" + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location.reload();
-
 }
 
 function chatOpen(data) {
@@ -430,10 +403,6 @@ function chatOpen(data) {
     document.getElementById("date").innerHTML = "";
     document.getElementById("date").innerHTML = today;
 
-
-
-
-
     let wrapper = document.querySelector('.wrapper');
     wrapper.className = "wrapper chat-open";
 
@@ -442,5 +411,4 @@ function chatOpen(data) {
     let personalInfo = document.querySelector('.userInfo');
     personalInfo.style.display = "block";
     document.querySelector('.chat').style.display = "none";
-    console.log(personalInfo);
 }

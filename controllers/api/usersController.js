@@ -1,8 +1,3 @@
-/**
- * @author Tom Käppler <tomkaeppler@web.de>
- * @version 1.0.0
- */
-
 const Controller = require('../mainController.js');
 const Passport = require('../../core/passport.js');
 const ApiError = require('../../core/error.js');

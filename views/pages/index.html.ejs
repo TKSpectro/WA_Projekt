@@ -2,7 +2,8 @@
     <div class="left-side">
         <div class="scroll-wrapper">
             <ul class="menu-list">
-                <li><img src="../../assets/images/user.svg" alt="PR" data-name="Personal info" onclick="chatOpen(this);"></li>
+                <li><img src="../../assets/images/user.svg" alt="PR" data-name="Personal info"
+                        onclick="chatOpen(this);"></li>
                 <%if(canUpdateUser || canDeleteUser){%>
                 <li class="UserManagement" onclick="redirectUserManagement();"><img src="../../assets/images/gear.svg"
                         alt="User-Management"></li>
@@ -22,7 +23,7 @@
                     <%=users[index].shortName()%>
                 </li>
                 <% } //endfor %>
-                <li class="Documentation" onclick="redirectDocumentation();"><img src="../../assets/images/document.svg"
+                <li class="documentation" onclick="redirectDocumentation();"><img src="../../assets/images/document.svg"
                         alt="Documentation"></li>
                 <li class="privacyPolicy" onclick="redirectPolicy();"><img src="../../assets/images/policy.svg"
                         alt="policy"></li>
@@ -60,7 +61,7 @@
                 <div class="scroll-wrapper" id="messages" data-action="<%-self.urlFor('api/messages', 'index')%>"></div>
             </div>
             <div class="input-wrapper">
-                <textarea id="message" placeholder="Schreiben Sie irgendwas...."></textarea>
+                <textarea id="message" placeholder="Enter a message!"></textarea>
                 <button id="send-message" class="" onclick="sendPressed(this); return false;"><svg
                         xmlns="http://www.w3.org/2000/svg" style="margin-top: 8px;" width="64" height="64"
                         viewBox="0 0 512 512" fill="none">
@@ -104,7 +105,7 @@
                 <%for (let index = 0; index < workflows.length; index++) { %>
                 <% const workflow = workflows[index]; %>
                 <div class="col">
-                    <div class="title" style="background: <%-workflow.color%>;border-left-color: <%-workflow.color%>;">
+                    <div class="title" style="background: <%-workflow.color%>;">
                         <span class="workflow"><%=workflow.name%></span> <span id="addIcon" class="add"
                             workflow-id="<%-workflow.id%>" project-id="<%-workflow.projectId%>">+</span>
                     </div>
@@ -119,11 +120,9 @@
                 </div>
 
             </div>
-            <!-- <div class="row">
                 <% for (let index = 0; index < workflows.length; index++) { %>
                     <% const workflow = workflows[index]; %>    
                     <%} //ENDFOR %>
-            </div>-->
             <div class="row tasks-wrapper">
                 <% for (let index = 0; index < workflows.length; index++) { %>
                 <% const workflow = workflows[index]; %>
@@ -183,7 +182,7 @@
 <div class="workflowAdditionWrapper" style="display:none;" workflow-count="<%-workflows.length%>"
     project-id="<%-workflows[0].projectId%>">
     <div class="workflowAddition">
-        <div class="workflowBlockdisappear " onclick="workflowBlockdisappear(); ">
+        <div class="hideWorkflowBlock" onclick="hideWorkflowBlock(); ">
             X
         </div>
         <input type="text " class="inputColumn workflowName " placeholder="Enter the Name of Workflow ">

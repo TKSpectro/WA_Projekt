@@ -3,26 +3,30 @@
 @import './shared/elements.less';
 @import './shared/animations.less';
 
-body{
-    background: @color-default-bg url('@{imagePath}/background.png') no-repeat;
-    background-position: center center;
+body {
+    background           : @color-default-bg url('@{imagePath}/background.png') no-repeat;
+    background-position  : center center;
     background-attachment: fixed;
-    background-size: cover;
+    background-size      : cover;
+    font-family          : Arial, Helvetica, sans-serif;
+}
 
-    font-family: Arial, Helvetica, sans-serif;
-} 
-img{
-    width:@img-width;
+img {
+    width : @img-width;
     height: @img-width;
-    @media screen and (max-width:767px){
-        width:@img-width-mobile;
+
+    @media screen and (max-width:767px) {
+        width : @img-width-mobile;
         height: @img-width-mobile;
     }
 }
 
-b, strong {
+b,
+strong {
     font-weight: bold;
-}  
-i, em {
+}
+
+i,
+em {
     font-style: italic;
 }

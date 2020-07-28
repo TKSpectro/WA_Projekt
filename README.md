@@ -1,4 +1,4 @@
-# Web Aufbau Projekt | Planbee
+# Planbee | Web Aufbau Projekt
 
 Von [Tom Käppler](https://github.com/TKSpectro), [Bilal Alnaani](https://github.com/bilal0710)
 

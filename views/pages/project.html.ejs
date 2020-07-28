@@ -2,8 +2,8 @@
     <ul class="projects">
         <% for (let i = 0; i < projects.length; i++) { %>
         <% const project = projects[i]; %>
-        <li id="btn-project-<%=project.id%>" data-id="<%=project.id%>"
-            onclick="projectPressed(this); return false;"><%=project.name%>
+        <li id="btn-project-<%=project.id%>" data-id="<%=project.id%>" onclick="projectPressed(this); return false;">
+            <%=project.name%>
         </li>
         <% } //ENDFOR %>
     </ul>

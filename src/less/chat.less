@@ -1,0 +1,169 @@
+@import './shared/defines.less';
+@import './shared/mixins.less';
+@import './shared/reset.less';
+@import './shared/animations.less';
+
+.chat-wrapper {
+    position        : relative;
+    width           : @chat-width;
+    height          : 100vh;
+    overflow        : hidden;
+    float           : left;
+    display         : none;
+    background-color: @color-chat-bg;
+
+    @media (max-width:767px) {
+        width: @mobil-chat-width;
+
+        img {
+            height: @chat-button-mobile;
+            width : @chat-button-mobile;
+        }
+
+    }
+
+    .topbar {
+        .clearfix();
+        height          : @chat-topbar-height;
+        width           : 100%;
+        background-color: @color-chat-topbar-bg;
+        border-radius   : 8px;
+
+        .title {
+            width         : calc(~"100% - @{chat-topbar-height}");
+            height        : 100%;
+            float         : left;
+            line-height   : @chat-topbar-height;
+            padding       : 0px 10px;
+            box-sizing    : border-box;
+            font-size     : 20px;
+            color         : @color-font-name;
+            text-transform: uppercase;
+            overflow      : hidden;
+            text-overflow : ellipsis;
+            font-weight   : bold;
+        }
+
+        .close {
+            width      : @chat-topbar-height;
+            height     : 100%;
+            float      : left;
+            text-align : center;
+            box-sizing : border-box;
+            font-size  : 28px;
+            font-weight: bold;
+            line-height: @chat-topbar-height;
+            cursor     : pointer;
+            font-weight: bold;
+            opacity    : 0.6;
+            color      : @color-font-name;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    .singleMessageStyle() {
+        box-sizing   : border-box;
+        width        : 90%;
+        margin       : 5px;
+        font-size    : 17px;
+        padding      : 5px;
+        border-radius: 5px;
+        font-weight  : bold;
+    }
+
+    .chat {
+        position: relative;
+        width   : 100%;
+        height  : calc(~"100vh - @{chat-topbar-height}");
+        color   : @color-font-name;
+
+        .messages-wrapper {
+            height    : calc(~"100% - @{chat-input-height}");
+            box-sizing: border-box;
+            padding   : 3px;
+
+            .myMessage {
+                .singleMessageStyle();
+                float           : left;
+                background-color: @color-message-bg;
+                color           : @color-message-font;
+                text-align      : left;
+            }
+
+            .info {
+                .singleMessageStyle();
+                font-size  : 15px;
+                font-weight: lighter;
+
+            }
+
+            .yourMessage {
+                .singleMessageStyle();
+                float           : right;
+                background-color: #94CFBD;
+                color           : @color-message-font;
+                text-align      : right;
+            }
+        }
+
+        .input-wrapper {
+            height          : @chat-input-height;
+            background-color: @color-chat-topbar-bg;
+            border-radius   : 8px;
+
+            textarea {
+                display         : block;
+                height          : @chat-input-height;
+                width           : calc(~"100% - @{chat-input-height}");
+                float           : left;
+                padding         : 9px;
+                background-color: @color-textarea;
+                border          : none;
+                resize          : none;
+                font-family     : inherit;
+                font-size       : 14px;
+                color           : @color-font-name;
+                margin-bottom   : 3px;
+                border-radius   : 8px;
+            }
+
+            button {
+                display: block;
+
+                img {
+                    height: @chat-button;
+                    width : @chat-button;
+                    margin: 12px 10px 0 0px;
+                }
+
+                height          : @chat-button;
+                width           : @chat-button;
+                float           : left;
+                box-sizing      : border-box;
+                border          : none;
+                background-color: inherit;
+                color           : @color-font-name;
+                box-sizing      : border-box;
+
+                @media (max-width:767px) {
+                    img {
+                        height     : @chat-button-mobile;
+                        width      : @chat-button-mobile;
+                        margin-left: 8px;
+                    }
+                }
+            }
+
+            .animate {
+
+                #plane,
+                #wind {
+                    animation: plane 1.5s;
+                }
+            }
+        }
+    }
+}

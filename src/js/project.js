@@ -3,5 +3,5 @@ function projectPressed(elm) {
 
     const url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/?projectId=' + projectId;
 
-    window.location.href = url; 
+    window.location.href = url;
 }

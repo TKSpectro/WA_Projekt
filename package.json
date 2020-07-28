@@ -1,6 +1,6 @@
 {
   "name": "Planbee",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A kanban taskboard",
   "main": "index.js",
   "scripts": {
@@ -8,10 +8,10 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Tom Käppler",
+  "author": "Bilal Alnaani, Tom Käppler",
   "license": "ISC",
   "apidoc": {
-    "title": "apiDoc - taskboard",
+    "title": "apiDoc - Planbee",
     "url": "https://localhost:3000/api",
     "header": {
       "title": "General",

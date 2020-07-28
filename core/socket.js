@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 const Passport = require('./passport.js');
 const { Op, TableHints } = require("sequelize");
 

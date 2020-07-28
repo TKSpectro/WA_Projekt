@@ -1,8 +1,3 @@
-/**
- * @author Tom Käppler <tomkaeppler@web.de>
- * @version 1.0.0
- */
-
 const ejs = require('ejs');
 const path = require('path');
 
@@ -49,7 +44,7 @@ class Controller {
             cb();
         } else {
             self.executeBefore(self.beforeList[index], () => {
-                process.nextTick(function() {
+                process.nextTick(function () {
                     self.executeBeforeList(cb, ++index);
                 })
             })
@@ -61,7 +56,7 @@ class Controller {
         if (before.actions.indexOf('*') !== -1 && before.actions.indexOf('-' + self.action) === -1 || before.actions.indexOf(self.action) !== -1) {
             before.fn.apply(self, [cb]);
         } else {
-            process.nextTick(function() {
+            process.nextTick(function () {
                 cb();
             })
         }
@@ -70,7 +65,7 @@ class Controller {
     render(params = {}, opts = {}) {
         const self = this;
 
-        opts = Object.assign({...defaultRenderOptions }, opts);
+        opts = Object.assign({ ...defaultRenderOptions }, opts);
 
         if (!opts.statusCode) {
             opts.statusCode = 200;
@@ -108,10 +103,10 @@ class Controller {
                             } else {
                                 self.res.send(htmlStr);
                             }
-                        })
+                        });
                     }
                 }
-            })
+            });
         }
     }
 

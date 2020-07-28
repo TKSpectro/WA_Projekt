@@ -1,13 +1,8 @@
-/**
- * @author Tom Käppler <tomkaeppler@web.de>
- * @version 1.0.0
- */
-
 const Sequelize = require('sequelize');
 const path = require('path');
 const fs = require('fs');
 
-module.exports = function() {
+module.exports = function () {
     const sequelize = new Sequelize(process.env.DB_NAME || 'taskboard', process.env.DB_USER || 'root', process.env.DB_PASSWORD || '', {
         host: process.env.DB_HOST || 'localhost',
         dialect: 'mysql',

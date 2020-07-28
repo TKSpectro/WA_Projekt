@@ -1,8 +1,3 @@
-/**
- * @author Tom Käppler <tomkaeppler@web.de>
- * @version 1.0.0
- */
-
 const { Op } = require("sequelize");
 const Controller = require('../mainController');
 const ApiError = require('../../core/error.js');
@@ -211,7 +206,6 @@ class ApiMessagesController extends Controller {
                         }
                     }, { transaction: t, lock: true });
                 } else {
-                    //Throw 404 If no message found
                     throw new ApiError('No message found to update (Maybe you are not the creator of this message)', 404);
                 }
 

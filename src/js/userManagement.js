@@ -1,8 +1,4 @@
-function updateUserPressed(elm) {
-    alert('UPDATE');
-}
-
-function returnToIndex(){
+function returnToIndex() {
     location.replace('/');
 }
 
@@ -45,13 +41,13 @@ function updateUserPressed(elm) {
 
     let _update = document.getElementById("update" + elm.getAttribute("user-id"));
 
-    if(!_email.disabled){
+    if (!_email.disabled) {
         _update.innerText = " SEND ";
 
         _permission_calculator.classList.add("show");
 
         let id = _permission_calculator.setAttribute("user-id", elm.getAttribute("user-id"));
-    }else{
+    } else {
         _update.innerText = "UPDATE";
         _permission_calculator.classList.remove("show");
         _permission_calculator.removeAttribute("user-id");

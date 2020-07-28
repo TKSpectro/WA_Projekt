@@ -1,344 +1,336 @@
 @import './shared/defines.less';
 @import './shared/mixins.less';
-@import './shared/chat.less';
 
+@import './chat.less';
 @import './taskForm.less';
-
 @import './layout.less';
 
 
 .scroll-wrapper {
-height: 100%;
-width: 100%;
-padding-right: 20px;
-overflow: hidden;
-overflow-y: auto;
--webkit-overflow-scrolling: touch;
+    height                    : 100%;
+    width                     : 100%;
+    padding-right             : 20px;
+    overflow                  : hidden;
+    overflow-y                : auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .wrapper {
-position: relative;
-width: 100%;
-height:100%;
-
-.left-side {
     position: relative;
-    width: @menu-width;
-    height: 100vh;;
-    overflow: hidden;
-    float: left;
-    background-color:@color-name-bg;
-    @media (max-width:767px){
-        width:@mobil-menu-width;
-        
- }
+    width   : 100%;
+    height  : 100%;
 
-.menu-list {
-    .imprint{
-        position: absolute;
-        top:85%;
-        bottom: 17%;
-     
-    }
-    .privacyPolicy{
-        position: absolute;
-        top:78%;
-        bottom: 23%;
+    .left-side {
+        position        : relative;
+        width           : @menu-width;
+        height          : 100vh;
+        overflow        : hidden;
+        float           : left;
+        background-color: @color-name-bg;
 
-    }
-    .Documentation{
-        position: absolute;
-        top:70%;
-        bottom: 30%;
+        @media (max-width:767px) {
+            width: @mobil-menu-width;
 
-    }
-    .logout{
-      
-        position: absolute;
-        top:92%;
-        bottom: 5%;
-    }
-    
-    list-style: none;
+        }
 
-        li {
-            @media (max-width:767px){
-            height: calc(@mobil-menu-width - 8px);
-            width: calc(@mobil-menu-width - 8px); 
-            line-height: 27px;     
-            font-size: 12px;      
+        .menu-list {
+            .imprint {
+                position: absolute;
+                top     : 85%;
+                bottom  : 17%;
             }
-            display: block;
-            height: calc(@menu-width - 8px);
-            width: calc(@menu-width - 8px);
-            line-height: 45px;
-            font-size: 16px;
-            font-weight: bold;                
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 50%;
-            overflow: hidden;
-            background-color: @color-menu-item;
-            text-align: center;
-            box-sizing: border-box;
-            padding: 4px;
-            margin: 9px 4px;
-            color: @color-font-name;
 
-            .notification-counter {
-                    display: block;
-                    position: absolute;
+            .privacyPolicy {
+                position: absolute;
+                top     : 78%;
+                bottom  : 23%;
+            }
+
+            .documentation {
+                position: absolute;
+                top     : 70%;
+                bottom  : 30%;
+            }
+
+            .logout {
+
+                position: absolute;
+                top     : 92%;
+                bottom  : 5%;
+            }
+
+            list-style: none;
+
+            li {
+                @media (max-width:767px) {
+                    height     : calc(@mobil-menu-width - 8px);
+                    width      : calc(@mobil-menu-width - 8px);
+                    line-height: 27px;
+                    font-size  : 12px;
+                }
+
+                display         : block;
+                height          : calc(@menu-width - 8px);
+                width           : calc(@menu-width - 8px);
+                line-height     : 45px;
+                font-size       : 16px;
+                font-weight     : bold;
+                text-transform  : uppercase;
+                cursor          : pointer;
+                border-radius   : 50%;
+                overflow        : hidden;
+                background-color: @color-menu-item;
+                text-align      : center;
+                box-sizing      : border-box;
+                padding         : 4px;
+                margin          : 9px 4px;
+                color           : @color-font-name;
+
+                .notification-counter {
+                    display    : block;
+                    position   : absolute;
                     margin-left: 38px;
-                    margin-top: -65px;  
-                     
-                    @media (max-width:767px){
+                    margin-top : -65px;
+
+                    @media (max-width:767px) {
                         margin-left: 20px;
-                        margin-top: -42px; 
-                    }
-                }
-        }
-    }
-}
-
-
-
-.right-side {
-    position: relative;
-    width: calc(~"100% - @{menu-width}");
-    @media (max-width:767px){
-        width: calc(~"100% - @{mobil-menu-width}");
-            } 
-
-    height: 100vh;
-    overflow: hidden;
-    float: left;
-    
-
-.kanban-wrapper {
-    .scroll-wrapper;
-    overflow-x: auto;
-    padding-bottom: 20px;
-
-    .row {
-        .clearfix();
-        white-space: nowrap;
-
-        &.tasks-wrapper {
-            height: calc(~"100% - @{kanban-add-height} - @{kanban-title-height}");
-
-            .col {
-                height: 100%;
-                overflow: hidden;
-
-            }
-        }
-
-        .col {
-            display: inline-block;
-            width: @kanban-col-width;
-            @media (max-width:767px){
-                width:@mobile-kanban-col-width;
-            }
-            
-
-            .title {
-                border-radius: 8px;
-                box-sizing: border-box;
-                position: relative;
-                height: @kanban-title-height;
-                width: 100%;
-                line-height: 24px;
-                font-size: 16px;
-                font-weight: bold;
-                color: white;
-                .workflow{
-                    box-sizing: border-box;
-                    height: @kanban-title-height;
-                    line-height: @kanban-title-height;
-                    display: block;
-                    width:70%;
-                    float: left;
-                    text-align: center;
-                    font-size: 20px;
-                    font-weight: bold;
-                }
-                
-            }
-
-            .add ,.addWorkflow{
-                box-sizing: border-box;
-                display: block;
-                float: left;
-                width:30%;
-                position: relative;
-                height: @kanban-title-height;
-                color: white;
-                text-align: center;
-                line-height: @kanban-title-height;
-                font-size: 32px;
-                font-weight: bold;
-                opacity: 0.6;
-                cursor: pointer;
-                &:hover {
-                    opacity: 1;
-                    font-size: 34px;
-                }
-            }
-
-            .tasks {
-                .scroll-wrapper;
-
-                .task-placeholder {
-                    margin-bottom: 5px;
-                    background: #ffffff80;
-                }
-
-                .task {
-                    margin-bottom: 10px;
-                    background: rgba(255,255,255,0.8);
-                    transition: transform 300ms;
-                    border-radius: 8px;
-                    box-sizing: border-box;
-                    border-top: 5px solid;
-                    color: #4A5A73;
-                    
-                    &.dragging {
-                    }
-
-                    .line {
-                        height: 4px;
-                        //background: #9b59b6;
-                        border-radius: 8px;
-
-                    }
-
-                    .name {
-                        font-size: 14px;
-                        line-height: 18px;
-                        font-weight: bold;
-                        
-                        white-space: normal;
-                        padding: 4px;
-                    }
-
-                    .time {
-                        font-size: 14px;
-                        padding: 4px;
-                    }
-
-                    .footer {
-                        .clearfix();
-                        font-size: 12px;
-
-                        .assigned {
-                            padding: 4px;
-                            float: left;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            max-width: 60%;
-                            box-sizing: border-box;
-                        }
-                        .deadline {
-                            padding: 4px;
-                            float: right;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            max-width: 40%;
-                            box-sizing: border-box;
-                        }
+                        margin-top : -42px;
                     }
                 }
             }
         }
     }
-    }
-}
 
-&.chat-open {
-    
-    .chat-wrapper{
-        display: block;
-        text-align: center;
-        font-size: 24px;
-        
-        .userInfo{
-           
-           
-            .infoLabel{
-                font-weight: bold;
-            border-radius: 20px;
-            background-color:  @color-message-bg;
-            color:@color-chat-topbar-bg;
-            margin:1em 0em;
-            padding:1em 0em;
-        }
-        .InfoValue{
-            color:@color-chat-topbar-bg;
-            background-color:  #94CFBD;
-            margin:1em 0em;
-            padding:1em 0em;
-            border-radius: 20px;
-            margin:1em 0em;
-        }
-        }
-        
-    }
-
-    .right-side{
-        width: calc(~"100% - @{mobil-menu-width} - @{mobil-chat-width}");
-        
-        
-    }
-}
-}
-  
-  .icon{
-      color:black;
-  }
-.workflowAdditionWrapper{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right:0;
-    background-color: rgba(0, 0, 0, 0.589);;
-    width: 100%;
-    height: 100%;
-.workflowAddition{
-    position: absolute;
-    background-color: @color-task-form;
-    width:20%;
-    height: 20%;
-    line-height: 100%;
-    top:30%;
-    right:40%;
-    left:40%;
-    text-align: center;
-    border-radius: 8px;
-    @media screen and (max-width:767px){
-        width:70%;
-        right:15%;
-        left:15%;
-        height: 30%;
-
-
-    }
-    @media (min-width:767px) and (max-width:1000px){
-        width:40%;
-        right:30%;
-        left:30%;
-
-    }
-    .addWorkflowButton{
+    .right-side {
         position: relative;
-        left:0;
-        right:0;
+        width   : calc(~"100% - @{menu-width}");
+
+        @media (max-width:767px) {
+            width: calc(~"100% - @{mobil-menu-width}");
+        }
+
+        height  : 100vh;
+        overflow: hidden;
+        float   : left;
+
+
+        .kanban-wrapper {
+            .scroll-wrapper;
+            overflow-x    : auto;
+            padding-bottom: 20px;
+
+            .row {
+                .clearfix();
+                white-space: nowrap;
+
+                &.tasks-wrapper {
+                    height: calc(~"100% - @{kanban-add-height} - @{kanban-title-height}");
+
+                    .col {
+                        height  : 100%;
+                        overflow: hidden;
+                    }
+                }
+
+                .col {
+                    display: inline-block;
+                    width  : @kanban-col-width;
+
+                    @media (max-width:767px) {
+                        width: @mobile-kanban-col-width;
+                    }
+
+                    .title {
+                        border-radius: 8px;
+                        box-sizing   : border-box;
+                        position     : relative;
+                        height       : @kanban-title-height;
+                        width        : 100%;
+                        line-height  : 24px;
+                        font-size    : 16px;
+                        font-weight  : bold;
+                        color        : white;
+
+                        .workflow {
+                            box-sizing : border-box;
+                            height     : @kanban-title-height;
+                            line-height: @kanban-title-height;
+                            display    : block;
+                            width      : 70%;
+                            float      : left;
+                            text-align : center;
+                            font-size  : 20px;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .add,
+                    .addWorkflow {
+                        box-sizing : border-box;
+                        display    : block;
+                        float      : left;
+                        width      : 30%;
+                        position   : relative;
+                        height     : @kanban-title-height;
+                        color      : white;
+                        text-align : center;
+                        line-height: @kanban-title-height;
+                        font-size  : 32px;
+                        font-weight: bold;
+                        opacity    : 0.6;
+                        cursor     : pointer;
+
+                        &:hover {
+                            opacity  : 1;
+                            font-size: 34px;
+                        }
+                    }
+
+                    .tasks {
+                        .scroll-wrapper;
+
+                        .task-placeholder {
+                            margin-bottom: 5px;
+                            background   : #ffffff80;
+                        }
+
+                        .task {
+                            margin-bottom: 10px;
+                            background   : rgba(255, 255, 255, 0.8);
+                            transition   : transform 300ms;
+                            border-radius: 8px;
+                            box-sizing   : border-box;
+                            border-top   : 5px solid;
+                            color        : #4A5A73;
+
+                            .name {
+                                font-size  : 14px;
+                                line-height: 18px;
+                                font-weight: bold;
+
+                                white-space: normal;
+                                padding    : 4px;
+                            }
+
+                            .time {
+                                font-size: 14px;
+                                padding  : 4px;
+                            }
+
+                            .footer {
+                                .clearfix();
+                                font-size: 12px;
+
+                                .assigned {
+                                    padding      : 4px;
+                                    float        : left;
+                                    white-space  : nowrap;
+                                    overflow     : hidden;
+                                    text-overflow: ellipsis;
+                                    max-width    : 60%;
+                                    box-sizing   : border-box;
+                                }
+
+                                .deadline {
+                                    padding      : 4px;
+                                    float        : right;
+                                    white-space  : nowrap;
+                                    overflow     : hidden;
+                                    text-overflow: ellipsis;
+                                    max-width    : 40%;
+                                    box-sizing   : border-box;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-.workflowBlockdisappear{
-    top:-25%;
-    right:-25%;
+
+    &.chat-open {
+
+        .chat-wrapper {
+            display   : block;
+            text-align: center;
+            font-size : 24px;
+
+            .userInfo {
+
+                .infoLabel {
+                    font-weight     : bold;
+                    border-radius   : 20px;
+                    background-color: @color-message-bg;
+                    color           : @color-chat-topbar-bg;
+                    margin          : 1em 0em;
+                    padding         : 1em 0em;
+                }
+
+                .InfoValue {
+                    color           : @color-chat-topbar-bg;
+                    background-color: #94CFBD;
+                    margin          : 1em 0em;
+                    padding         : 1em 0em;
+                    border-radius   : 20px;
+                    margin          : 1em 0em;
+                }
+            }
+        }
+
+        .right-side {
+            width: calc(~"100% - @{mobil-menu-width} - @{mobil-chat-width}");
+        }
+    }
 }
+
+.icon {
+    color: black;
 }
+
+.workflowAdditionWrapper {
+    position        : absolute;
+    top             : 0;
+    bottom          : 0;
+    left            : 0;
+    right           : 0;
+    background-color: rgba(0, 0, 0, 0.589);
+    width : 100%;
+    height: 100%;
+
+    .workflowAddition {
+        position        : absolute;
+        background-color: @color-task-form;
+        width           : 20%;
+        height          : 20%;
+        line-height     : 100%;
+        top             : 30%;
+        right           : 40%;
+        left            : 40%;
+        text-align      : center;
+        border-radius   : 8px;
+
+        @media screen and (max-width:767px) {
+            width : 70%;
+            right : 15%;
+            left  : 15%;
+            height: 30%;
+        }
+
+        @media (min-width:767px) and (max-width:1000px) {
+            width: 40%;
+            right: 30%;
+            left : 30%;
+        }
+
+        .addWorkflowButton {
+            position: relative;
+            left    : 0;
+            right   : 0;
+        }
+
+        .hideWorkflowBlock {
+            top  : -25%;
+            right: -25%;
+        }
+    }
 }
