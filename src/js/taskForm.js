@@ -109,11 +109,11 @@ function Taskform(opts) {
 
 
     // public method
-    self.showWithTaskId = function(taskId) {
+    self.showWithTaskId = function (taskId) {
         if (taskId) {
             let xhr = new XMLHttpRequest();
             //handle request finished
-            xhr.onload = function() {
+            xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 300) {
 
 
@@ -197,7 +197,7 @@ function Taskform(opts) {
     };
 
 
-    self.editMode = function(editMode) {
+    self.editMode = function (editMode) {
 
         if (editMode === true && _editMode === false) {
             _elmTitle.innerHTML = "Edit Task";
@@ -249,32 +249,32 @@ function Taskform(opts) {
     }
 
 
-    self.updateTask = function(task) {
+    self.updateTask = function (task) {
 
-            let xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
 
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
 
-                } else {
-                    // ToDo falls das Request nicht klappt
-                    console.log('request failed');
-                }
-            };
+            } else {
+                // ToDo falls das Request nicht klappt
+                console.log('request failed');
+            }
+        };
 
-            let url = '/api/tasks/' + task.id;
+        let url = '/api/tasks/' + task.id;
 
-            xhr.open('PUT', url);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify({ task: task }));
+        xhr.open('PUT', url);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({ task: task }));
 
-        }
-        // Add aTask
+    }
+    // Add aTask
     let workflows = document.querySelectorAll('.row .add');
     for (let index = 0; index < workflows.length; index++) {
 
         const workflow = workflows[index];
-        workflow.addEventListener('click', function(e) {
+        workflow.addEventListener('click', function (e) {
             //   taskForm.addTask(this.getAttribute('workflow-id'));
 
 
@@ -340,34 +340,15 @@ function Taskform(opts) {
 
     }
 
-    self.createTask = function() {
-
-        /* let xhr = new XMLHttpRequest();
-
-         xhr.onload = function() {
-             if (xhr.status >= 200 && xhr.status < 300) {
-
-             } else {
-                 // ToDo falls das Request nicht klappt
-                 console.log('Post request failed');
-             }
-         };
-
-         let url = '/api/tasks';
-
-         xhr.open('POST', url);
-         xhr.setRequestHeader('Content-Type', 'application/json');
-         xhr.send(JSON.stringify({ task: createTask }));*/
-
+    self.createTask = function () {
         io.emit('tasks/create', {
             task: createTask
         });
 
+        location.reload();
     }
 
     init();
-
-
 }
 
 function taskClose() {

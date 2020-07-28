@@ -322,11 +322,11 @@ function addWorkflow() {
     createWorkflow.color = "#2A898F";
     createWorkflow.projectId = projektID;
     createWorkflow.sort = workflowSort;
-    if (!createWorkflow.name == null) {
+    if (createWorkflow.name !== null) {
         io.emit('workflow/create', {
             workflow: createWorkflow
         });
-
+        workflowBlockdisappear();
     } else {
         alert("please enter Workflow Name");
     }
@@ -445,19 +445,5 @@ function chatOpen(data) {
     let personalInfo = document.querySelector('.userInfo');
     personalInfo.style.display = "block";
     document.querySelector('.chat').style.display = "none";
-    //.appendChild(personalInfo);
     console.log(personalInfo);
-
-
-    /*document.createElement("DIV");
-     personalInfo.style.backgroundColor = "red";
-     personalInfo.className = "userInfo";
-     personalInfo.innerHTML = "PersonalInfo";
-
-     console.log(personalInfo);*/
-
-
-
-
-
 }
