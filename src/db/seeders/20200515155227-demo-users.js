@@ -10,7 +10,7 @@ module.exports = {
             createdAt: new Date(),
             updatedAt: new Date(),
             passwordHash: '$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2', // bCrypt 10 12345678
-            permission: 0b0000000111111110
+            permission: 510
         }, {
             id: 2,
             firstName: 'Bilal',
@@ -19,25 +19,34 @@ module.exports = {
             createdAt: new Date(),
             updatedAt: new Date(),
             passwordHash: '$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2', // bCrypt 10 12345678
-            permission: 0b0000000111111110
-        }, {
+            permission: 510
+        },{
             id: 3,
-            firstName: 'Root',
-            lastName: 'Root',
-            email: 'root@mail.com',
+            firstName: 'Kristof',
+            lastName: 'Friess',
+            email: 'friess@mail.com',
             createdAt: new Date(),
             updatedAt: new Date(),
             passwordHash: '$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2', // bCrypt 10 12345678
-            permission: 0b1111111111111110
+            permission: 510
         }, {
             id: 4,
-            firstName: 'Boss',
-            lastName: 'Boss',
-            email: 'boss@mail.com',
+            firstName: 'Willie',
+            lastName: 'Wildt',
+            email: 'willie@mail.com',
             createdAt: new Date(),
             updatedAt: new Date(),
             passwordHash: '$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2', // bCrypt 10 12345678
-            permission: 0b0000000111111110
+            permission: 126
+        }, {
+            id: 5,
+            firstName: 'Era',
+            lastName: 'Ellis',
+            email: 'era@mail.com',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            passwordHash: '$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2', // bCrypt 10 12345678
+            permission: 14
         }], {});
     },
 
