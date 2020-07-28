@@ -1,10 +1,10 @@
 # Planbee | Web Aufbau Projekt
 
-Von [Tom Käppler](https://github.com/TKSpectro), [Bilal Alnaani](https://github.com/bilal0710)
+Von [Bilal Alnaani](https://github.com/bilal0710), [Tom Käppler](https://github.com/TKSpectro)
 
 ## Allgemeines
 
-Dieses Projekt ist ein Kanban-Board, welches für die Organisation von Aufgaben und die Verteilung dieser bereitstellt.
+Dieses Projekt ist ein Kanban-Board, welches eine Oberfläche für die Organisation/Tracking von Aufgaben bereitstellt.
 
 Funktionallitäten die implementiert wurden:
 * Kanban-Board
