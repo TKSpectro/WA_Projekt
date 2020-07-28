@@ -98,15 +98,20 @@ function updateUserBtnName(elm) {
 }
 
 function userPressed(elm) {
+    let oldUserElm = currentUserElm;
     currentUserElm = elm;
     document.querySelector('.chat').style.display = "block";
     document.querySelector('.userInfo').style.display = "none";
 
+
+
     let wrapper = document.querySelector('.wrapper');
-    if(wrapper.className === 'wrapper'){
-       wrapper.className = "wrapper chat-open"
-    }else{
-       wrapper.className = "wrapper";
+    if (wrapper.className === 'wrapper') {
+        wrapper.className = "wrapper chat-open"
+    } else if (oldUserElm !== currentUserElm) {
+        wrapper.className = "wrapper chat-open"
+    } else {
+        wrapper.className = "wrapper";
     }
 
     if (elm.getAttribute('data-fullname') !== null) {
@@ -408,11 +413,11 @@ function chatOpen(data) {
     document.getElementById("date").innerHTML = today;
 
     let wrapper = document.querySelector('.wrapper');
-    if(wrapper.className === 'wrapper'){
+    if (wrapper.className === 'wrapper') {
         wrapper.className = "wrapper chat-open"
-     }else{
+    } else {
         wrapper.className = "wrapper";
-     }
+    }
 
     document.getElementById("chatTitle").innerHTML = data.getAttribute('data-name');
 
