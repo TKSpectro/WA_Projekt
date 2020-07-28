@@ -18,8 +18,6 @@
  * @apiSuccess {Object}     tasks.task.AssignedTo                        User to whom the task is assigned.
  * @apiSuccess {Object}     tasks.task.project                           Tasks project 
  * @apiSuccess {Object}     tasks.task.workflow                          Tasks workflow
- *
- * @apiError 404: TasksNotFound No tasks were found.
  * 
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
@@ -82,6 +80,9 @@
  *   ]
  * }
  * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:TasksNotFound No tasks were found.
+ * 
  */
 /**
  * @api {get} /tasks/:id Get task with id
@@ -103,8 +104,6 @@
  * @apiSuccess {Object}     tasks.task.AssignedTo                        User to whom the task is assigned.
  * @apiSuccess {Object}     tasks.task.project                           Tasks project.
  * @apiSuccess {Object}     tasks.task.workflow                          Tasks workflow.
- *
- * @apiError 404: TaskNotFound The Task with the <code>id</code> was not found.
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -138,6 +137,9 @@
  *          }
  *      }
  * }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:TaskNotFound The Task with the <code>id</code> was not found.
  *
  */
 /**
@@ -148,9 +150,7 @@
  * @apiPermission userWithRightsToCreateTask
  *
  *
- * @apiExample Usage:
- *      endpoint: http://localhost/api/tasks
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *       {
  *      "task": {
@@ -180,8 +180,6 @@
  * @apiSuccess {Object}     tasks.task.workflow                          Tasks workflow.
  * @apiSuccess {Number}     tasks.task.sort                              Tasks order.
  * 
- * @apiError 403:Forbidden Logged in user does not have the permission to update tasks. 
- * 
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
  *  {
@@ -200,6 +198,10 @@
  *           "workflow": 1,
  *           "sort": 9999999,
  * }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 403:Forbidden Logged in user does not have the permission to update tasks. 
+ * 
  */
 /**
  * @api {put} /tasks/:id Update task with id
@@ -210,9 +212,7 @@
  * 
  * @apiPermission  canUpdateTask
  * 
- * @apiExample Usage:
- *      endpoint: http://localhost/api/tasks/:id
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *      {
  *          "task": {
@@ -238,9 +238,6 @@
  * @apiSuccess {Object}     tasks.task.workflow                          Tasks workflow.
  * @apiSuccess {Number}     tasks.task.sort                              Tasks order.
  *
- * @apiError 403:Forbidden Logged in user does not have the permission to update tasks.
- * @apiError 404:TaskCouldNotBeUpdated Task with the <code>id</code> could not be updated.
- *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 202 OK
  *  {
@@ -260,6 +257,11 @@
  *           "sort": 0,
  *      }
  *  }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 403:Forbidden Logged in user does not have the permission to update tasks.
+ * @apiError 404:TaskCouldNotBeUpdated Task with the <code>id</code> could not be updated.
+ *
  */
 /**
  * @api {delete} /tasks/:id Delete task with id
@@ -270,9 +272,15 @@
  *
  * @apiPermission userWithRightsToDeleteTask
  * 
+ * @apiSuccess 204 Task was deleted and no content is returned 
+ * 
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 204 No Content
+ * {
+ * }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
  * @apiError 403:Forbidden Logged in user does not have the permission to delete tasks.
  * @apiError 404:TaskCouldNotBeDeleted The Task with the <code>id</code> could not be deleted.
- *
- * @apiSuccess Success 204
  *
  */

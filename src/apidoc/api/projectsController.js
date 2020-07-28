@@ -57,7 +57,8 @@
  *      ]
  *  }
  * 
- * @apiError 404 No projects found.
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:ProjectsNotFound No projects found.
  */
 
 /**
@@ -109,7 +110,8 @@
  *      }
  *  }
  * 
- * @apiError 404 No project found with this <code>id</code>.
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:ProjectNotFound No project found with this <code>id</code>.
 */
 
 /**
@@ -123,9 +125,7 @@
  * 
  * @apiPermission canCreateProject
  * 
- * @apiExample Usage:
- *  endpoint: http://localhost/api/projects
- *
+ * @apiExample {json} Request (example):
  *  json-body:
  *  {
  *      "project": {
@@ -149,6 +149,8 @@
  *          "createdAt": "2020-06-18T14:23:12.229Z"
  *      }
  *  }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
  */
 
 /**
@@ -162,9 +164,7 @@
  *
  * @apiPermission canUpdateProject
  * 
- * @apiExample Usage:
- *  endpoint: http://localhost/api/projects/:id
- *
+ * @apiExample {json} Request (example):
  *  json-body:
  *  {
  *      "project": {
@@ -189,6 +189,7 @@
  *      }
  *  }
  * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
  * @apiError 404 No project found with this <code>id</code>.
  */
 
@@ -210,5 +211,6 @@
  * {
  * }
  * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
  * @apiError 404 No project found with this <code>id</code>.
  */

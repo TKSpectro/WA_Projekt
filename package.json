@@ -12,7 +12,11 @@
   "license": "ISC",
   "apidoc": {
     "title": "apiDoc - taskboard",
-    "url": "https://localhost:3000/api"
+    "url": "https://localhost:3000/api",
+    "header": {
+      "title": "General",
+      "filename": "./src/apidoc/general.md"
+    }
   },
   "dependencies": {
     "bcrypt": "^4.0.1",

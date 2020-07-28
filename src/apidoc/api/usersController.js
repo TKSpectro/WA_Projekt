@@ -16,8 +16,6 @@
  * @apiSuccess {String}     users.user.updatedAt        Date of last update.
  * @apiSuccess {Object[]}   users.user.taskCreated      Array of tasks which the user created.
  * @apiSuccess {Object[]}   users.user.tasksAssignedTo  Array of tasks which are assigned to the user.
- *
- * @apiError 404: UserNotFound No user was found.
  * 
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
@@ -57,6 +55,9 @@
  *          }
  *      ]
  *  }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:UserNotFound No user was found.
  */
 
 /**
@@ -76,8 +77,6 @@
  * @apiSuccess {String}     user.updatedAt          Date of last update.
  * @apiSuccess {Object[]}   user.taskCreated        Array of tasks which the user created.
  * @apiSuccess {Object[]}   user.tasksAssignedTo    Array of tasks which are assigned to the user.
- *
- * @apiError 404: UserNotFound The User with the <code>id</code> was not found.
  *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
@@ -105,6 +104,9 @@
  *          ]
  *      }
  *  }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404: UserNotFound The User with the <code>id</code> was not found.
  *
  */
 
@@ -114,10 +116,7 @@
  * @apiName CreateUser
  * @apiGroup Users
  *
- * @apiExample Usage:
- *      endpoint: http://localhost/api/users
- *
- *      json-body:
+ * @apiExample {json} Request (example):
  *      {
  *          "user": {
  *              "firstName": "firstName",
@@ -140,8 +139,6 @@
  * @apiSuccess {Object[]}   user.taskCreated        Array of tasks which the user created.
  * @apiSuccess {Object[]}   user.tasksAssignedTo    Array of tasks which are assigned to the user.
  *
- * @apiError 404:UserNotFound The User with the <code>id</code> was not found.
- *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 201 OK
  *  {
@@ -154,6 +151,9 @@
  *          "updatedAt": "2020-06-16T16:00:04.000Z"
  *      }
  *  }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:UserNotFound The User with the <code>id</code> was not created.
  *
  */
 
@@ -164,9 +164,7 @@
  *
  * @apiPermission canUpdateUser
  * 
- * @apiExample Usage:
- *      endpoint: http://localhost/api/users/:id
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *      {
  *          "user": {
@@ -188,9 +186,6 @@
  * @apiSuccess {String} user.createdAt      Date of creation.
  * @apiSuccess {String} user.updatedAt      Date of last update.
  *
- * @apiError 403:Forbidden Logged in user does not have the permission to update users.
- * @apiError 404:UserCouldNotBeUpdated The User with the <code>id</code> could not be updated.
- *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 202 OK
  *  {
@@ -204,6 +199,11 @@
  *          "updatedAt": "2020-06-16T16:00:04.000Z",
  *      }
  *  }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 403:Forbidden Logged in user does not have the permission to update users.
+ * @apiError 404:UserCouldNotBeUpdated The User with the <code>id</code> could not be updated.
+ *
  *
  */
 
@@ -214,10 +214,11 @@
  *
  * @apiPermission canDeleteUser
  * 
+ * @apiSuccess 204 User was deleted and no content is returned 
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
  * @apiError 403:Forbidden Logged in user does not have the permission to delete users.
  * @apiError 404:UserCouldNotBeDeleted The User with the <code>id</code> could not be deleted.
- *
- * @apiSuccess Success 204
  *
  */
 
@@ -226,9 +227,7 @@
  * @apiName Signin
  * @apiGroup Users
  *
- * @apiExample Usage:
- *      endpoint: http://localhost/api/sigin
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *      {
  *      	"user" : {
@@ -239,14 +238,13 @@
  *
  * @apiSuccess {String} token   jwt token for cookie.
  *
- * @apiError 403:Forbidden Could not login. Account is marked as deleted.
- * @apiError 404:UserNotFound Could not find user with this email or password.
- *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
  *  {
  *      "token": "jwtToken"
  *  }
+ * @apiError 403:Forbidden Could not login. Account is marked as deleted.
+ * @apiError 404:UserNotFound Could not find user with this email or password.
  *
  */
 
@@ -255,9 +253,7 @@
  * @apiName Signup
  * @apiGroup Users
  *
- * @apiExample Usage:
- *      endpoint: http://localhost/api/sigup
- *
+ * @apiExample {json} Request (example):
  *      json-body:
  *      {
  *      	"user" : {
@@ -278,8 +274,6 @@
  * @apiSuccess {String} user.createdAt           Date of creation.
  * @apiSuccess {String} user.updatedAt           Date of last update.
  *
- * @apiError 404:UserNotFound Could not find user with this email or password.
- *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 201 OK
  *  {
@@ -294,6 +288,8 @@
  *          "createdAt": "2020-06-18T12:43:09.774Z"
  *      }
  *  }
+ * 
+ *  @apiError 404:UserNotFound Could not find user with this email or password.
  *
  */
 
@@ -302,9 +298,9 @@
  * @apiName Signout
  * @apiGroup Users
  *
- * @apiError 404:UserNotFound Could not be logged out.
- *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK{}
+ *
+ * @apiError 404:UserNotFound Could not be logged out.
  *
  */
