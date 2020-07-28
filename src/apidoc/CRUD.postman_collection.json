@@ -107,8 +107,8 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
+								"type": "text",
+								"value": "Bearer {{token}}"
 							}
 						],
 						"body": {
@@ -193,7 +193,7 @@
 					"response": []
 				},
 				{
-					"name": "User with Id=1",
+					"name": "User with Id = 1",
 					"protocolProfileBehavior": {
 						"disableCookies": true
 					},
@@ -257,7 +257,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete User with id = 5",
+					"name": "Delete User with Id = 5",
 					"protocolProfileBehavior": {
 						"disableCookies": true
 					},
@@ -271,21 +271,21 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/users/5",
+							"raw": "{{BASE_URL}}/api/users/6",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"users",
-								"5"
+								"6"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update User with id = 1",
+					"name": "Update User with Id = 5",
 					"protocolProfileBehavior": {
 						"disableCookies": true
 					},
@@ -308,14 +308,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/users/3",
+							"raw": "{{BASE_URL}}/api/users/5",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"users",
-								"3"
+								"5"
 							]
 						}
 					},
@@ -532,7 +532,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Project",
+					"name": "Update Project with Id = 4",
 					"protocolProfileBehavior": {
 						"disableCookies": true
 					},
@@ -555,21 +555,21 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/projects/5",
+							"raw": "{{BASE_URL}}/api/projects/4",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"projects",
-								"5"
+								"4"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "delete Project",
+					"name": "Delete Project with Id = 4",
 					"protocolProfileBehavior": {
 						"disableCookies": true
 					},
@@ -592,14 +592,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/projects/5",
+							"raw": "{{BASE_URL}}/api/projects/4",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"projects",
-								"5"
+								"4"
 							]
 						}
 					},
@@ -639,7 +639,7 @@
 					"response": []
 				},
 				{
-					"name": "All Messages for User with Id = 1",
+					"name": "All Messages for logged in User to Id = 2",
 					"protocolProfileBehavior": {
 						"disableCookies": true
 					},
@@ -673,7 +673,7 @@
 					"response": []
 				},
 				{
-					"name": "Message with Id=1",
+					"name": "Message with Id = 1",
 					"protocolProfileBehavior": {
 						"disableCookies": true
 					},
@@ -682,8 +682,8 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
+								"type": "text",
+								"value": "Bearer {{token}}"
 							}
 						],
 						"url": {
@@ -760,14 +760,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/messages/1",
+							"raw": "{{BASE_URL}}/api/messages/7",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"messages",
-								"1"
+								"7"
 							]
 						}
 					},
@@ -788,14 +788,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{BASE_URL}}/api/messages/1",
+							"raw": "{{BASE_URL}}/api/messages/7",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"messages",
-								"1"
+								"7"
 							]
 						}
 					},
