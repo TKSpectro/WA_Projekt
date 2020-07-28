@@ -41,9 +41,21 @@ module.exports = {
             createdAt: new Date(),
             updatedAt: new Date(),
         },{
-            text: 'Hi Kristof',
+            text: 'Hi Tom',
             fromId: 3,
             toId: 1,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },{
+            text: 'Hi Kristof',
+            fromId: 3,
+            toId: 2,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },{
+            text: 'Hi Bilal',
+            fromId: 2,
+            toId: 3,
             createdAt: new Date(),
             updatedAt: new Date(),
         },], {});
