@@ -1,19 +1,40 @@
-# Web Aufbau Projekt
+# Web Aufbau Projekt | Planbee
 
 Von [Tom Käppler](https://github.com/TKSpectro), [Bilal Alnaani](https://github.com/bilal0710)
+
+## Allgemeines
+
+Dieses Projekt ist ein Kanban-Board, welches für die Organisation von Aufgaben und die Verteilung dieser bereitstellt.
+
+Funktionallitäten die implementiert wurden:
+* Kanban-Board
+    * Task Erstellung und Bearbeitung
+    * Hinzufügen von Workflows
+* Login/Logout
+* Chat
+    * Public
+    * Privat-Chats mit einzelnen Personen
+* Projekt-Wechsel
+* Dokumentation der Api
+* User-Management
+* Datenschutz, Impressum
 
 ## Release
 Das Projekt wird Live auf Heroku gehostet: [WA-Project](https://wa-project.herokuapp.com)
 
-Die Datenbank wird ebenfalls über Heroku(JawsDB-MySQL) gehostet
+Die Datenbank wird ebenfalls über Heroku gehostet: JawsDB-MySQL
 
 Die Api-Dokumentation ist über [ApiDoc](https://wa-project.herokuapp.com/apidoc/) erreichbar
+
+Login-Daten:
+* Email: tom@mail.com Passwort: `12345678`
+* Email: bilal@mail.com Passwort: `12345678`
 
 ## Installation
 
 * Node.JS Version 14.2.0 (npm)
 * XAMPP (Apache und  MySql)
-* lokal die Datenbank "taskboard" erstellen
+* Lokal die Datenbank "taskboard" erstellen
 * In Terminal ausführen:
     * `npm install`
     * `npx grunt build`
@@ -40,6 +61,6 @@ Die Datei `src/apidoc/CRUD.postman_collection.json` kann in Postman importiert w
 
 ### Verwendete Technologie
     - Visual Studio Code
-    - ApiDoc, Socket.io, Sequelize, MySql, Express, EJS, bCrypt, Grunt
+    - ApiDoc, bCrypt, body-parser, dotenv, EJS, Express, html5sortable, Grunt, jsonwebtoken, MySql2, Sequelize, Sequelize-CLI, Socket.io
     - Versionskontrollsystem: Git/GitHub
     - Kommunikation: Discord, CiscoWebex
