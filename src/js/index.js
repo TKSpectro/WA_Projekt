@@ -312,10 +312,14 @@ function addWorkflow() {
     createWorkflow.color = "#2A898F";
     createWorkflow.projectId = projektID;
     createWorkflow.sort = workflowSort;
+    if (!createWorkflow.name == null) {
+        io.emit('workflow/create', {
+            workflow: createWorkflow
+        });
 
-    io.emit('workflow/create', {
-        workflow: createWorkflow
-    });
+    } else {
+        alert("please enter Workflow Name");
+    }
 
     io.on('workflow/wasCreated', (data) => {
         workflowAdd.innerHTML = "";

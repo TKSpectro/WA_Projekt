@@ -150,28 +150,6 @@ height:100%;
                     font-weight: bold;
                 }
                 
-                
-
-                /* &:after {
-                    content: " ";
-                    height: 0px;
-                    line-height: 0px;
-                    width: 0px;
-                    display: block;
-                    position: absolute;
-                    background: transparent;
-                    color: transparent;
-                    top: 0px;
-                    left: 100%;
-                    border-top: @kanban-title-height/2 solid;
-                    border-top-color: transparent;
-                    border-bottom: @kanban-title-height/2 solid;
-                    border-bottom-color: transparent;
-                    border-left: 10px solid;
-                    border-left-color: inherit;
-                    border-right: 0px;
-                    border-right-color: transparent;
-                }*/
             }
 
             .add ,.addWorkflow{
@@ -273,7 +251,7 @@ height:100%;
     }
 
     .right-side{
-        width: calc(~"100vw - @{menu-width} - @{chat-width}");
+        width: calc(~"100% - @{mobil-menu-width} - @{mobil-chat-width}");
         
         
     }
@@ -303,6 +281,20 @@ height:100%;
     left:40%;
     text-align: center;
     border-radius: 8px;
+    @media screen and (max-width:767px){
+        width:70%;
+        right:15%;
+        left:15%;
+        height: 30%;
+
+
+    }
+    @media (min-width:767px) and (max-width:1000px){
+        width:40%;
+        right:30%;
+        left:30%;
+
+    }
     .addWorkflowButton{
         position: relative;
         left:0;
