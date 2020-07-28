@@ -272,7 +272,12 @@
  *
  * @apiPermission userWithRightsToDeleteTask
  * 
- * @apiSuccess 204 Task got deleted and no content is returned 
+ * @apiSuccess 204 Task was deleted and no content is returned 
+ * 
+ * @apiSuccessExample Success-Response:
+ * HTTP/1.1 204 No Content
+ * {
+ * }
  * 
  * @apiError 401:Unauthorized Not logged in (no JWT token in header).
  * @apiError 403:Forbidden Logged in user does not have the permission to delete tasks.
