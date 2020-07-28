@@ -314,7 +314,7 @@ function addWorkflow() {
     createWorkflow.color = "#2A898F";
     createWorkflow.projectId = projectID;
     createWorkflow.sort = workflowSort;
-    if (createWorkflow.name !== null) {
+    if (createWorkflow.name !== '') {
         io.emit('workflow/create', {
             workflow: createWorkflow
         });
