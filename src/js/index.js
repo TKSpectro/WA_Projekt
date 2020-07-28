@@ -102,10 +102,14 @@ function userPressed(elm) {
     document.querySelector('.chat').style.display = "block";
     document.querySelector('.userInfo').style.display = "none";
 
-    document.querySelector('.wrapper').className = "wrapper chat-open";
+    let wrapper = document.querySelector('.wrapper');
+    if(wrapper.className === 'wrapper'){
+       wrapper.className = "wrapper chat-open"
+    }else{
+       wrapper.className = "wrapper";
+    }
 
     if (elm.getAttribute('data-fullname') !== null) {
-
         document.getElementById("chatTitle").innerHTML = elm.getAttribute('data-fullname');
     } else {
         document.getElementById("chatTitle").innerHTML = "All";
@@ -404,7 +408,11 @@ function chatOpen(data) {
     document.getElementById("date").innerHTML = today;
 
     let wrapper = document.querySelector('.wrapper');
-    wrapper.className = "wrapper chat-open";
+    if(wrapper.className === 'wrapper'){
+        wrapper.className = "wrapper chat-open"
+     }else{
+        wrapper.className = "wrapper";
+     }
 
     document.getElementById("chatTitle").innerHTML = data.getAttribute('data-name');
 
