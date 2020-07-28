@@ -2,6 +2,10 @@ function updateUserPressed(elm) {
     alert('UPDATE');
 }
 
+function returnToIndex(){
+    location.replace('/');
+}
+
 io.on('user/cantDelete', (data) => {
     alert('Could not delete User because he is referenced somewhere');
 });

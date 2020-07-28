@@ -1,7 +1,6 @@
 function Taskform(opts) {
     let self = this;
 
-
     opts = Object.assign({
         id: 'slide-in-popover',
 
@@ -248,7 +247,6 @@ function Taskform(opts) {
 
     }
 
-
     self.updateTask = function (task) {
 
         let xhr = new XMLHttpRequest();
@@ -269,7 +267,8 @@ function Taskform(opts) {
         xhr.send(JSON.stringify({ task: task }));
 
     }
-    // Add aTask
+
+    // Add a Task
     let workflows = document.querySelectorAll('.row .add');
     for (let index = 0; index < workflows.length; index++) {
 
@@ -341,11 +340,14 @@ function Taskform(opts) {
     }
 
     self.createTask = function () {
-        io.emit('tasks/create', {
-            task: createTask
-        });
-
-        location.reload();
+        if (createTask.name === '' || createTask.maximumWorkTime === '' || createTask.deadline === '') {
+            alert('cant create task: Task info is missing');
+        } else {
+            io.emit('tasks/create', {
+                task: createTask
+            });
+            location.reload();
+        }
     }
 
     init();

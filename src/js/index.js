@@ -355,9 +355,6 @@ function addWorkflow() {
 
 }
 
-
-
-
 io.on('task/move', (data) => {
     let item = document.querySelector('.task[data-id="' + data.id + '"]');
     if (item) {

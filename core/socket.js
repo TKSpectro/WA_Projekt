@@ -69,7 +69,7 @@ class SocketHandler {
                 }
             });
 
-            socket.on('message', async(data) => {
+            socket.on('message', async (data) => {
                 //write incoming message to database
                 let message = self.db.Message.build();
                 message.writeRemotes(data);
@@ -113,13 +113,13 @@ class SocketHandler {
 
 
 
-            socket.on('tasks/create', async(data) => {
+            socket.on('tasks/create', async (data) => {
 
                 let task = null;
                 let error = null;
 
                 try {
-                    task = await self.db.sequelize.transaction(async(t) => {
+                    task = await self.db.sequelize.transaction(async (t) => {
                         let newTask = self.db.Task.build();
                         newTask.writeRemotes(data.task);
 
@@ -135,38 +135,16 @@ class SocketHandler {
                 } catch (err) {
                     error = err;
                 }
-
-                /*
-                try {
-                    let task = await self.db.sequelize.transaction(async(t) => {
-                        let newTask = self.db.Task.build();
-                        newTask.writeRemotes(data);
-
-                        await newTask.save({
-                            transaction: t,
-                            lock: true
-                        });
-
-                        return newTask;
-                    });
-                    if (!task) {
-                        throw new ApiError('Task could not be created', 404);
-                    }
-                } catch (err) {
-                    error = err;
-                    console.log(error);
-                }
-                */
             });
 
-            socket.on('workflow/create', async(data) => {
+            socket.on('workflow/create', async (data) => {
 
                 let workflow = null;
                 let error = null;
 
                 try {
                     //console.log("dataName", data.workflow);
-                    workflow = await self.db.sequelize.transaction(async(t) => {
+                    workflow = await self.db.sequelize.transaction(async (t) => {
                         let newWorkflow = self.db.Workflow.build();
                         newWorkflow.writeRemotes(data.workflow);
 
@@ -189,11 +167,11 @@ class SocketHandler {
 
             });
 
-            socket.on('task/move', async(data) => {
+            socket.on('task/move', async (data) => {
                 //get message from database which was moved
                 let error = null;
                 //console.log(data);
-                
+
 
 
 
@@ -275,21 +253,21 @@ class SocketHandler {
                 socket.broadcast.emit('task/move', data);
             });
 
-            socket.on('user/delete', async(data) => {
+            socket.on('user/delete', async (data) => {
                 self.db.User.destroy({
                     where: {
                         id: data.id,
                     }
-                }).then(function(err) {
+                }).then(function (err) {
                     socket.emit('user/wasDeleted');
-                }).catch(function(err) {
+                }).catch(function (err) {
                     socket.emit('user/cantDelete');
                 });
             });
 
-            socket.on('user/update', async(data) => {
+            socket.on('user/update', async (data) => {
                 let user = null;
-                user = await self.db.sequelize.transaction(async(t) => {
+                user = await self.db.sequelize.transaction(async (t) => {
                     let updatedUser = await self.db.User.findOne({
                         where: {
                             id: data.id
@@ -306,9 +284,9 @@ class SocketHandler {
                             where: {
                                 id: data.id
                             }
-                        }, { transaction: t, lock: true }).then(function(err) {
+                        }, { transaction: t, lock: true }).then(function (err) {
                             socket.emit('user/wasUpdated');
-                        }).catch(function(err) {
+                        }).catch(function (err) {
                             socket.emit('user/cantUpdate');
                         });
                     }
