@@ -9,6 +9,7 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')();
+const favicon = require('serve-favicon');
 
 io.attach(http);
 
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/assets', express.static('assets'));
+app.use(favicon(__dirname + '/favicon.ico'));
 app.use('/apidoc', express.static(__dirname + '/docs'));
 const database = require('./core/database.js')();
 
