@@ -34,8 +34,9 @@ Login-Daten:
 
 * Node.JS Version 14.2.0 (npm)
 * XAMPP (Apache und  MySql)
-* Lokal die Datenbank "taskboard" erstellen
+* Lokal die Datenbank "taskboard" erstellen (utf8_general_ci)
 * In Terminal ausführen:
+    * In den Hauptordner des Projekts navigieren
     * `npm install`
     * `npx grunt build`
     * `npx sequelize-cli db:migrate`
