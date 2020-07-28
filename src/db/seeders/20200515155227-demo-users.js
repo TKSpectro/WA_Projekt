@@ -46,7 +46,7 @@ module.exports = {
             createdAt: new Date(),
             updatedAt: new Date(),
             passwordHash: '$2b$10$nsNf6L5XPv6wOHcC.oWzCuh/dDeFPuEmSYm5IZ4iJyOLe4OAsrIA2', // bCrypt 10 12345678
-            permission: 14
+            permission: 112
         }], {});
     },
 
