@@ -74,8 +74,8 @@
  *          "next": -1
  *      }
  *  }
- * 
- * @apiError 404 No messages found (Maybe you have not sent any messages).
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:MessagesNotFound No messages found (Maybe you have not sent any messages).
  */
 
 /**
@@ -128,7 +128,8 @@
  *	    }
  * 	}
  * 
- * @apiError 404 No message found with this <code>id</code> (Maybe you are not the creator of this message).
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:MessageNotFound No message found with this <code>id</code> (Maybe you are not the creator of this message).
  */
 
 /**
@@ -170,6 +171,8 @@
  *          "createdAt": "2020-06-18T13:54:21.513Z"
  *      }
  *  }
+ * 
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
 */
 
 /**
@@ -212,8 +215,9 @@
  *     }
  * }
  * 
- * @apiError 400 Check your body structure.
- * @apiError 404 No message found with this <code>id</code> (Maybe you are not the creator of this message).
+ * @apiError 400:WrongBodyStructure Check your body structure.
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:MessageNotFound No message found with this <code>id</code> (Maybe you are not the creator of this message).
  */
 
 /**
@@ -225,12 +229,13 @@
  *
  * @apiHeader {String} _wab_auth_jwt Login token:JWT-Token.
  *
- * @apiSuccess 204 Message was deleted
+ * @apiSuccess 204 Message was deleted and no content is returned
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 204 No Content
  * {
  * }
  * 
- * @apiError 404 No message found with this <code>id</code> (Maybe you are not the creator of this message).
+ * @apiError 401:Unauthorized Not logged in (no JWT token in header).
+ * @apiError 404:MessageNotFound No message found with this <code>id</code> (Maybe you are not the creator of this message).
 */
