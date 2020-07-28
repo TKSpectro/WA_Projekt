@@ -1,5 +1,5 @@
 {
-  "name": "taskboard",
+  "name": "planbee",
   "version": "1.0.0",
   "description": "A kanban taskboard",
   "main": "index.js",
