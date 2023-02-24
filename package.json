@@ -25,9 +25,9 @@
     "ejs": "^3.1.2",
     "express": "^4.17.1",
     "html5sortable": "^0.9.17",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mysql2": "^2.1.0",
-    "sequelize": "^5.21.12",
+    "sequelize": "^6.29.0",
     "sequelize-cli": "^5.5.1",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.3.0"
@@ -39,6 +39,6 @@
     "grunt-contrib-less": "^2.0.0",
     "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
     "grunt-contrib-watch": "^1.1.0",
-    "less-plugin-autoprefix": "^2.0.0"
+    "less-plugin-autoprefix": "^1.4.1"
   }
 }
